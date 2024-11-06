@@ -13,7 +13,7 @@ function getSearchResults(possibleResults, query) {
   if (!(typeof possibleResults === 'object' && typeof query === 'string')) return [];
   let results = [];
   possibleResults.forEach(item => {
-    const text = item.toLowerCase();
+    const text = String(item).toLowerCase();
     if (checkMatch(text, query.toLowerCase())) {
       results.push(item);
     }
