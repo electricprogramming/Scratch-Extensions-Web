@@ -10,7 +10,7 @@ function getSearchResults(possibleResults, query) {
     });
     return count === keywords.length;
   }
-  if (!(typeof possibleResults === 'object' && typeof query === 'string')) return [];
+  if (!(possibleResults instanceof Array && typeof query === 'string')) return [];
   let results = [];
   possibleResults.forEach(item => {
     const text = String(item).toLowerCase();
