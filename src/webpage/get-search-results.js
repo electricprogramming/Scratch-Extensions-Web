@@ -10,7 +10,14 @@ function getSearchResults(possibleResults, query) {
     });
     return count === keywords.length;
   }
-  if (!(possibleResults instanceof Array && typeof query === 'string')) return [];
+  if (!(possibleResults instanceof Array)) {
+    console.error(new TypeError('getSearchResults: argument "possibleResults" must be an array.'));
+    return [];
+  }
+  if (!(typeof query === 'string')) {
+    console.error(new TypeError('getSearchResults: argument "query" must be a string.'));
+    return [];
+  }
   let results = [];
   possibleResults.forEach(item => {
     const text = String(item).toLowerCase();
