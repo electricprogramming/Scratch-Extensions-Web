@@ -6,13 +6,15 @@ if (typeof window !== 'undefined') {
       .then(response => response.text())
       .then(data => {
         document.body.innerHTML = data;
-      });
+      })
+      .catch(e => console.error(e));
   } else {
     document.body.innerHTML = '';
     fetch('/desktop/index.html')
       .then(response => response.text())
       .then(data => {
         document.body.innerHTML = data;
-      });
+      })
+      .catch(e => console.error(e));
   }
 }
