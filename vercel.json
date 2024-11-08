@@ -1,21 +1,8 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/static"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "destination": "/",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
-      "source": "/",
+      "source": "/(.*)",
       "destination": "/src/webpage/index.js"
     }
   ]
