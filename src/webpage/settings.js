@@ -3,3 +3,4 @@ const defaultSettings = {
   mode: 'copy',
   size: 100
 }
+export default defaultSettings;

@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') {
         document.body.innerHTML = data;
       })
       .catch(e => console.error(e));
+    document.head.title = 'MOBILE';
   } else {
     document.body.innerHTML = '';
     fetch('src/webpage/desktop/index.html')
@@ -17,5 +18,6 @@ if (typeof window !== 'undefined') {
         document.body.innerHTML = data;
       })
       .catch(e => console.error(e));
+    document.head.title = 'DESKTOP';
   }
 }
