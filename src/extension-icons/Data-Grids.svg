@@ -1,2 +1,49 @@
-<svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="cellGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgb(255,100,100);stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:0.8" />
+    </linearGradient>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer in="offsetblur">
+        <feFuncA type="table" tableValues="0.2 1" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="SourceGraphic" />
+        <feMergeNode in="offsetblur" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Grid Background with Drop Shadow -->
+  <rect width="600" height="400" rx="20" ry="20" fill="lightgray" filter="url(#dropShadow)" />
+  <!-- Column Numbers (Top) -->
+  <text x="160" y="60" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">1</text>
+  <text x="330" y="60" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">2</text>
+  <text x="500" y="60" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">3</text>
+  <!-- Row Numbers (Left) -->
+  <text x="40" y="140" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">1</text>
+  <text x="40" y="245" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">2</text>
+  <text x="40" y="350" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">3</text>
+  <!-- Grid Cells -->
+  <!-- Row 1 -->
+  <g>
+    <rect x="85" y="75" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2"/>
+    <rect x="255" y="75" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+    <rect x="425" y="75" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+  </g>
+  <!-- Row 2 -->
+  <g>
+    <rect x="85" y="180" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+    <rect x="255" y="180" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+    <rect x="425" y="180" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+  </g>
+  <!-- Row 3 -->
+  <g>
+    <rect x="85" y="285" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+    <rect x="255" y="285" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+    <rect x="425" y="285" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
+  </g>
+  <text x="300" y= "210" font-size="100" fill="black" stroke="white" stroke-width="2" font-family="Comic Sans MS" text-anchor="middle" dominant-baseline="middle" transform = "rotate(-20, 300, 200)"> Data Grids! </text>
 </svg>
