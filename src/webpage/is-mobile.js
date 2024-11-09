@@ -1,6 +1,6 @@
 function isMobile() {
   const userAgent = navigator.userAgent.toLowerCase();
-  // Check for common mobile OS indicators in the userAgent string
+  // List of common mobile OS indicators
   const mobileDevices = [
     'android',       // Android phones/tablets
     'iphone',        // iPhone
