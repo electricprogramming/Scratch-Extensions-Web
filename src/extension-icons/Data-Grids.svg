@@ -4,20 +4,9 @@
       <stop offset="0%" style="stop-color:rgb(255,100,100);stop-opacity:0.4" />
       <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:0.8" />
     </linearGradient>
-    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
-      <feOffset dx="2" dy="2" result="offsetblur" />
-      <feComponentTransfer in="offsetblur">
-        <feFuncA type="table" tableValues="0.2 1" />
-      </feComponentTransfer>
-      <feMerge>
-        <feMergeNode in="SourceGraphic" />
-        <feMergeNode in="offsetblur" />
-      </feMerge>
-    </filter>
   </defs>
   <!-- Grid Background with Drop Shadow -->
-  <rect width="600" height="400" rx="40" ry="40" fill="lightgray" filter="url(#dropShadow)" />
+  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="black" stroke="gray" stroke-width="5"/>
   <!-- Column Numbers (Top) -->
   <text x="160" y="60" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">1</text>
   <text x="330" y="60" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">2</text>
