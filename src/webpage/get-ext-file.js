@@ -2,7 +2,7 @@ import extensions from './existing-extensions.js';
 let extensionFiles = {};
 // array of promises, one for each extension.
 const promises = extensions.map(({ path }) => {
-  return fetch(`../extension-code/${path}.js`)
+  return fetch(`/src/extension-code/${path}.js`)
     .then(res => res.text())
     .then(file => {
       extensionFiles[path] = file;
