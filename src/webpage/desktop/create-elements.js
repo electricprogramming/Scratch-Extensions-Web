@@ -3,6 +3,7 @@ const notFoundSVG = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53M
 function createExtensionElements() {
   const extContainer = document.getElementById('extension-container');
   extensions.forEach(ext => {
+    console.log(ext);
     const extElement = document.createElement('img');
     extElement.src = `/src/extension-icons/${ext.path}.svg`;
     extElement.classList.add('extElement');
