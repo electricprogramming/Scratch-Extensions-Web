@@ -14,4 +14,4 @@ messages.on('EXTENSION_BUTTON', async (ext) => {
       downloadFile(extFile, `${ext.path}.js`);
       break;
   }
-}, 'extension-clicked-handler');
+});
