@@ -21,12 +21,5 @@ export default [
     path: 'Data-Grids',
     description: `Create and manage data grids in a similar way to Scratch's defaut variables category.`,
     by: 'electricprogramming'
-  },
-  {
-    name: 'unexistent',
-    keywords: [],
-    path: 'dont-be-existent',
-    description: `this does not exist`,
-    by: 'nobody'
   }
 ];
