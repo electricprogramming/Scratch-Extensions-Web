@@ -4,11 +4,17 @@ function createExtensionElements() {
   const extContainer = document.getElementById('extension-container');
   extensions.forEach(ext => {
     const extElement = document.createElement('img');
-    extElement.src = `/src/extension-icons/${ext.path}.svg`
+    extElement.src = `/src/extension-icons/${ext.path}.svg`;
+    extElement.classList.add('extElement');
     extElement.onerror = function() {
       this.src = notFoundSVG;
     };
-    
+    extElement.addEventListener('click', () => {
+      messages.broadcast('EXTENSION_BUTTON', ext.path);
+    });
+    extElement.addEventListener('mouseover', function() {
+      this.style.transform = 'scale(1.1)';
+    });
     extContainer.appendChild(extElement);
   });
 }

@@ -11,7 +11,7 @@ async function createExtensionElements() {
       this.src = notFoundSVG;
     };
     addTapListener(extElement, () => {
-      messages.broadcast('EXTENSION_PRESSED', ext.path);
+      messages.broadcast('EXTENSION_BUTTON', ext.path);
     });
     extContainer.appendChild(extElement);
   });

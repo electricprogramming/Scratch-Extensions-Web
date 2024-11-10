@@ -4,8 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scratch Extension Gallery - electricprogramming</title>
+  <style>
+    :root {
+      --size: 100;
+    }
+    .extElement {
+      width: calc(var(--size) / 100 * 600px);
+      height: calc(var(--size) / 100 * 400px);
+      transition: transform 0.3s ease; /* Smooth transition for scaling */
+    }
+  </style>
 </head>
 <body>
   <div id="extension-container"></div>
+  <script src="script.js"></script>
 </body>
 </html>
