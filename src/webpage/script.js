@@ -5,16 +5,20 @@ if (typeof window !== 'undefined') {
     document.documentElement.innerHTML = '';
     fetch('src/webpage/mobile/index.html')
       .then(response => response.text())
-      .then(data => {
-        document.body.innerHTML = data;
+      .then(html => {
+        document.open();
+        document.write(html);
+        document.close();
       })
       .catch(e => console.error(e));
   } else {
     document.documentElement.innerHTML = '';
     fetch('src/webpage/desktop/index.html')
       .then(response => response.text())
-      .then(data => {
-        document.body.innerHTML = data;
+      .then(html => {
+        document.open();
+        document.write(html);
+        document.close();
       })
       .catch(e => console.error(e));
   }
