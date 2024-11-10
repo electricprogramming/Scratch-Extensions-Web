@@ -1,14 +1,13 @@
 function getSearchResults(possibleResults, query) {
-  function checkMatch(text, query) {
-    var keywords = [...new Set(query.split(' '))];
-    keywords = keywords.filter(item => item !== '');
-    var count = 0;
-    keywords.forEach((keyword) => {
-      if (text.includes(keyword)) {
-        count += 1;
+  function checkMatch(keywords, query) {
+    var queryKeywords = [...new Set(query.split(' '))];
+    queryKeywords = queryKeywords.filter(item => item !== '');
+    queryKeywords.forEach((keyword) => {
+      if (!keywords.includes(keyword)) {
+        return false;
       }
     });
-    return count === keywords.length;
+    return true;
   }
   if (!(possibleResults instanceof Array)) {
     console.error(new TypeError('getSearchResults: argument "possibleResults" must be an array.'));
@@ -20,9 +19,10 @@ function getSearchResults(possibleResults, query) {
   }
   let results = [];
   possibleResults.forEach(item => {
-    const text = String(item).toLowerCase();
-    if (checkMatch(text, query.toLowerCase())) {
-      results.push(item);
+    if (item instanceof Array) {
+      if (checkMatch(item, query.toLowerCase())) {
+        results.push(item);
+      }
     }
   });
   return results;
