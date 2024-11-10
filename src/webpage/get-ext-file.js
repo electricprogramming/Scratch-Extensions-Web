@@ -1,7 +1,4 @@
 import extensions from './existing-extensions.js';
-import { LocalMessageSystem } from './message-system.js';
-
-const localMessages = new LocalMessageSystem();
 let extensionFiles = {};
 // array of promises, one for each extension.
 const promises = extensions.map(({ path }) => {
