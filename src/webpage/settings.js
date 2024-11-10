@@ -5,7 +5,7 @@ const settingsManager = new class {
     this.#mode = 'copy';
     this.#size = 100;
     if (!('settings_mode' in localStorage)) localStorage.setItem('settings_mode', 'copy');
-    if (!('settings_sizee' in localStorage)) localStorage.setItem('settings_size', 100);
+    if (!('settings_size' in localStorage)) localStorage.setItem('settings_size', 100);
   }
   get mode() {
     return this.#mode;
