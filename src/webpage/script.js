@@ -1,5 +1,4 @@
 import isMobile from './is-mobile.js';
-
 if (typeof window !== 'undefined') {
   if (isMobile()) {
     document.documentElement.innerHTML = '';
