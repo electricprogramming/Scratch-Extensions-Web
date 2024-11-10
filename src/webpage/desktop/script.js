@@ -1,2 +1,2 @@
-import createExtensionElements from "./create-elements";
+import createExtensionElements from './create-elements.js';
 createExtensionElements();
