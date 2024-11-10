@@ -1,4 +1,4 @@
-const settingsManager = new class {
+const settings = new class {
   #mode;
   #size;
   constructor() {
@@ -38,6 +38,6 @@ const settingsManager = new class {
     return false;
   }
 }
-settingsManager.mode = localStorage.getItem('settings_mode');
-settingsManager.size = Number(localStorage.getItem('settings_size'));
-export default settingsManager;
+settings.mode = localStorage.getItem('settings_mode');
+settings.size = Number(localStorage.getItem('settings_size'));
+export default settings;

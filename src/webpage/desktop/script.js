@@ -1,3 +1,5 @@
 import createExtensionElements from './create-elements.js';
-alert('about to create');
+import messages from '../message-system.js';
+import settings from '../settings.js';
 createExtensionElements();
+messages.on('')

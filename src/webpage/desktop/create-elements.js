@@ -16,6 +16,9 @@ function createExtensionElements() {
     extElement.addEventListener('mouseover', function() {
       this.style.transform = 'scale(1.1)';
     });
+    extElement.addEventListener('mouseout', function() {
+      this.style.transform = 'scale(0)';
+    })
     extContainer.appendChild(extElement);
   });
 }
