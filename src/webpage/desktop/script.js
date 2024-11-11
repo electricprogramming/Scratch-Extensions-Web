@@ -1,8 +1,10 @@
+import extensions from '../existing-extensions.js';
 import createExtensionElements from './create-elements.js';
 import messages from '../message-system.js';
 import settings from '../settings.js';
 import getExtFile from '../get-ext-file.js';
 import downloadFile from '../download-file.js';
+import getSearchResults from '../get-search-results.js';
 createExtensionElements();
 messages.on('EXTENSION_BUTTON', async (ext) => {
   const extFile = await getExtFile(ext.path);
@@ -15,6 +17,19 @@ messages.on('EXTENSION_BUTTON', async (ext) => {
       break;
   }
 }, 'process-extension-clicked');
+const searchBar = document.getElementById('search-bar');
+searchBar.addEventListener('input', () => {
+  const extElements = document.querySelectorAll('.extElement');
+  const searchResults = getSearchResults(extensions, searchBar.value).map(item => item.path);
+  const resultElements = extElements.filter(el => searchResults.includes(el.ext));
+  extElements.forEach((el) => {
+    if (resultElements.includes(el)) {
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  })
+});
 const settingsButton = document.getElementById('settings-button');
 settingsButton.addEventListener('click', () => {
   

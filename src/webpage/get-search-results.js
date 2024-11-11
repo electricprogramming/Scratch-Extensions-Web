@@ -2,8 +2,8 @@ function getSearchResults(possibleResults, query) {
   function checkMatch(keywords, query) {
     var queryKeywords = [...new Set(query.split(' '))];
     queryKeywords = queryKeywords.filter(item => item !== '');
-    queryKeywords.forEach((keyword) => {
-      if (!keywords.includes(keyword)) {
+    queryKeywords.forEach((queryKeyword) => {
+      if (!keywords.some(keyword => keyword.includes(queryKeyword))) {
         return false;
       }
     });
@@ -19,8 +19,8 @@ function getSearchResults(possibleResults, query) {
   }
   let results = [];
   possibleResults.forEach(item => {
-    if (item instanceof Array) {
-      if (checkMatch(item, query.toLowerCase())) {
+    if (item.keywords instanceof Array) {
+      if (checkMatch(item.keywords, query.toLowerCase())) {
         results.push(item);
       }
     }

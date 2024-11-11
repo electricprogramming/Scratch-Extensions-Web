@@ -11,6 +11,7 @@ function createExtensionElements() {
   const extContainer = document.getElementById('extension-container');
   extensions.forEach(ext => {
     const extElement = document.createElement('img');
+    extElement.ext = ext.path;
     extElement.src = `/src/extension-icons/${ext.path}.svg`;
     extElement.classList.add('extElement');
     extElement.onerror = function() {
