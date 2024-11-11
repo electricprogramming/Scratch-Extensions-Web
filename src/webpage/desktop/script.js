@@ -15,3 +15,7 @@ messages.on('EXTENSION_BUTTON', async (ext) => {
       break;
   }
 }, 'process-extension-clicked');
+const settingsButton = document.getElementById('settings-button');
+settingsButton.addEventListener('click', () => {
+  
+});
