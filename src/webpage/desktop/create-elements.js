@@ -8,7 +8,6 @@ const svgText = `
 `
 const notFoundSVG = `data:image/svg+xml,${encodeURIComponent(svgText)}`;
 function createExtensionElements() {
-  console.log('creating ext elements')
   const extContainer = document.getElementById('extension-container');
   extensions.forEach(ext => {
     const extElement = document.createElement('img');
