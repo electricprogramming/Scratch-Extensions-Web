@@ -19,7 +19,7 @@ messages.on('EXTENSION_BUTTON', async (ext) => {
 }, 'process-extension-clicked');
 const searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('input', () => {
-  const extElements = document.querySelectorAll('.extElement');
+  const extElements = Array.from(document.querySelectorAll('.extElement')); // querySelectorAll returns a NodeList
   const searchResults = getSearchResults(extensions, searchBar.value).map(item => item.path);
   const resultElements = extElements.filter(el => searchResults.includes(el.ext));
   extElements.forEach((el) => {
