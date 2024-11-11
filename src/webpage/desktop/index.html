@@ -17,6 +17,9 @@
       flex-direction: column; /* Stack content vertically */
       height: 100vh;
     }
+    #navigation-bar {
+      flex-direction: row;
+    }
     #settings-button {
       position: fixed;
       top: 1.5vh;
@@ -29,7 +32,7 @@
     #extension-container {
       justify-content: center;
       align-items: center;
-      padding-top: 21.5vh; /* Add padding to ensure the container doesn't overlap the settings button */
+      padding-top: 21.5vh; /* Add padding to ensure the container doesn't overlap the settings button */ 
     }
     .extElement {
       width: calc(var(--size) / 100 * 48vh);
@@ -40,16 +43,20 @@
       cursor: pointer;
     }
   </style>
+  <link rel="stylesheet" href="search-bar.css"> <!-- CSS for the searchbar -->
 </head>
 <body>
-  <svg id="settings-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" width="250" height="250">
-    <circle r="122.5" cx="125" cy="125" fill="#20c0dd" stroke="white" stroke-width="5"/>
-    <g id="lines">
-      <rect rx="15" ry="15" width="150" height="30" x="50" y="55"/>
-      <rect rx="15" ry="15" width="150" height="30" x="50" y="110"/>
-      <rect rx="15" ry="15" width="150" height="30" x="50" y="165"/>
-    </g>
-  </svg>
+  <div id="navigation-bar">
+    <input type="text" id="searchBar" class="search-bar" placeholder="Search...">
+    <svg id="settings-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" width="250" height="250">
+      <circle r="122.5" cx="125" cy="125" fill="#20c0dd" stroke="white" stroke-width="5"/>
+      <g id="lines">
+        <rect rx="15" ry="15" width="150" height="30" x="50" y="55"/>
+        <rect rx="15" ry="15" width="150" height="30" x="50" y="110"/>
+        <rect rx="15" ry="15" width="150" height="30" x="50" y="165"/>
+      </g>
+    </svg>
+  </div>
   <div id="extension-container"></div>
   <script type="module" src="/src/webpage/desktop/script.js"></script>
 </body>
