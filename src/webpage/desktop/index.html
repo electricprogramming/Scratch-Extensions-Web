@@ -5,27 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scratch Extension Gallery - electricprogramming</title>
   <style>
-    body {
-      background-color: #222222;
-      color: white;
-    }
-
     :root {
       --size: 100;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #333;
+      color: white;
+      display: flex;
+      flex-direction: column; /* Stack content vertically */
+      height: 100vh;
+    }
+    #settings-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #extension-container {
+      flex-grow: 1;         /* Allow the container to grow and take remaining space */
+      display: flex;
+      justify-content: center; /* Center children horizontally */
+      align-items: center; /* Center children vertically */
+      padding-top: 60px; /* Add padding to ensure the container doesn't overlap the settings button */
+      overflow: auto;    /* Allow scrolling if content overflows */
     }
     .extElement {
       width: calc(var(--size) / 100 * 330px);
       height: calc(var(--size) / 100 * 220px);
-      transition: transform 0.3s ease; /* Smooth transition for scaling */
+      transition: transform 0.3s ease;
       transform: scale(0.9);
-      cursor: pointer
-    }
-    #settings-button {
-      position: absolute;
-      top: 10px;      /* Adjust the top distance from the page */
-      right: 10px;    /* Adjust the right distance from the page */
-      width: 100px;
-      height: 100px;
       cursor: pointer;
     }
   </style>
@@ -39,7 +52,12 @@
       <rect rx="15" ry="15" width="150" height="30" x="50" y="165"/>
     </g>
   </svg>
-  <div id="extension-container"></div>
+  <div id="extension-container">
+    <!-- Example children elements -->
+    <div class="extElement">Extension 1</div>
+    <div class="extElement">Extension 2</div>
+    <div class="extElement">Extension 3</div>
+  </div>
   <script type="module" src="/src/webpage/desktop/script.js"></script>
 </body>
 </html>
