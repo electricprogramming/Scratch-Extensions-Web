@@ -28,19 +28,5 @@ export default [
     path: 'unexistent',
     description: 'this does not exist',
     by: 'nobody'
-  },
-  {
-    name: 'unexistent',
-    keywords: ['unexistent'],
-    path: 'unexistent',
-    description: 'this does not exist',
-    by: 'nobody'
-  },
-  {
-    name: 'unexistent',
-    keywords: ['unexistent'],
-    path: 'unexistent',
-    description: 'this does not exist',
-    by: 'nobody'
   }
 ];
