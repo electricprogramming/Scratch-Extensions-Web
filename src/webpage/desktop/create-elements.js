@@ -20,10 +20,10 @@ function createExtensionElements() {
       messages.broadcast('EXTENSION_BUTTON', ext);
     });
     extElement.addEventListener('mouseover', function() {
-      this.style.transform = 'scale(1.0)';
+      this.style.transform = 'scale(1.1)';
     });
     extElement.addEventListener('mouseout', function() {
-      this.style.transform = 'scale(0.9)';
+      this.style.transform = 'scale(1.0)';
     })
     extContainer.appendChild(extElement);
   });
