@@ -16,19 +16,16 @@
   <text x="40" y="245" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">2</text>
   <text x="40" y="350" font-family="Arial" font-size="50" fill="grey" text-anchor="middle">3</text>
   <!-- Grid Cells -->
-  <!-- Row 1 -->
   <g>
     <rect x="85" y="75" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2"/>
     <rect x="255" y="75" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
     <rect x="425" y="75" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
   </g>
-  <!-- Row 2 -->
   <g>
     <rect x="85" y="180" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
     <rect x="255" y="180" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
     <rect x="425" y="180" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
   </g>
-  <!-- Row 3 -->
   <g>
     <rect x="85" y="285" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
     <rect x="255" y="285" width="152" height="85" rx="15" ry="15" fill="url(#cellGradient)" stroke="grey" stroke-width="2" />
