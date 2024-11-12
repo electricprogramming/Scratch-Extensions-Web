@@ -2,12 +2,13 @@ function getSearchResults(possibleResults, query) {
   function checkMatch(keywords, query) {
     var queryKeywords = [...new Set(query.split(' '))];
     queryKeywords = queryKeywords.filter(item => item !== '');
+    let res = false;
     queryKeywords.forEach((queryKeyword) => {
-      if (!keywords.some(keyword => keyword.includes(queryKeyword))) {
-        return false;
+      if (keywords.some(keyword => keyword.includes(queryKeyword))) {
+        res = true;
       }
     });
-    return true;
+    return res;
   }
   if (!(possibleResults instanceof Array)) {
     console.error(new TypeError('getSearchResults: argument "possibleResults" must be an array.'));
