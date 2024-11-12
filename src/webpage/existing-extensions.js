@@ -15,8 +15,7 @@ export default [
       'Spreadsheet', 'Spreadsheets',
       'Row', 'Rows',
       'Column', 'Columns',
-      'Cell', 'Cells',
-      'Iteration'
+      'Cell', 'Cells'
     ],
     path: 'Data-Grids',
     description: `Create and manage data grids in a similar way to Scratch's defaut variables category.`,
