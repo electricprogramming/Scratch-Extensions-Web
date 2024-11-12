@@ -30,7 +30,7 @@ searchBar.addEventListener('input', () => {
     }
   })
 });
-const settingsButton = document.getElementById('settings-button');
+const settingsButton = document.getElementById('settings-button-visible');
 settingsButton.addEventListener('mouseover', function() {
   this.style.transform = 'scale(1.0)';
 })
