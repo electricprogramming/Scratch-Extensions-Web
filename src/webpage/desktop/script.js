@@ -31,6 +31,12 @@ searchBar.addEventListener('input', () => {
   })
 });
 const settingsButton = document.getElementById('settings-button');
+settingsButton.addEventListener('mouseover', function() {
+  this.style.transform = 'scale(1.1)';
+})
+settingsButton.addEventListener('mouseout', function() {
+  this.style.transform = 'scale(1.0)';
+})
 settingsButton.addEventListener('click', () => {
-  
+  alert('you clicked on the settings button')
 });
