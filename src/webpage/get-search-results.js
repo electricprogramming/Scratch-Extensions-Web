@@ -2,10 +2,10 @@ function getSearchResults(possibleResults, query) {
   const checkMatch = function(keywords, query) {
     var queryKeywords = [...new Set(query.split(' '))];
     queryKeywords = queryKeywords.filter(item => item !== '');
-    let res = false;
+    let res = true;
     queryKeywords.forEach((queryKeyword) => {
-      if (keywords.some(keyword => keyword.startsWith(queryKeyword))) {
-        res = true;
+      if (!keywords.some(keyword => keyword.startsWith(queryKeyword))) {
+        res = false;
       }
     });
     return res;
