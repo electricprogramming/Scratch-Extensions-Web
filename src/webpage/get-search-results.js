@@ -4,7 +4,7 @@ function getSearchResults(possibleResults, query) {
     queryKeywords = queryKeywords.filter(item => item !== '');
     let res = false;
     queryKeywords.forEach((queryKeyword) => {
-      if (keywords.some(keyword => keyword.includes(queryKeyword))) {
+      if (keywords.some(keyword => keyword.startsWith(queryKeyword))) {
         res = true;
       }
     });
