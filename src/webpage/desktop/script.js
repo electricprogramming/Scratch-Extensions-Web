@@ -6,8 +6,8 @@ import getExtFile from '../get-ext-file.js';
 import downloadFile from '../download-file.js';
 import getSearchResults from '../get-search-results.js';
 createExtensionElements();
-messages.on('EXTENSION_BUTTON', async (ext) => {
-  const extFile = await getExtFile(ext.path);
+messages.on('EXTENSION_BUTTON', (ext) => {
+  const extFile = getExtFile(ext.path);
   switch (settings.mode) {
     case 'copy':
       navigator.clipboard.writeText(extFile);
@@ -28,7 +28,7 @@ searchBar.addEventListener('input', () => {
     } else {
       el.style.display = 'none';
     }
-  })
+  });
 });
 const settingsButton = document.getElementById('settings-button-visible');
 settingsButton.addEventListener('mouseover', function() {

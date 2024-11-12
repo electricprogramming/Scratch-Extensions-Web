@@ -22,13 +22,13 @@ const settings = new class {
     return this.#size;
   }
   set size(val) {
-    if (typeof val === 'number' && val > 0 && val < 300) {
+    if (typeof val === 'number' && val >= 10 && val <= 300) {
       this.#size = val;
       localStorage.setItem('settings_size', val);
       document.documentElement.style.setProperty('--size', val);
       return true;
     }
-    if (typeof val === 'bigint' && val > 0n && val < 300n) {
+    if (typeof val === 'bigint' && val >= 10n && val <= 300n) {
       val = Number(val);
       this.#size = val;
       localStorage.setItem('settings_size', val);

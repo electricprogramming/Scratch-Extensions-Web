@@ -28,8 +28,9 @@
       padding-right: 15vh;
     }
     #search-bar {
-      padding-left: 5vh; /* expands width without the placeholder being on the far left edge*/
-      width: 45vw;
+      padding-left: 5vh;
+      padding-right: 5vh; /* makes text/placeholder not hit the far edges of the box */
+      width: 40vw;
       height: 12.5vh;
       font-size: calc((100vh / 700) * 40);
       color: #fff;
@@ -71,6 +72,54 @@
       transform: scale(0.9);
       cursor: pointer;
     }
+    /* for modals like the settings modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999; /* above the content */
+    }
+    .modal {
+      background: #222;
+      padding: 4vh 4vw;
+      border-radius: 1vh;
+      width: 50vw;
+      height: 50vh;
+      text-align: center;
+      z-index: 10000; /* just above the backdrop */
+    }
+    #size-slider {
+      width: 80%;
+      width: 30vw;
+      height: 2vh;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #333; /* track */
+      border-radius: 5px;
+      outline: none;
+    }
+    #size-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4caf50; /* thumb */
+      cursor: pointer;
+    }
+    #size-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4caf50; /* thumb */
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -86,6 +135,12 @@
     </svg>
   </div>
   <div id="extension-container"></div>
+  <div class="modal-backdrop" id="settings-modal-backdrop">
+    <div class="modal" id="settings-modal">
+      <h2>Size: <span id="size-value-display">100</span></h2>
+      <input type="range" id="size-slider" min="10" max="300" value="100">
+    </div>
+  </div>
   <script type="module" src="/src/webpage/desktop/script.js"></script>
 </body>
 </html>
