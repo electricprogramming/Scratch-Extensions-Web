@@ -31,10 +31,10 @@ searchBar.addEventListener('input', () => {
   })
 });
 const settingsButton = document.getElementById('settings-button');
-settingsButton.addEventListener('mouseover', function() {
+settingsButton.addEventListener('mouseenter', function() {
   this.style.transform = 'scale(1.1)';
 })
-settingsButton.addEventListener('mouseout', function() {
+settingsButton.addEventListener('mouseleave', function() {
   this.style.transform = 'scale(1.0)';
 })
 settingsButton.addEventListener('click', () => {

@@ -20,10 +20,10 @@ function createExtensionElements() {
     extElement.addEventListener('click', () => {
       messages.broadcast('EXTENSION_BUTTON', ext);
     });
-    extElement.addEventListener('mouseover', function() {
+    extElement.addEventListener('mouseenter', function() {
       this.style.transform = 'scale(1.1)';
     });
-    extElement.addEventListener('mouseout', function() {
+    extElement.addEventListener('mouseleave', function() {
       this.style.transform = 'scale(1.0)';
     })
     extContainer.appendChild(extElement);
