@@ -1,5 +1,5 @@
 function getSearchResults(possibleResults, query) {
-  function checkMatch(keywords, query) {
+  const checkMatch = function(keywords, query) {
     var queryKeywords = [...new Set(query.split(' '))];
     queryKeywords = queryKeywords.filter(item => item !== '');
     let res = false;
@@ -18,6 +18,7 @@ function getSearchResults(possibleResults, query) {
     console.error(new TypeError('getSearchResults: argument "query" must be a string.'));
     return [];
   }
+  if (query === '') return possibleResults;
   let results = [];
   possibleResults.forEach(item => {
     if (item.keywords instanceof Array) {
