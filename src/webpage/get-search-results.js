@@ -20,7 +20,7 @@ function getSearchResults(possibleResults, query) {
   let results = [];
   possibleResults.forEach(item => {
     if (item.keywords instanceof Array) {
-      if (checkMatch(item.keywords, query.toLowerCase())) {
+      if (checkMatch(item.keywords.map(keyword => keyword.toLowerCase()), query.toLowerCase())) {
         results.push(item);
       }
     }
