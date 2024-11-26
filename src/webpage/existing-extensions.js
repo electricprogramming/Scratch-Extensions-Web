@@ -22,31 +22,15 @@ export default [
     by: 'electricprogramming'
   },
   {
-    name: 'unexistent',
-    keywords: ['unexistent'],
-    path: 'unexistent',
-    description: 'this does not exist',
-    by: 'nobody'
+    name: 'Global WebSocket',
+    keywords: [
+      'WebSocket', 'WebSockets', 'Web', 'Socket',
+      'Connect', 'Connection', 'Connections',
+      'Server', 'Servers',
+      'Internet',
+    ],
+    path: 'Global-WS',
+    description: `Connect to WebSocket servers. One connection is shared across all sprites.`,
+    by: 'electricprogramming'
   },
-  {
-    name: 'unexistent',
-    keywords: ['unexistent'],
-    path: 'unexistent',
-    description: 'this does not exist',
-    by: 'nobody'
-  },
-  {
-    name: 'unexistent',
-    keywords: ['unexistent'],
-    path: 'unexistent',
-    description: 'this does not exist',
-    by: 'nobody'
-  },
-  {
-    name: 'unexistent',
-    keywords: ['unexistent'],
-    path: 'unexistent',
-    description: 'this does not exist',
-    by: 'nobody'
-  }
 ];
