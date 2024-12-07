@@ -1,6 +1,3 @@
-// Name: Data Grids
-// ID: epDataGrids
-// Description: Create and manage data grids, which are similar to grid lists. Creating, deleting, and accessing grids works in a similar way to Scratch's defaut variables category. Covers setting and getting cells by x and y coordinates, getting rows and columns by index, iteration, etc.
 (function (Scratch) {
   "use strict";
   if (!Scratch.extensions.unsandboxed) {
