@@ -25,21 +25,22 @@
       padding-top: 2vh;
     }
     #search-bar {
-      padding-left: 5vh;
-      padding-right: 5vh; /* makes text/placeholder not hit the far edges of the box */
+      padding-left: 5vmin;
+      padding-right: 5vmin; /* makes text/placeholder not hit the far edges of the box */
+      margin-right: 5vmin;
       width: 40vw;
       height: 12.5vh;
       font-size: calc((100vh / 700) * 40);
       color: #fff;
       border: 2px solid #fff;
-      border-radius: 5vh;
+      border-radius: 3vmin;
       outline: none;
       transition: all 0.3s ease;
       background-color: #557;
     }
     #search-bar:focus {
       border-color: #5c9f9f;
-      box-shadow: 0 0 8px rgba(92, 159, 159, 0.6);
+      box-shadow: 0 0 1vmin rgba(92, 159, 159, 0.6);
     }
     #search-bar::placeholder {
       color: #fff;
