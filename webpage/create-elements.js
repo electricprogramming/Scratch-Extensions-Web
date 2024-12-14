@@ -1,5 +1,5 @@
-import extensions from '../existing-extensions.js';
-import messages from '../message-system.js';
+import extensions from './existing-extensions.js';
+import messages from './message-system.js';
 const notFoundSvgText = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
   <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" stroke="gray" stroke-width="5"/>
@@ -12,7 +12,7 @@ function createExtensionElements() {
   extensions.forEach(ext => {
     const extElement = document.createElement('img');
     extElement.ext = ext.path;
-    extElement.src = `/src/extension-icons/${ext.path}.svg`;
+    extElement.src = `/extension-icons/${ext.path}.svg`;
     extElement.classList.add('extElement');
     extElement.onerror = function() {
       this.src = notFoundSvgUrl;

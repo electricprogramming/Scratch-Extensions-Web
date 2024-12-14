@@ -1,9 +1,14 @@
 {
-  "version": 2,
+  "redirects": [
+    {
+      "source": "/(.+)",
+      "destination": "/"
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
-      "destination": "/src/webpage/entry.html"
+      "destination": "/src/webpage/index.html"
     }
   ]
 }

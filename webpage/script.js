@@ -1,10 +1,10 @@
-import extensions from '../existing-extensions.js';
+import extensions from './existing-extensions.js';
 import createExtensionElements from './create-elements.js';
-import messages from '../message-system.js';
-import settings from '../settings.js';
-import getExtFile from '../get-ext-file.js';
-import downloadFile from '../download-file.js';
-import getSearchResults from '../get-search-results.js';
+import messages from './message-system.js';
+import settings from './settings.js';
+import getExtFile from './get-ext-file.js';
+import downloadFile from './download-file.js';
+import getSearchResults from './get-search-results.js';
 createExtensionElements();
 messages.on('EXTENSION_BUTTON', (ext) => {
   const extFile = getExtFile(ext.path);
