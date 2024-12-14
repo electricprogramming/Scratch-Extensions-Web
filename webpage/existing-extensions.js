@@ -33,4 +33,15 @@ export default [
     description: `Connect to WebSocket servers. One connection is shared across all sprites.`,
     by: 'electricprogramming'
   },
+  {
+    name: 'Text Replacers',
+    keywords: [
+      'String', 'Strings',
+      'Text', 'Texts',
+      'Replacer', 'Replacers',
+    ],
+    path: 'Text-Replacers',
+    description: `Apply replacers to your text. Either apply simultaneously or in order.`,
+    by: 'electricprogramming'
+  },
 ];

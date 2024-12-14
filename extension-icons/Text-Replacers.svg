@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="#0a5" stroke="#000" stroke-width="5"/>
+  <rect fill="#3498db" stroke="#000" stroke-width="2" width="500" height="100" x="50" y="50" rx="10" ry="10"/>
+  <path d="M67 59.8 L83 59.8 L83 75.8 L91 75.8 L75 91.8 L59 75.8 L67 75.8 Z" transform="scale(2.5) translate(45, 5)"/>
+  <rect fill="#e74c3c" stroke="#000" stroke-width="2" width="500" height="100" x="50" y="250" rx="10" ry="10"/>
+  <text text-anchor="middle" dominant-baseline="middle" x="300" y="110" font-size="80" font-family="Comic Sans MS">Text</text>
+  <text text-anchor="middle" dominant-baseline="middle" x="300" y="300" font-size="80" font-family="Comic Sans MS">Replacers</text>
+</svg>
