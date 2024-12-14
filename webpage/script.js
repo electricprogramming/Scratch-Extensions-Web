@@ -30,7 +30,7 @@ searchBar.addEventListener('input', () => {
     }
   });
 });
-const settingsButton = document.getElementById('settings-button-visible');
+const settingsButton = document.getElementById('settings-button');
 settingsButton.addEventListener('click', () => {
   alert('you clicked on the settings button');
 });
