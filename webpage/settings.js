@@ -5,7 +5,7 @@ const settings = new class {
     this.#mode = 'copy';
     this.#size = 100;
     if (!('settings_mode' in localStorage)) localStorage.setItem('settings_mode', 'copy');
-    if (!('settings_size' in localStorage)) localStorage.setItem('settings_size', 100);
+    if (!('settings_size' in localStorage)) localStorage.setItem('settings_size', '100');
   }
   get mode() {
     return this.#mode;
@@ -22,14 +22,10 @@ const settings = new class {
     return this.#size;
   }
   set size(val) {
-    if (typeof val === 'number' && val >= 10 && val <= 300) {
-      this.#size = val;
-      localStorage.setItem('settings_size', val);
-      document.documentElement.style.setProperty('--size', val);
-      return true;
-    }
     if (typeof val === 'bigint' && val >= 10n && val <= 300n) {
       val = Number(val);
+    }
+    if (typeof val === 'number' && val >= 10 && val <= 300) {
       this.#size = val;
       localStorage.setItem('settings_size', val);
       document.documentElement.style.setProperty('--size', val);

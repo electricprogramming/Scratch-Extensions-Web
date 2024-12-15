@@ -10,6 +10,7 @@ const settingsButton = document.getElementById('settings-button');
 const settingsModal = document.getElementById('settings-modal');
 const settingsSizeSlider = document.getElementById('size-slider');
 const settingsSizeDisplay = document.getElementById('size-value-display');
+const settingsModeDropdown = document.getElementById('settings-mode-dropdown');
 createExtensionElements();
 messages.on('EXTENSION_BUTTON', ext => {
   const extFile = getExtFile(ext.path);
@@ -39,4 +40,8 @@ settingsButton.addEventListener('click', () => {
 });
 settingsSizeSlider.addEventListener('input', function () {
   settingsSizeDisplay.textContent = this.value;
+  settings.size = this.value;
 });
+settingsModeDropdown.addEventListener('input', function () {
+  settings.size = this.value;
+})
