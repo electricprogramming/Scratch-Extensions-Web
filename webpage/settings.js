@@ -22,7 +22,7 @@ const settings = new class {
     return this.#size;
   }
   set size(val) {
-    if ((typeof val === 'bigint' && val >= 10n && val <= 300n) || (typeof val === number && val >= 10 && val <= 300)) {
+    if ((typeof val === 'bigint' && val >= 10n && val <= 300n) || (typeof val === 'number' && val >= 10 && val <= 300)) {
       val = Number(val);
     } else {
       return false;
