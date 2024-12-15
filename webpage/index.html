@@ -60,7 +60,7 @@
       clip-path: circle(50%);
     }
     #settings-button:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
     }
     #extension-container {
       padding-top: 8vh;
@@ -89,6 +89,7 @@
       z-index: 9999; /* above the content */
     }
     .modal {
+      display: block;
       background: #222;
       padding: 4vh 4vw;
       border-radius: 1vh;
@@ -137,8 +138,8 @@
     </svg>
   </div>
   <div id="extension-container"></div>
-  <div class="modal-backdrop" id="settings-modal-backdrop">
-    <div class="modal" id="settings-modal">
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal">
       <h2>Size:<span id="size-value-display">100</span></h2>
       <input type="range" id="size-slider" min="10" max="300" value="100">
       <h2>Mode:</h2>
