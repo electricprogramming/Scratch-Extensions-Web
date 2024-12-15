@@ -38,6 +38,8 @@ searchBar.addEventListener('input', () => {
 settingsButton.addEventListener('click', () => {
   settingsModal.style.display = 'flex';
 });
+settingsSizeSlider.value = settings.size;
+settingsModeDropdown.value = settings.mode;
 settingsSizeSlider.addEventListener('input', function () {
   settingsSizeDisplay.textContent = this.value;
   settings.size = Number(this.value);
