@@ -5,7 +5,6 @@ import settings from './settings.js';
 import getExtFile from './get-ext-file.js';
 import downloadFile from './download-file.js';
 import getSearchResults from './get-search-results.js';
-import settings from './settings.js';
 const searchBar = document.getElementById('search-bar');
 const settingsButton = document.getElementById('settings-button');
 const settingsModal = document.getElementById('settings-modal');
