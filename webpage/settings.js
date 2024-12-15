@@ -22,16 +22,15 @@ const settings = new class {
     return this.#size;
   }
   set size(val) {
-    if (typeof val === 'bigint' && val >= 10n && val <= 300n) {
+    if ((typeof val === 'bigint' && val >= 10n && val <= 300n) || (typeof val === number && val >= 10 && val <= 300)) {
       val = Number(val);
+    } else {
+      return false;
     }
-    if (typeof val === 'number' && val >= 10 && val <= 300) {
-      this.#size = val;
-      localStorage.setItem('settings_size', val);
-      document.documentElement.style.setProperty('--size', val);
-      return true;
-    }
-    return false;
+    this.#size = val;
+    localStorage.setItem('settings_size', val);
+    document.documentElement.style.setProperty('--size', val);
+    return true;
   }
 }
 settings.mode = localStorage.getItem('settings_mode');
