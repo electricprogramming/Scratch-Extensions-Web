@@ -124,6 +124,35 @@
       background: #4caf50; /* thumb */
       cursor: pointer;
     }
+    #settings-mode-dropdown {
+      font-size: 4vmin;
+      padding: 2vmin 3vmin;
+      border: 0.5vmin solid #4CAF50;
+      border-radius: 1vmin;
+      background-color: #f9f9f9;
+      color: #333;
+      width: 100%;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+    #settings-mode-dropdown:hover {
+      border-color: #45a049;
+      background-color: #e0e0e0;
+    }
+    #settings-mode-dropdown:focus {
+      border-color: #3e8e41;
+      background-color: #f1f1f1;
+    }
+    #settings-mode-dropdown option {
+      padding: 3vw;
+      background-color: #fff;
+      color: #333;
+      border-bottom: 0.2vw solid #ddd;
+    }
+    #settings-mode-dropdown option:hover {
+      background-color: #f1f1f1;
+    }
   </style>
 </head>
 <body>
@@ -140,10 +169,10 @@
   <div id="extension-container"></div>
   <div class="modal-backdrop" id="settings-modal">
     <div class="modal">
-      <h2>Size:<span id="size-value-display">100</span></h2>
+      <h2>Size: <span id="size-value-display">100</span></h2>
       <input type="range" id="size-slider" min="10" max="300" value="100">
       <h2>Mode:</h2>
-      <select id="myDropdown">
+      <select id="settings-mode-dropdown">
         <option value="copy">copy extension code</option>
         <option value="download">download extension file</option>
       </select>

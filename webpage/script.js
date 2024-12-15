@@ -8,8 +8,10 @@ import getSearchResults from './get-search-results.js';
 const searchBar = document.getElementById('search-bar');
 const settingsButton = document.getElementById('settings-button');
 const settingsModal = document.getElementById('settings-modal');
+const settingsSizeSlider = document.getElementById('size-slider');
+const settingsSizeDisplay = document.getElementById('size-value-display');
 createExtensionElements();
-messages.on('EXTENSION_BUTTON', (ext) => {
+messages.on('EXTENSION_BUTTON', ext => {
   const extFile = getExtFile(ext.path);
   switch (settings.mode) {
     case 'copy':
@@ -34,4 +36,7 @@ searchBar.addEventListener('input', () => {
 });
 settingsButton.addEventListener('click', () => {
   settingsModal.style.display = 'flex';
+});
+settingsSizeSlider.addEventListener('input', function () {
+  settingsSizeDisplay.textContent = this.value;
 });
