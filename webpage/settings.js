@@ -22,6 +22,7 @@ const settings = new class {
     return this.#size;
   }
   set size(val) {
+    document.documentElement.style.setProperty('--size', String(val));
     if ((typeof val === 'bigint' && val >= 10n && val <= 300n) || (typeof val === 'number' && val >= 10 && val <= 300)) {
       val = Number(val);
     } else {
@@ -29,7 +30,6 @@ const settings = new class {
     }
     this.#size = val;
     localStorage.setItem('settings_size', val);
-    document.documentElement.style.setProperty('--size', String(val));
     console.log(val);
     return true;
   }
