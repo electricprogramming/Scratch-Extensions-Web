@@ -1,4 +1,4 @@
-function downloadFile(content, fileName) {
+export default function downloadFile(content, fileName) {
   const blob = new Blob([content], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -9,4 +9,3 @@ function downloadFile(content, fileName) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 };
-export default downloadFile;
