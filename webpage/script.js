@@ -40,8 +40,8 @@ settingsButton.addEventListener('click', () => {
 });
 settingsSizeSlider.addEventListener('input', function () {
   settingsSizeDisplay.textContent = this.value;
-  settings.size = this.value;
+  settings.size = Number(this.value);
 });
 settingsModeDropdown.addEventListener('input', function () {
-  settings.size = this.value;
+  settings.mode = this.value;
 })

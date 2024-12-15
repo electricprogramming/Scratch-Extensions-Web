@@ -18,9 +18,9 @@ const promises = extensions.map(({ path }) => {
       extensionFiles[path] = '';
     });
 });
-function getExtFile(path) {
-  return extensionFiles[path];
-}
+
 // Wait for all promises to resolve before exporting
 await Promise.all(promises);
-export default getExtFile;
+export default function getExtFile(path) {
+  return extensionFiles[path];
+};
