@@ -29,7 +29,7 @@ const settings = new class {
     }
     this.#size = val;
     localStorage.setItem('settings_size', val);
-    document.documentElement.style.setProperty('--size', val);
+    document.documentElement.style.setProperty('--size', String(val));
     console.log(val);
     return true;
   }
