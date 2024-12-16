@@ -57,7 +57,7 @@ settingsModal.close = function() {
   this.style.display = 'none';
 }
 settingsCloseBtn.addEventListener('click', () => {
-  if (confirm('Are you sure? Changes you made will not be saved.')) {
+  if (confirm('Are you sure you want to exit? Changes you made will not be saved.')) {
     settingsModal.close();
     settingsSizeSlider.value = sizeBeforeEdit;
     settingsSizeDisplay.textContent = sizeBeforeEdit;
