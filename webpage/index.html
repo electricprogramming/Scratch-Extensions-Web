@@ -98,6 +98,10 @@
       text-align: center;
       z-index: 10000; /* just above the backdrop */
     }
+    #settings-modal h2 {
+      font-size: 3.5vh;
+      padding: 1vh;
+    }
     #size-slider {
       width: 80%;
       width: 30vw;
@@ -111,15 +115,15 @@
     #size-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 3vmin;
+      height: 3vmin;
       border-radius: 50%;
       background: #4caf50; /* thumb */
       cursor: pointer;
     }
     #size-slider::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
+      width: 3vmin;
+      height: 3vmin;
       border-radius: 50%;
       background: #4caf50; /* thumb */
       cursor: pointer;
@@ -148,10 +152,14 @@
       padding: 3vw;
       background-color: #fff;
       color: #333;
-      border-bottom: 0.2vw solid #ddd;
+      border-bottom: 0.4vmin solid #ddd;
     }
     #settings-mode-dropdown option:hover {
       background-color: #f1f1f1;
+    }
+    #settings-close-button {
+      width: 42.5%;
+      height: 20%;
     }
   </style>
 </head>
