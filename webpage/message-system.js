@@ -41,5 +41,5 @@ class messageSystem {
   }
 };
 const messages = new messageSystem;
-export default messages; // Global instance, different modules can broadcast to each other (I think.)
+export default messages; // Global instance, different modules can broadcast to each other.
 export {messageSystem as LocalMessageSystem}; // Class, use `new LocalMessageSystem()` to create a local message system.

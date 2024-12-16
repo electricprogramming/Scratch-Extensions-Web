@@ -1,4 +1,4 @@
-function getSearchResults(possibleResults, query) {
+export default function getSearchResults(possibleResults, query) {
   const checkMatch = function(keywords, query) {
     var queryKeywords = [...new Set(query.split(' '))];
     queryKeywords = queryKeywords.filter(item => item !== '');
@@ -28,5 +28,4 @@ function getSearchResults(possibleResults, query) {
     }
   });
   return results;
-}
-export default getSearchResults;
+};

@@ -7,7 +7,7 @@ const notFoundSvgText = `
 </svg>
 `
 const notFoundSvgUrl = `data:image/svg+xml,${encodeURIComponent(notFoundSvgText)}`;
-function createExtensionElements() {
+export default function createExtensionElements() {
   const extContainer = document.getElementById('extension-container');
   extensions.forEach(ext => {
     const extElement = document.createElement('img');
@@ -22,5 +22,4 @@ function createExtensionElements() {
     });
     extContainer.appendChild(extElement);
   });
-}
-export default createExtensionElements;
+};

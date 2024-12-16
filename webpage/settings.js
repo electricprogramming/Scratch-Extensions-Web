@@ -36,5 +36,5 @@ const settings = new class {
   }
 }
 settings.mode = localStorage.getItem('settings_mode');
-settings.size = Number(localStorage.getItem('settings_size'));
+settings.size = localStorage.getItem('settings_size');
 export default settings;
