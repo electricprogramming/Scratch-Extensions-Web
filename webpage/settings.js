@@ -30,7 +30,6 @@ const settings = new class {
     this.#size = val;
     document.documentElement.style.setProperty('--size', String(val));
     localStorage.setItem('settings_size', val);
-    console.log('Setting size to:', val);
     return true;
   }
 }
