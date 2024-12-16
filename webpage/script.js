@@ -60,7 +60,8 @@ settingsCloseBtn.addEventListener('click', () => {
   if (confirm('Are you sure? Changes you made will not be saved.')) {
     settingsModal.close();
     settingsSizeSlider.value = sizeBeforeEdit;
-    settings.size = sizeBeforeEdit;
+    settingsSizeDisplay.textContent = sizeBeforeEdit;
+    settings.size = String(sizeBeforeEdit);
     settingsModeDropdown.value = modeBeforeEdit;
     settings.mode = modeBeforeEdit;
   }
