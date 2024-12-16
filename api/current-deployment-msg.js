@@ -29,5 +29,8 @@ export default function handler(req, res) {
       });
       if (!flag) res.status(404).json({ error: "not found" });
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error })
+    });
 }
