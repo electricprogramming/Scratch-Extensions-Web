@@ -3,6 +3,10 @@
     {
       "source": "/",
       "destination": "/webpage/index.html"
+    },
+    {
+      "source": "/current-deployment-msg",
+      "destination": "/api/current-deployment-msg.js"
     }
   ]
 }
