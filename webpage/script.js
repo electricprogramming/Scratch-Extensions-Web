@@ -39,6 +39,7 @@ settingsButton.addEventListener('click', () => {
   settingsModal.style.display = 'flex';
 });
 settingsSizeSlider.value = settings.size;
+settingsSizeDisplay.textContent = settings.size;
 settingsModeDropdown.value = settings.mode;
 settingsSizeSlider.addEventListener('input', function () {
   settingsSizeDisplay.textContent = this.value;
