@@ -48,7 +48,7 @@ settingsButton.addEventListener('click', () => {
 });
 settingsSizeSlider.addEventListener('input', function () {
   settingsSizeDisplay.textContent = this.value;
-  settings.size = Number(this.value);
+  settings.size = this.value;
 });
 settingsModeDropdown.addEventListener('input', function () {
   settings.mode = this.value;
@@ -61,7 +61,7 @@ settingsCloseBtn.addEventListener('click', () => {
     settingsModal.close();
     settingsSizeSlider.value = sizeBeforeEdit;
     settingsSizeDisplay.textContent = sizeBeforeEdit;
-    settings.size = String(sizeBeforeEdit);
+    settings.size = sizeBeforeEdit;
     settingsModeDropdown.value = modeBeforeEdit;
     settings.mode = modeBeforeEdit;
   }

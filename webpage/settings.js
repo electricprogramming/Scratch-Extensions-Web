@@ -24,6 +24,8 @@ const settings = new class {
   set size(val) {
     if ((typeof val === 'bigint' && val >= 10n && val <= 300n) || (typeof val === 'number' && val >= 10 && val <= 300)) {
       val = Number(val);
+    } else if (tyepof val === 'string' && parseInt(val) == val && val >= 10 && val <= 300) {
+      val = parseInt(val);
     } else {
       return false;
     }
