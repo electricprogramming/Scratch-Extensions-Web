@@ -30,5 +30,4 @@ export default function handler(req, res) {
       if (!flag) res.status(404).json({ error: "not found" });
     })
     .catch((error) => res.status(500).json({ error }));
-  return res.status(200).send('This is a work in progress. It is not complete yet.');
 }
