@@ -11,6 +11,8 @@ const settingsModal = document.getElementById('settings-modal');
 const settingsSizeSlider = document.getElementById('size-slider');
 const settingsSizeDisplay = document.getElementById('size-value-display');
 const settingsModeDropdown = document.getElementById('settings-mode-dropdown');
+const settingsCloseBtn = document.getElementById('settings-close-button');
+const settingsSaveBtn = document.getElementById('settings-save-button');
 createExtensionElements();
 messages.on('EXTENSION_BUTTON', ext => {
   const extFile = getExtFile(ext.path);
@@ -35,16 +37,34 @@ searchBar.addEventListener('input', () => {
     }
   });
 });
-settingsButton.addEventListener('click', () => {
-  settingsModal.style.display = 'flex';
-});
 settingsSizeSlider.value = settings.size;
 settingsSizeDisplay.textContent = settings.size;
 settingsModeDropdown.value = settings.mode;
+let sizeBeforeEdit, modeBeforeEdit;
+settingsButton.addEventListener('click', () => {
+  sizeBeforeEdit = settingsSizeSlider.value;
+  modeBeforeEdit = settingsModeDropdown.value;
+  settingsModal.style.display = 'flex';
+});
 settingsSizeSlider.addEventListener('input', function () {
   settingsSizeDisplay.textContent = this.value;
   settings.size = Number(this.value);
 });
 settingsModeDropdown.addEventListener('input', function () {
   settings.mode = this.value;
-})
+});
+settingsModal.close = function() {
+  this.style.display = 'none';
+}
+settingsCloseBtn.addEventListener('click', () => {
+  if (confirm('Are you sure? Changes you made will not be saved.')) {
+    settingsModal.close();
+    settingsSizeSlider.value = sizeBeforeEdit;
+    settings.size = sizeBeforeEdit;
+    settingsModeDropdown.value = modeBeforeEdit;
+    settings.mode = modeBeforeEdit;
+  }
+});
+settingsSaveBtn.addEventListener('click', () => {
+  settingsModal.close();
+});
