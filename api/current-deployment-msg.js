@@ -21,7 +21,7 @@ export default function handler(req, res) {
     .then(deployments => {
       let flag;
       deployments.forEach((deployment) => {
-        if (deployment.state === "READY" && deployment.target === (req.get('referer').includes('https://clickylatin-dev.vercel.app')? null : "production") && deployment.ready < reqTimestamp - 2500) {
+        if (deployment.state === "READY" && deployment.target === "production" && deployment.ready < reqTimestamp - 2500) {
           res.status(200).json({ message: deployment.meta.githubCommitMessage });
           flag = true;
           return;
