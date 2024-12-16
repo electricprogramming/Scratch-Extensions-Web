@@ -19,8 +19,7 @@
       fr.readAsDataURL(blob);
     });
 
-  const { BlockType, Cast, ArgumentType } = Scratch;
-  const vm = Scratch.vm;
+  const { BlockType, Cast, ArgumentType, vm } = Scratch;
   const runtime = vm.runtime;
 
   const toCloseCode = (exitCode) => {
@@ -279,12 +278,12 @@
                 websocket.close();
               };
 
-              vm.runtime.on("BEFORE_EXECUTE", beforeExecute);
-              vm.runtime.on("PROJECT_STOP_ALL", onStopAll);
+              runtime.on("BEFORE_EXECUTE", beforeExecute);
+              runtime.on("PROJECT_STOP_ALL", onStopAll);
 
               const cleanup = () => {
-                vm.runtime.off("BEFORE_EXECUTE", beforeExecute);
-                vm.runtime.off("PROJECT_STOP_ALL", onStopAll);
+                runtime.off("BEFORE_EXECUTE", beforeExecute);
+                runtime.off("PROJECT_STOP_ALL", onStopAll);
                 for (const thread of this.instance.connectThreads) {
                   thread.status = 4; // STATUS_DONE
                 }
