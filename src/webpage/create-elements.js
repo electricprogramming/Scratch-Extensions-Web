@@ -12,7 +12,7 @@ export default function createExtensionElements() {
   extensions.forEach(ext => {
     const extElement = document.createElement('img');
     extElement.ext = ext.path;
-    extElement.src = `/extension-icons/${ext.path}.svg`;
+    extElement.src = `/src/extension-icons/${ext.path}.svg`;
     extElement.classList.add('extElement');
     extElement.onerror = function() {
       this.src = notFoundSvgUrl;

@@ -1,0 +1,5 @@
+fetch('/current-deployment-msg')
+  .then(res => res.json())
+  .then(data => data.message)
+  .then(msg => console.log('Current Deployment Message:', msg))
+  .catch(err => console.error('Error in fetching current deployment message:', err))

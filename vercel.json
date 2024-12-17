@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/webpage/index.html"
+      "destination": "/src/webpage/index.html"
     },
     {
       "source": "/current-deployment-msg",
