@@ -4,6 +4,4 @@
   <text text-anchor="middle" dominant-baseline="middle" x="300" y="100" font-family="monospace" font-size="45">
     <tspan fill="#09d">alert</tspan><tspan fill="black">(</tspan><tspan fill="green">'Hello, World!'</tspan><tspan fill="black">)</tspan>
   </text>
-  <line x1="300" x2="300" y1="0" y2="400" stroke="#0008"/>
-  <line x1="0" x2="600" y1="200" y2="200" stroke="#0008"/>
 </svg>
