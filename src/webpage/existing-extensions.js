@@ -6,6 +6,17 @@ This is a .js file instead of a .json file for a few reasons:
 */
 export default [
   {
+    name: 'JavaScript',
+    keywords: [
+      'JS', 'JavaScript', 'JScript',
+      'programming',
+      'language', 'languages',
+    ],
+    path: 'JavaScript',
+    description: `Use JavaScript in Scratch.`,
+    by: 'electricprogramming'
+  },
+  {
     name: 'Data Grids',
     keywords: [
       'Data',
