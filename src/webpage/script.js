@@ -13,9 +13,21 @@ const settingsSizeDisplay = document.getElementById('size-value-display');
 const settingsModeDropdown = document.getElementById('settings-mode-dropdown');
 const settingsCloseBtn = document.getElementById('settings-close-button');
 const settingsSaveBtn = document.getElementById('settings-save-button');
+const extInfo = {
+  container: document.getElementById('ext-info-container'),
+  name: document.getElementById('ext-info-name'),
+  author: document.getElementById('ext-info-author'),
+  desc: document.getElementById('ext-info-description')
+};
 createExtensionElements();
-messages.on('SHOW_INFO', (name, description, author) => {
-  
+messages.on('SHOW_INFO', (name, author, description) => {
+  extInfo.name.textContent = name;
+  extInfo.author.textContent = author;
+  extInfo.desc.textContent = description;
+  extInfo.container.style.opacity = 1;
+});
+messages.on('REMOVE_INFO', () => {
+  extInfo.container.style.opacity = 0;
 });
 messages.on('EXTENSION_BUTTON', ext => {
   const extFile = getExtFile(ext.path);

@@ -18,7 +18,7 @@ export default function createExtensionElements() {
       this.src = notFoundSvgUrl;
     };
     extElement.addEventListener('mouseover', () => {
-      messages.broadcast('SHOW_INFO', ext.name, ext.description, ext.by);
+      messages.broadcast('SHOW_INFO', ext.name, ext.by, ext.description);
     });
     extElement.addEventListener('mouseout', () => {
       messages.broadcast('REMOVE_INFO');
