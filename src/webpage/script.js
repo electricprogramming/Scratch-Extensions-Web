@@ -14,6 +14,9 @@ const settingsModeDropdown = document.getElementById('settings-mode-dropdown');
 const settingsCloseBtn = document.getElementById('settings-close-button');
 const settingsSaveBtn = document.getElementById('settings-save-button');
 createExtensionElements();
+messages.on('SHOW_INFO', (name, description, author) => {
+  
+});
 messages.on('EXTENSION_BUTTON', ext => {
   const extFile = getExtFile(ext.path);
   switch (settings.mode) {
