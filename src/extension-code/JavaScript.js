@@ -124,7 +124,7 @@
             }
           },
           {
-            blockType: Scratch.BlockType.COMMAND,
+            blockType: Scratch.BlockType.REPORTER,
             opcode: 'functionReporter',
             text: 'run function [function] with args [ARGS]',
             arguments: {
@@ -313,7 +313,11 @@
       const validAnonymousFunctionRegex = /^\s*function\s*\([\s\S]*\)\s*\{[\s\S]*\}\s*$/;
       const validArrowFunctionRegex = /^\s*(\([^\)]*\)|[a-zA-Z0-9$_]+)\s*=>\s*[\s\S]+$/;
       if (!(validNamedFunctionRegex.test(funcString) || validAnonymousFunctionRegex.test(funcString) || validArrowFunctionRegex.test(funcString))) {
-        throw new Error('Invalid function string. Only valid named, anonymous, or arrow functions are allowed.')
+        if (window[funcString] && typeof window[funcString] === 'function') {
+          return window[funcString];
+        } else {
+          throw new Error('Invalid function string. Only valid named, anonymous, or arrow functions are allowed.');
+        }
       }
       try {
         if (validArrowFunctionRegex.test(funcString)) {
