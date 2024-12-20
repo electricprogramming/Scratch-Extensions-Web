@@ -1,10 +1,12 @@
+// Name: Data Grids
+// ID: epDataGrids
+// Description: Create and manage data grids, which are similar to grid lists. Creating, deleting, and accessing grids works in a similar way to Scratch's defaut variables category. Covers setting and getting cells by x and y coordinates, getting rows and columns by index, iteration, etc.
 (function (Scratch) {
   "use strict";
   if (!Scratch.extensions.unsandboxed) {
-    alert(`Data Grids Extension must be ran unsandboxed.`);
-    throw new Error(`Data Grids Extension must be ran unsandboxed.`);
+    throw new Error(`Data Grids Extension must be run unsandboxed.`);
   }
-  const [isTW,isPM] = [!Scratch.extensions.isPenguinMod, Scratch.extensions.isPenguinMod];
+  const [isTW, isPM] = [!Scratch.extensions.isPenguinMod, Scratch.extensions.isPenguinMod];
   const vm = Scratch.vm;
   function getMenuIcon() {
     return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+ICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDUiIGZpbGw9IiNmZjI4MGEiLz4gICA8ZyBpZD0iYWxsLWVsZW1lbnRzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNCwtNCkgc2NhbGUoMS40LDEuNCkiPiAgICAgPGcgaWQ9ImdyaWQtc3F1YXJlcyIgZmlsbD0id2hpdGUiPiA8IS0tR3JpZCBTcXVhcmVzLS0+ICAgICAgIDxyZWN0IHg9IjMyIiB5PSIzMiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+ICAgICAgIDxyZWN0IHg9IjQ4IiB5PSIzMiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+ICAgICAgIDxyZWN0IHg9IjMyIiB5PSI0OCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+ICAgICAgIDxyZWN0IHg9IjQ4IiB5PSI0OCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+ICAgICA8L2c+ICAgICA8ZyBpZD0iYnVsbGV0LXBvaW50cyIgZmlsbD0id2hpdGUiPiAgICAgICA8ZyBpZD0idG9wIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC44NSwwKSI+IDwhLS1Ub3AgQnVsbGV0IFBvaW50cy0tPiAgICAgICAgIDxjaXJjbGUgY3g9IjM4IiBjeT0iMjAiIHI9IjQiLz4gICAgICAgICA8Y2lyY2xlIGN4PSI1NCIgY3k9IjIwIiByPSI0Ii8+ICAgICAgIDwvZz4gICAgICAgPGcgaWQ9ImxlZnQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsLTAuODUpIj4gPCEtLUxlZnQgQnVsbGV0IFBvaW50cy0tPiAgICAgICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iMzgiIHI9IjQiLz4gICAgICAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjU0IiByPSI0Ii8+ICAgICAgIDwvZz4gICAgIDwvZz4gICA8L2c+IDwvc3ZnPg=='
@@ -12,7 +14,7 @@
   function getBlockIcon() {
     return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+ICAgICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iI2IyMjIwYSIgLz4gICAgIDxnIGlkPSJhbGwtZWxlbWVudHMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC00LC00KSBzY2FsZSgxLjQsMS40KSIgZmlsbD0iI2ZmZmZmZiI+ICAgICAgICAgPGcgaWQ9ImdyaWQtc3F1YXJlcyI+ICAgICAgICAgICAgIDwhLS0gR3JpZCBTcXVhcmVzIC0tPiAgICAgICAgICAgICA8cmVjdCB4PSIzMiIgeT0iMzIiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgLz4gICAgICAgICAgICAgPHJlY3QgeD0iNDgiIHk9IjMyIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIC8+ICAgICAgICAgICAgIDxyZWN0IHg9IjMyIiB5PSI0OCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiAvPiAgICAgICAgICAgICA8cmVjdCB4PSI0OCIgeT0iNDgiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgLz4gICAgICAgICA8L2c+ICAgICAgICAgPGcgaWQ9ImJ1bGxldC1wb2ludHMiPiAgICAgICAgICAgICA8ZyBpZD0idG9wIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC44NSwwKSI+ICAgICAgICAgICAgICAgICA8Y2lyY2xlIGN4PSIzOCIgY3k9IjIwIiByPSI0IiAvPiAgICAgICAgICAgICAgICAgPGNpcmNsZSBjeD0iNTQiIGN5PSIyMCIgcj0iNCIgLz4gICAgICAgICAgICAgPC9nPiAgICAgICAgICAgICA8ZyBpZD0ibGVmdCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtMC44NSkiPiAgICAgICAgICAgICAgICAgPGNpcmNsZSBjeD0iMjAiIGN5PSIzOCIgcj0iNCIgLz4gICAgICAgICAgICAgICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iNTQiIHI9IjQiIC8+ICAgICAgICAgICAgIDwvZz4gICAgICAgICA8L2c+ICAgICA8L2c+IDwvc3ZnPg=='
   }
-  function repeat(count = 0, action = () => {}) {  
+  function repeat(count = 0, action = () => {}) {
     for (let i = 0; i < count; i++) {
       const escapeLoop = () => {
         throw new Error('EscapeLoop');
@@ -68,7 +70,7 @@
         console.error('Data Grids: constructor - not an array')
       }
       let expectedLength;
-      repeat(nestedArray.length, (i,escapeLoop) => {
+      repeat(nestedArray.length, (i, escapeLoop) => {
         if (i === 0) {
           expectedLength = nestedArray[i].length
         } else {
@@ -86,13 +88,13 @@
     #blankArray(size = 0) {
       return Array(size).fill('');
     }
-    static new(width = 0,height = 0) {
+    static new(width = 0, height = 0) {
       return new Grid(Array.from({ length: toInteger(height) }, () => Array(toInteger(width)).fill('')))
     }
     static deserialize(stringifiedArray = '[]') {
       try {
         var gridData = JSON.parse(stringifiedArray)
-      } catch(e) {
+      } catch (e) {
         console.error('Data Grids: Deserialization error -- ', e.message)
         gridData = []
       }
@@ -239,45 +241,45 @@
     serializeObject() {
       let serialized = {};
       this.forEachRow(
-        (rowNum,rowAsArray) => {
+        (rowNum, rowAsArray) => {
           let rowAsJSON = {}
           repeat(
             rowAsArray.length,
             (idx) => {
-              rowAsJSON[idx+1] = rowAsArray[idx];
+              rowAsJSON[idx + 1] = rowAsArray[idx];
             }
           );
           serialized[rowNum] = rowAsJSON;
         }
-      )
-      return JSON.stringify(serialized)
+      );
+      return JSON.stringify(serialized);
     }
     fill(val = '') {
-      this.forEachItem((x,y) => {
-        this.set(x,y,val)
-      })
+      this.forEachItem((x, y) => {
+        this.set(x, y, val);
+      });
     }
     clear() {
-      this.fill('')
+      this.fill('');
     }
     findAll(item = '') {
       let instances = []
-      this.forEachItem((x,y,val) => {
+      this.forEachItem((x, y, val) => {
         if (val == item) {
-          let object = {}
-          object['x'] = x
-          object['y'] = y
-          instances.push(object)
+          let object = {};
+          object['x'] = x;
+          object['y'] = y;
+          instances.push(object);
         }
       })
       return instances;
     }
     replaceAll(oldVal = '', newVal = '') {
-      this.forEachItem((x,y,val) => {
+      this.forEachItem((x, y, val) => {
         if (val == oldVal) {
-          this.set(x,y,newVal)
+          this.set(x, y, newVal);
         }
-      })
+      });
     }
   }
   const regenReporters = ['epDataGrids_iterationItem', 'epDataGrids_iterationX', 'epDataGrids_iterationY', 'epDataGrids_iterationRow', 'epDataGrids_iterationColumn', 'epDataGrids_iterationIdx'];
@@ -298,7 +300,7 @@
   let grids = {};
   const customStorage = {
     set: (data) => {
-      if (isTW) vm.runtime.extensionStorage.epDataGrids = {data};
+      if (isTW) vm.runtime.extensionStorage.epDataGrids = { data };
     },
     get: () => {
       if (isTW) return vm.runtime.extensionStorage.epDataGrids?.data; else return;
@@ -342,7 +344,7 @@
             text: 'DISCLAIMER',
             hideFromPalette: false
           },
-          { blockType: Scratch.BlockType.LABEL, text: 'Grid Management'},
+          { blockType: Scratch.BlockType.LABEL, text: 'Grid Management' },
           {
             func: 'newGrid',
             blockType: Scratch.BlockType.BUTTON,
@@ -355,10 +357,10 @@
             text: 'Delete a Grid',
             hideFromPalette: Object.keys(grids).length === 0
           },
-          { blockType: Scratch.BlockType.LABEL, text: 'List of grids:'},
+          { blockType: Scratch.BlockType.LABEL, text: 'List of grids:' },
           {
             blockType: Scratch.BlockType.XML,
-            get xml () {
+            get xml() {
               let xml = `<sep gap="-12"/><sep gap="12"/><sep gap="-10"/>`;
               Object.keys(grids).forEach((gridName) => {
                 xml += `<label text="• ${xmlSafe(gridName)}"/><sep gap="-12"/><sep gap="12"/><sep gap="-10"/>`;
@@ -367,7 +369,7 @@
             }
           },
           '---',
-          { blockType: Scratch.BlockType.LABEL, text: 'Data Management'},
+          { blockType: Scratch.BlockType.LABEL, text: 'Data Management' },
           {
             opcode: 'addRows',
             blockType: Scratch.BlockType.COMMAND,
@@ -844,11 +846,11 @@
           },
           JSONtype: {
             acceptReporters: false,
-            items: ['array','object']
+            items: ['array', 'object']
           },
           dimensionType: {
             acceptReporters: false,
-            items: ['width','height']
+            items: ['width', 'height']
           }
         }
       };
@@ -882,7 +884,7 @@
       } else if (gridName.length > 30) {
         alert('Grid name too long.');
       } else {
-        grids[gridName] = Grid.new(0,0);
+        grids[gridName] = Grid.new(0, 0);
       }
       vm.extensionManager.refreshBlocks();
       updateProjectStorage();
@@ -918,7 +920,7 @@
     }
     insertRows(args) {
       if (args.gridName in grids) {
-        grids[args.gridName].insertRows(args.count,args.idx)
+        grids[args.gridName].insertRows(args.count, args.idx)
       } else {
         console.error('Data Grids: Grid not found')
       }
@@ -926,7 +928,7 @@
     }
     insertColumns(args) {
       if (args.gridName in grids) {
-        grids[args.gridName].insertColumns(args.count,args.idx);
+        grids[args.gridName].insertColumns(args.count, args.idx);
       } else {
         console.error('Data Grids: Grid not found');
       }
@@ -950,22 +952,22 @@
     }
     deleteAll(args) {
       if (args.gridName in grids) {
-        grids[args.gridName] = Grid.new(0,0);
+        grids[args.gridName] = Grid.new(0, 0);
       } else {
         console.error('Data Grids: Grid not found');
       }
     }
     setCellValue(args) {
       if (args.gridName in grids) {
-        grids[args.gridName].set(args.x,args.y,args.value);
+        grids[args.gridName].set(args.x, args.y, args.value);
       } else {
         console.error('Data Grids: Grid not found');
       }
       updateProjectStorage();
     }
-    getCellValue(args){
+    getCellValue(args) {
       if (args.gridName in grids) {
-        return grids[args.gridName].get(args.x,args.y);
+        return grids[args.gridName].get(args.x, args.y);
       } else {
         console.error('Data Grids: Grid not found');
         return '';
@@ -981,7 +983,7 @@
     }
     replaceAll(args) {
       if (args.gridName in grids) {
-        grids[args.gridName].replaceAll(args.oldValue,args.newValue)
+        grids[args.gridName].replaceAll(args.oldValue, args.newValue)
       } else {
         console.error('Data Grids: Grid not found')
       }
@@ -1047,7 +1049,7 @@
         util.stackFrame.loopCounter = itemCount;
       }
       const index = Math.abs(util.stackFrame.loopCounter - itemCount);
-      
+
       util.thread.epGridsIterationData = {
         item: flattenedArr[index],
         x: (index % grid.getWidth()) + 1,
@@ -1060,7 +1062,7 @@
         delete util.thread.epGridsIterationData;
       }
     }
-    iterationItem(args,util) {
+    iterationItem(args, util) {
       return util.thread.epGridsIterationData?.item || '';
     }
     iterationX(args, util) {
@@ -1080,7 +1082,7 @@
         util.stackFrame.loopCounter = rowCount;
       }
       const index = Math.abs(util.stackFrame.loopCounter - rowCount) + 1;
-      
+
       util.thread.epGridsIterationData = {
         row: JSON.stringify(grid.getRow(index)),
         idx: index
@@ -1106,7 +1108,7 @@
         util.stackFrame.loopCounter = columnCount;
       }
       const index = Math.abs(util.stackFrame.loopCounter - columnCount) + 1;
-      
+
       util.thread.epGridsIterationData = {
         column: JSON.stringify(grid.getColumn(index)),
         idx: index
@@ -1127,7 +1129,7 @@
   }
   if (isPM) {
     epDataGrids.prototype.serialize = () => {
-      return {epDataGrids: serializeState()}
+      return { epDataGrids: serializeState() }
     }
     epDataGrids.prototype.deserialize = (data) => {
       if (data.epDataGrids !== undefined) {

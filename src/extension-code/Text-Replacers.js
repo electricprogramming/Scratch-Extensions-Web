@@ -1,5 +1,8 @@
 (function (Scratch) {
   "use strict";
+  if (!Scratch.extensions.unsandboxed) {
+    throw new Error(`Text Replacers Extension must be run unsandboxed.`);
+  }
   let replacersJSON = {};
   let mode = 1;
   function applyReplacers(mode, text, replacersJSON) {

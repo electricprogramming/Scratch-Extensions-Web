@@ -7,7 +7,7 @@
   "use strict";
 
   if (!Scratch.extensions.unsandboxed) {
-    throw new Error("can not load outside unsandboxed mode");
+    throw new Error(`The Global WebSocket Extension must be run unsandboxed.`);
   }
 
   const blobToDataURL = (blob) =>

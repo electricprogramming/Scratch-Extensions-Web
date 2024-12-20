@@ -1,4 +1,8 @@
 (function (Scratch) {
+  "use strict";
+  if (!Scratch.extensions.unsandboxed) {
+    throw new Error(`The JavaScript Extension must be run unsandboxed.`);
+  }
   let lastOpenedFileData = { name: '', extension: '', size: 0, contentAsText: '', contentAsDataURL: '' };
   function promptForFile(acceptedExtensions) {
     return new Promise((resolve, reject) => {
