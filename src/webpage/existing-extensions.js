@@ -52,7 +52,7 @@ export default [
       'language', 'languages',
     ],
     path: 'JavaScript',
-    description: `Use JavaScript in Scratch.`,
+    description: `Use JavaScript in Scratch. Also includes some extra utilities.`,
     by: 'electricprogramming'
   },
 ];
