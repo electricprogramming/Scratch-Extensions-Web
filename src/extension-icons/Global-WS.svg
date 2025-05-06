@@ -1,8 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color: #66ee7d;" />
+      <stop offset="100%" style="stop-color: #22aa39;" />
+    </linearGradient>
+  </defs>
   <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="black" stroke="gray" stroke-width="5"/>
-  <text x="300" y= "210" font-size="100" fill="black" stroke="white" stroke-width="2" text-anchor="middle" dominant-baseline="middle"> WebSocket </text>
-  <path d="M75,62.5 H475 V40 L525,80 L475,120 V97.5 H75 Z" fill="#22aa39" stroke="#228739" stroke-width="5"/>
+  <text x="300" y= "210" font-family="Sans Serif" font-size="100" fill="black" stroke="white" stroke-width="2" text-anchor="middle" dominant-baseline="middle"> WebSocket </text>
+  <path d="M75,62.5 H475 V40 L525,80 L475,120 V97.5 H75 Z" fill="url(#grad)" stroke="#228739" stroke-width="5"/>
   <text text-anchor="middle" dominant-baseline="middle" x="275" y="80" font-family="Sans-serif" font-size="25">Client</text>
-  <path d="M75,62.5 H475 V40 L525,80 L475,120 V97.5 H75 Z" fill="#22aa39" stroke="#228739" stroke-width="5" transform="translate(600,237.5) scale(-1,1)"/>
+  <path d="M75,62.5 H475 V40 L525,80 L475,120 V97.5 H75 Z" fill="url(#grad)" stroke="#228739" stroke-width="5" transform="translate(600,237.5) scale(-1,1)"/>
   <text text-anchor="middle" dominant-baseline="middle" x="325" y="320" font-family="Sans-serif" font-size="25">Server</text>
 </svg>
