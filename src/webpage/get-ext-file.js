@@ -23,4 +23,4 @@ const promises = extensions.map(({ path }) => {
 await Promise.all(promises);
 export default function getExtFile(path) {
   return extensionFiles[path];
-};
+}
