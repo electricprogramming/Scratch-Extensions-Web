@@ -63,10 +63,6 @@
         messageQueue: [],
         sendOnceConnected: [],
       };
-
-      runtime.on("targetWasRemoved", (target) => {
-        // Handle target removal if needed
-      });
     }
 
     getInfo() {
@@ -265,9 +261,7 @@
                     } else {
                       this.instance.data = this.instance.messageQueue.shift();
                       this.instance.messageThreads = runtime.startHats(
-                        "epGlobalWebsocket_onMessage",
-                        null,
-                        util.target
+                        "epGlobalWebsocket_onMessage"
                       );
                     }
                   }
@@ -304,9 +298,7 @@
                 this.instance.sendOnceConnected.length = 0;
 
                 this.instance.connectThreads = runtime.startHats(
-                  "epGlobalWebsocket_onOpen",
-                  null,
-                  util.target
+                  "epGlobalWebsocket_onOpen"
                 );
                 resolve();
               };
@@ -318,7 +310,7 @@
                   cleanup();
 
                   if (!this.instance.destroyed) {
-                    runtime.startHats("epGlobalWebsocket_onClose", null, util.target);
+                    runtime.startHats("epGlobalWebsocket_onClose");
                   }
                 }
               };
@@ -329,7 +321,7 @@
                 cleanup();
 
                 if (!this.instance.destroyed) {
-                  runtime.startHats("epGlobalWebsocket_onError", null, util.target);
+                  runtime.startHats("epGlobalWebsocket_onError");
                 }
               };
 
@@ -349,9 +341,7 @@
                   this.instance.data = data;
                   this.instance.messageThreadsRunning = true;
                   this.instance.messageThreads = runtime.startHats(
-                    "epGlobalWebsocket_onMessage",
-                    null,
-                    util.target
+                    "epGlobalWebsocket_onMessage"
                   );
                 }
               };
@@ -366,7 +356,7 @@
       if (!this.instance.websocket) {
         return;
       }
-      return Scratch.runtime.startHats("epGlobalWebsocket_onOpen", null, util.target);
+      return Scratch.runtime.startHats("epGlobalWebsocket_onOpen");
     }
 
     isConnected() {
@@ -377,7 +367,7 @@
       if (!this.instance.websocket) {
         return;
       }
-      return Scratch.runtime.startHats("epGlobalWebsocket_onMessage", null, util.target);
+      return Scratch.runtime.startHats("epGlobalWebsocket_onMessage");
     }
 
     messageData() {
@@ -396,7 +386,7 @@
       if (!this.instance.websocket) {
         return;
       }
-      return Scratch.runtime.startHats("epGlobalWebsocket_onError", null, util.target);
+      return Scratch.runtime.startHats("epGlobalWebsocket_onError");
     }
 
     hasErrored() {
@@ -407,7 +397,7 @@
       if (!this.instance.websocket) {
         return;
       }
-      return Scratch.runtime.startHats("epGlobalWebsocket_onClose", null, util.target);
+      return Scratch.runtime.startHats("epGlobalWebsocket_onClose");
     }
 
     isClosed() {
