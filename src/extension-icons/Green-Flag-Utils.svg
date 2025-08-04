@@ -16,8 +16,8 @@
     </pattern>
   </defs>
 
-  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="url(#flagPattern)" stroke="gray" stroke-width="5"/>
-  
+  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="url(#flagPattern)" stroke="black" stroke-width="5"/>
+
   <text x="300" y= "150" font-family="Comic Sans MS, Segoe Print, Sans-Serif" font-size="93" fill="black" stroke="#FFBF00" font-weight="600" stroke-width="2" text-anchor="middle" dominant-baseline="middle"> Green Flag </text>
   <text x="300" y= "270" font-family="Comic Sans MS, Segoe Print, Sans-Serif" font-size="93" fill="black" stroke="#FFBF00"  font-weight="600" stroke-width="2" text-anchor="middle" dominant-baseline="middle"> Utilities </text>
 </svg>
