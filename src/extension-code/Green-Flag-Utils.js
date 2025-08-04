@@ -14,8 +14,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
       return {
         id: "epUtilities",
         name: "Green Flag Utilities",
-        color1: '#000000',
-        color2: '#000000',
+        color1: '#FFBF00',
         blocks: [
           {
             func: 'resetGFcount',
