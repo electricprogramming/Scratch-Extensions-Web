@@ -11,7 +11,7 @@
       <use href="#icon" transform="rotate(318, 166.6667, 33.3333)" x="133.3333" y="0"/>
       <use href="#icon" transform="rotate(104, 166.6667, 100)" x="133.3333" y="66.6667"/>
       <use href="#icon" transform="rotate(13, 166.6667, 166.6667)" x="133.3333" y="133.3333"/>
-      <use href="#icon" transform="rotate(273, 100, 166.6667)" x="66.6667" y="133.3333"/>
+      <use href="#icon" transform="rotate(203, 100, 166.6667)" x="66.6667" y="133.3333"/>
       <use href="#icon" transform="rotate(285, 33.3333, 166.6667)" x="0" y="133.3333"/>
     </pattern>
   </defs>
