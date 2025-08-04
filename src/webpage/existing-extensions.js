@@ -55,4 +55,17 @@ export default [
     description: `Use JavaScript in Scratch. Also includes some extra utilities.`,
     by: 'electricprogramming'
   },
+  {
+    name: 'Green Flag Utils',
+    keywords: [
+      'Green', 'Flag',
+      'Util', 'Utils',
+      'Utility', 'Utilities',
+      'Event', 'Events',
+      'Control', 'Controls'
+    ],
+    path: 'Green-Flag-Utils',
+    description: `Utility blocks related to the green flag`,
+    by: 'electricprogramming'
+  },
 ];
