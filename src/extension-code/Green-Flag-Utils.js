@@ -27,9 +27,9 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
           {
             opcode: 'getGFcount',
             blockType: Scratch.BlockType.REPORTER,
-            text: '# of times [gfImg] clicked',
+            text: '# of times [greenFlag] clicked',
             arguments: {
-              gfImg: {
+              greenFlag: {
                 type: Scratch.ArgumentType.IMAGE,
                 dataURI: greenFlagSVG,
                 flipRTL: false
@@ -41,10 +41,10 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
           {
             opcode: 'onFirstGF',
             blockType: Scratch.BlockType.EVENT,
-            text: 'when [gfImg] clicked the first time',
+            text: 'when [greenFlag] clicked the first time',
             isEdgeActivated: false,
             arguments: {
-              gfImg: {
+              greenFlag: {
                 type: Scratch.ArgumentType.IMAGE,
                 dataURI: greenFlagSVG,
                 flipRTL: false
