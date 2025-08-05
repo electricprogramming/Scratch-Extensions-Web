@@ -24,7 +24,7 @@
         throw new Error('ContinueLoop');
       };
       try {
-        action(i, escapeLoop, continueLoop);
+        action(i + 1, escapeLoop, continueLoop);
       } catch (e) {
         if (e.message === 'EscapeLoop') {
           break;
@@ -957,6 +957,7 @@
       } else {
         console.error('Data Grids: Grid not found');
       }
+      updateProjectStorage();
     }
     setCellValue(args) {
       if (args.gridName in grids) {
