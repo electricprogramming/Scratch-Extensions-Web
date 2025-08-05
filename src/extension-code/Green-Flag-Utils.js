@@ -10,7 +10,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
   })();
 
   function getMonitor() {
-    return document.querySelector('*[class*=monitor][data-id="epUtilities_getGFcount"] div div div');
+    return document.querySelector('*[class*=monitor][data-id="epGreenFlag_getGFcount"] div div div');
   }
 
   function applyMonitorPatch() {
@@ -22,7 +22,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
   }
 
   function isMonitorVisible() {
-    return vm.runtime._monitorState._list.find(x => x[0] === 'epUtilities_getGFcount')?.[1]?.visible;
+    return vm.runtime._monitorState._list.find(x => x[0] === 'epGreenFlag_getGFcount')?.[1]?.visible;
   }
 
   let greenFlagCount = 0;
