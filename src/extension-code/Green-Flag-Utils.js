@@ -22,7 +22,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
   }
 
   function isMonitorVisible() {
-    return vm.runtime._monitorState._list.find(x => x[0] === 'epGreenFlag_getGFcount')?.[1]?.visible;
+    return vm.runtime._monitorState._list.find(x => x[0] === 'epGreenFlag_getGFcount')?.[1]?.visible && getMonitor();
   }
 
   let greenFlagCount = 0;
