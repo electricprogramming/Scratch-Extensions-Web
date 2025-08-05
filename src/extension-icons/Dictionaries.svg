@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="300" height="200">
   <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="#1E293B" stroke="#475569" stroke-width="5"/>
 
   <g transform="translate(0, -30)">
-    <text x="300" y="90" fill="white" font-family="monospace" font-weight="700" font-size="28" text-anchor="middle" letter-spacing="1">
+    <text x="300" y="90" fill="white" font-family="monospace" font-weight="700" font-size="38" text-anchor="middle" letter-spacing="1">
       Player
     </text>
   
@@ -17,15 +17,19 @@
     <rect x="320" y="260" width="230" height="60" rx="16" ry="16" fill="#66A2B4" stroke="none" stroke-width="4"/>
   
     <!-- Keys text -->
-    <text x="165" y="160" fill="white" font-family="monospace" font-weight="700" font-size="22" text-anchor="middle" letter-spacing="0.5">name</text>
-    <text x="165" y="230" fill="white" font-family="monospace" font-weight="700" font-size="22" text-anchor="middle" letter-spacing="0.5">max-health</text>
-    <text x="165" y="300" fill="white" font-family="monospace" font-weight="700" font-size="22" text-anchor="middle" letter-spacing="0.5">health</text>
+    <g  fill="white" font-family="monospace" font-weight="700" font-size="28" text-anchor="middle" letter-spacing="0.5">
+      <text x="165" y="160">name</text>
+      <text x="165" y="230">max-health</text>
+      <text x="165" y="300">health</text>
+    </g>
   
     <!-- Values text -->
-    <text x="435" y="160" fill="white" font-family="monospace" font-weight="500" font-size="22" text-anchor="middle" letter-spacing="0.5">Dude</text>
-    <text x="435" y="230" fill="white" font-family="monospace" font-weight="500" font-size="22" text-anchor="middle" letter-spacing="0.5">100</text>
-    <text x="435" y="300" fill="white" font-family="monospace" font-weight="500" font-size="22" text-anchor="middle" letter-spacing="0.5">42</text>
-
+    <g font-family="monospace" font-weight="500" font-size="28" text-anchor="middle" letter-spacing="0.5" transform="translate(0, 1)">
+      <text x="435" y="160" fill="white">Dude</text>
+      <text x="435" y="230" fill="white">100</text>
+      <text x="435" y="300" fill="white">42</text>
+    </g>
+    
     <!-- Colons -->
     <g font-weight="600" font-family="monospace" font-size="34" fill="white" text-anchor="middle">
       <text x="300" y="160">:</text>
