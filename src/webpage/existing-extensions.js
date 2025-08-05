@@ -51,17 +51,6 @@ export default [
     by: 'electricprogramming'
   },
   {
-    name: 'Text Replacers',
-    keywords: [
-      'String', 'Strings',
-      'Text', 'Texts',
-      'Replacer', 'Replacers',
-    ],
-    path: 'Text-Replacers',
-    description: `Apply replacers to your text. Either apply simultaneously or in order.`,
-    by: 'electricprogramming'
-  },
-  {
     name: 'JavaScript',
     keywords: [
       'JS', 'JavaScript', 'JScript',
@@ -70,6 +59,17 @@ export default [
     ],
     path: 'JavaScript',
     description: `Use JavaScript in Scratch. Also includes some extra utilities.`,
+    by: 'electricprogramming'
+  },
+  {
+    name: 'Text Replacers',
+    keywords: [
+      'String', 'Strings',
+      'Text', 'Texts',
+      'Replacer', 'Replacers',
+    ],
+    path: 'Text-Replacers',
+    description: `Apply replacers to your text. Either apply simultaneously or in order.`,
     by: 'electricprogramming'
   },
   {
