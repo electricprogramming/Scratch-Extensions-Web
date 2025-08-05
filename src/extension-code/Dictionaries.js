@@ -140,7 +140,11 @@
     }
   }
   function serializeState() {
-    // Need to work on this
+    let result = {};
+    Object.keys(dictionaries).forEach(key => {
+      result[key] = dictionaries[key].serialize();
+    })
+    return result;
   }
   function updateProjectStorage() {
     customStorage.set(serializeState());
@@ -149,8 +153,8 @@
     console.log('Dictionaries: Loading serialized project data')
     dictionaries = {};
     Object.entries(state).forEach(([key, value]) => {
-      // Need to work on this
-    })
+      dictionaries[key] = Dictionary.deserialize(value);
+    });
     vm.extensionManager.refreshBlocks();
   }
   if (isTW) vm.runtime.on('PROJECT_LOADED', () => {
@@ -503,7 +507,7 @@
       }
     
 
-      util.thread.epDictsIterationData = dictionary.at(itemCount - loopCounter);
+      util.thread.epDictsIterationData = dictionary.at(itemCount - util.stackFrame.loopCounter);
       util.stackFrame.loopCounter--;
       if (util.stackFrame.loopCounter >= 0) {
         util.startBranch(1, true);
