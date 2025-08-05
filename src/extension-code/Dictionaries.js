@@ -255,6 +255,40 @@
             hideFromPalette: false
           },
           {
+            opcode: 'hasKey',
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: 'dictionary [dictionaryName] has key [key]?',
+            arguments: {
+              dictionaryName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'dictionaryMenu'
+              },
+              key: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: 'health'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
+          },
+          {
+            opcode: 'deleteKey',
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: 'delete key [key] from dictionary [dictionaryName]',
+            arguments: {
+              dictionaryName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'dictionaryMenu'
+              },
+              key: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: 'health'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
+          },
+          {
             opcode: 'keysOf',
             blockType: Scratch.BlockType.REPORTER,
             text: 'all keys set to [value] in dictionary [dictionaryName]',
@@ -270,6 +304,40 @@
             },
             blockIconURI: getBlockIcon(),
             hideFromPalette: false
+          },
+          {
+            opcode: 'allKeysOrValues',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'all [keysOrValues] of dictionary [dictionaryName]',
+            arguments: {
+              keysOrValues: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'keysValuesMenu'
+              },
+              dictionaryName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'dictionaryMenu'
+              }
+            }
+          },
+          {
+            opcode: 'getAtIndex',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'get [data] at index [index] of dictionary [dictionaryName]',
+            arguments: {
+              data: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'keyValueMenu'
+              },
+              index: {
+                type: Scratch.ArgumentType.NUMBER,
+                defaultValue: 1
+              },
+              dictionaryName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'dictionaryMenu'
+              }
+            }
           },
           {
             opcode: 'getSize',
@@ -386,6 +454,14 @@
           serializationType: {
             acceptReporters: false,
             items: ['dictionary', 'object', 'array']
+          },
+          keysValuesMenu: {
+            acceptReporters: false,
+            items: ['keys', 'values']
+          },
+          keyValueMenu: {
+            acceptReporters: false,
+            items: ['key', 'value']
           }
         }
       };
@@ -456,12 +532,46 @@
         return '';
       }
     }
+    hasKey(args) {
+      if (args.dictionaryName in dictionaries) {
+        return dictionaries[args.dictionaryName].has(args.key);
+      } else {
+        console.error('Dictionaries: Dictionary not found');
+        return false;
+      }
+    }
+    deleteKey(args) {
+      if (args.dictionaryName in dictionaries) {
+        dictionaries[args.dictionaryName].delete(args.key);
+      } else {
+        console.error('Dictionaries: Dictionary not found');
+      }
+      updateProjectStorage();
+    }
     keysOf(args) {
       if (args.dictionaryName in dictionaries) {
         return JSON.stringify(dictionaries[args.dictionaryName].keysOf(args.value));
       } else {
         console.error('Dictionaries: Dictionary not found');
         return '[]';
+      }
+    }
+    allKeysOrValues(args) {
+      if (args.dictionaryName in dictionaries) {
+        return JSON.stringify(Array.from(
+          (dictionaries[args.dictionaryName][args.keysOrValues])()
+        ));
+      } else {
+        console.error('Dictionaries: Dictionary not found');
+        return '[]';
+      }
+    }
+    getAtIndex(args) {
+      if (args.dictionaryName in dictionaries) {
+        return dictionaries[args.dictionaryName].at(args.index)[args.data];
+      } else {
+        console.error('Dictionaries: Dictionary not found');
+        return '';
       }
     }
     getSize(args) {
