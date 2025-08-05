@@ -5,9 +5,6 @@
     return Scratch.extensions.register(new ErroredExtension('Green Flag Utilities'));
   }
   const vm = Scratch.vm;
-  const greenFlagSVG = (function(){
-return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTIwLjggMy43Yy0uNC0uMi0uOS0uMS0xLjIuMi0yIDEuNi00LjggMS42LTYuOCAwLTIuMy0xLjktNS42LTIuMy04LjMtMXYtLjRjMC0uNi0uNS0xLTEtMXMtMSAuNC0xIDF2MTguOGMwIC41LjUgMSAxIDFoLjFjLjUgMCAxLS41IDEtMXYtNi40YzEtLjcgMi4xLTEuMiAzLjQtMS4zIDEuMiAwIDIuNC40IDMuNCAxLjIgMi45IDIuMyA3IDIuMyA5LjggMCAuMy0uMi40LS41LjQtLjlWNC43YzAtLjUtLjMtLjktLjgtMW0tLjMgMTAuMkMxOCAxNiAxNC40IDE2IDExLjkgMTRjLTEuMS0uOS0yLjUtMS40LTQtMS40LTEuMi4xLTIuMy41LTMuNCAxLjFWNGMyLjUtMS40IDUuNS0xLjEgNy43LjYgMi40IDEuOSA1LjcgMS45IDguMSAwaC4ybC4xLjF6IiBzdHlsZT0iZmlsbDojNDU5OTNkIi8+PHBhdGggZD0ibTIwLjYgNC44LS4xIDkuMXYuMWMtMi41IDItNi4xIDItOC42IDAtMS4xLS45LTIuNS0xLjQtNC0xLjQtMS4yLjEtMi4zLjUtMy40IDEuMVY0YzIuNS0xLjQgNS41LTEuMSA3LjcuNiAyLjQgMS45IDUuNyAxLjkgOC4xIDBoLjJjMCAuMS4xLjEuMS4yIiBzdHlsZT0iZmlsbDojNGNiZjU2Ii8+PC9zdmc+`
-  })();
 
   function getMonitor() {
     return document.querySelector('*[class*=monitor][data-id="epGreenFlag_getGFcount"] div div div');
@@ -49,7 +46,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
               greenFlag: {
                 type: Scratch.ArgumentType.IMAGE,
                 get dataURI () {
-                  return document.querySelector('img[class*="green-flag_green-flag"]').src
+                  return document.querySelector('img[class*="green-flag_green-flag"]').src;
                 },
                 flipRTL: false
               }
@@ -66,7 +63,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
               greenFlag: {
                 type: Scratch.ArgumentType.IMAGE,
                 get dataURI () {
-                  return document.querySelector('img[class*="green-flag_green-flag"]').src
+                  return document.querySelector('img[class*="green-flag_green-flag"]').src;
                 },
                 flipRTL: false
               }
