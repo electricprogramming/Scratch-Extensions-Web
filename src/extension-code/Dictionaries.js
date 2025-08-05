@@ -568,7 +568,7 @@
     }
     getAtIndex(args) {
       if (args.dictionaryName in dictionaries) {
-        return dictionaries[args.dictionaryName].at(args.index)[args.data];
+        return dictionaries[args.dictionaryName].at(args.index - 1)?.[args.data];
       } else {
         console.error('Dictionaries: Dictionary not found');
         return '';
