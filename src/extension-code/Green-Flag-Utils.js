@@ -48,7 +48,9 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
             arguments: {
               greenFlag: {
                 type: Scratch.ArgumentType.IMAGE,
-                dataURI: greenFlagSVG,
+                get dataURI () {
+                  return document.querySelector('img[class*="green-flag_green-flag"]').src
+                },
                 flipRTL: false
               }
             },
@@ -63,7 +65,9 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
             arguments: {
               greenFlag: {
                 type: Scratch.ArgumentType.IMAGE,
-                dataURI: greenFlagSVG,
+                get dataURI () {
+                  return document.querySelector('img[class*="green-flag_green-flag"]').src
+                },
                 flipRTL: false
               }
             },
