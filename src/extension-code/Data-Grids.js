@@ -24,7 +24,7 @@
         throw new Error('ContinueLoop');
       };
       try {
-        action(i + 1, escapeLoop, continueLoop);
+        action(i, escapeLoop, continueLoop);
       } catch (e) {
         if (e.message === 'EscapeLoop') {
           break;
