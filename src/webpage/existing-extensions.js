@@ -73,7 +73,7 @@ export default [
     by: 'electricprogramming'
   },
   {
-    name: 'Green Flag Utils',
+    name: 'Green Flag Utilities',
     keywords: [
       'Green', 'Flag',
       'Util', 'Utils',
