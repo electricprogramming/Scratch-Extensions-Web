@@ -36,7 +36,8 @@ export default [
     ],
     path: 'Dictionaries',
     description: `Create and manage dictionaries (sets of key-value pairs) in a similar way to Scratch's defaut variables category.`,
-    by: 'electricprogramming'
+    by: 'electricprogramming',
+    hide: true
   },
   {
     name: 'Global WebSocket',

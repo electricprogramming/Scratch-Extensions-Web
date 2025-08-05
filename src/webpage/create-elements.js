@@ -10,22 +10,24 @@ const notFoundSvgUrl = `data:image/svg+xml,${encodeURIComponent(notFoundSvgText)
 export default function createExtensionElements() {
   const extContainer = document.getElementById('extension-container');
   extensions.forEach(ext => {
-    const extElement = document.createElement('img');
-    extElement.ext = ext.path;
-    extElement.src = `/src/extension-icons/${ext.path}.svg`;
-    extElement.classList.add('extElement');
-    extElement.onerror = function() {
-      this.src = notFoundSvgUrl;
-    };
-    extElement.addEventListener('mouseover', () => {
-      messages.broadcast('SHOW_INFO', ext.name, ext.by, ext.description);
-    });
-    extElement.addEventListener('mouseout', () => {
-      messages.broadcast('REMOVE_INFO');
-    });
-    extElement.addEventListener('click', () => {
-      messages.broadcast('EXTENSION_BUTTON', ext);
-    });
-    extContainer.appendChild(extElement);
+    if (!ext.hide) {
+      const extElement = document.createElement('img');
+      extElement.ext = ext.path;
+      extElement.src = `/src/extension-icons/${ext.path}.svg`;
+      extElement.classList.add('extElement');
+      extElement.onerror = function() {
+        this.src = notFoundSvgUrl;
+      };
+      extElement.addEventListener('mouseover', () => {
+        messages.broadcast('SHOW_INFO', ext.name, ext.by, ext.description);
+      });
+      extElement.addEventListener('mouseout', () => {
+        messages.broadcast('REMOVE_INFO');
+      });
+      extElement.addEventListener('click', () => {
+        messages.broadcast('EXTENSION_BUTTON', ext);
+      });
+      extContainer.appendChild(extElement);
+    }
   });
 };
