@@ -1,8 +1,7 @@
 /*
-This is a .js file instead of a .json file for a few reasons:
-  1) Not applicable in this case, but .js files can have comments.
-  2) `import` statements only work with .js files, not .json files.
-  3) More flexibility in notation -- I just don't like the look of JSON.
+This is a .js file instead of a .json file for a couple reasons:
+  1) `import` statements only work with .js files, not .json files.
+  2) More flexibility in notation -- I just don't like the look of JSON.
 */
 export default [
   {
