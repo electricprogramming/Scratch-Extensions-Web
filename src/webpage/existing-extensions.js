@@ -19,7 +19,23 @@ export default [
       'Chess', 'Checkers', 'Chessboard'
     ],
     path: 'Data-Grids',
-    description: `Create and manage data grids in a similar way to Scratch's defaut variables category.`,
+    description: `Create and manage data grids (similar to grid lists) in a similar way to Scratch's defaut variables category.`,
+    by: 'electricprogramming'
+  },
+  {
+    name: 'Dictionaries',
+    keywords: [
+      'Data',
+      'Variable', 'Variables',
+      'Dictionary', 'Dictionaries',
+      'Map', 'Maps',
+      'Object', 'Objects',
+      'Key', 'Keys',
+      'Value', 'Values',
+      'List', 'Lists'
+    ],
+    path: 'Dictionaries',
+    description: `Create and manage dictionaries (sets of key-value pairs) in a similar way to Scratch's defaut variables category.`,
     by: 'electricprogramming'
   },
   {
