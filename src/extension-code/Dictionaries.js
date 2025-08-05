@@ -273,7 +273,7 @@
           },
           {
             opcode: 'deleteKey',
-            blockType: Scratch.BlockType.BOOLEAN,
+            blockType: Scratch.BlockType.COMMAND,
             text: 'delete key [key] from dictionary [dictionaryName]',
             arguments: {
               dictionaryName: {
