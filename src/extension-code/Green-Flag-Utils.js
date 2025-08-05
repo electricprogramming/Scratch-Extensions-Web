@@ -76,7 +76,7 @@ return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC
       greenFlagCount = 0;
     }
     getGFcount() {
-      if (isMonitorVisible() && !getMonitor().epTextPatchApplied) { applyMonitorPatch(); }
+      if (isMonitorVisible() && !getMonitor().epTextPatchApplied) applyMonitorPatch();
       return greenFlagCount;
     }
   }
