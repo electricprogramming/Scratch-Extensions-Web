@@ -29,17 +29,6 @@
         },
         blocks: [
           {
-            opcode: 'setMode',
-            blockType: Scratch.BlockType.COMMAND,
-            text: 'set replacer mode to apply [mode]',
-            arguments: {
-              mode: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'modes'
-              }
-            }
-          },
-          {
             opcode: 'resetReplacers',
             blockType: Scratch.BlockType.COMMAND,
             text: 'reset replacers'
@@ -67,17 +56,6 @@
           {
             opcode: 'applyReplacers',
             blockType: Scratch.BlockType.REPORTER,
-            text: 'apply replacers to [text]',
-            arguments: {
-              text: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'hi dude'
-              }
-            }
-          },
-          {
-            opcode: 'applyReplacersWithMode',
-            blockType: Scratch.BlockType.REPORTER,
             text: 'apply replacers to [text] with mode [mode]',
             arguments: {
               text: {
@@ -95,22 +73,12 @@
           modes: {
             acceptReporters: false,
             items: [
-              { text: 'simultaneously', value: '1' },
-              { text: 'in order', value: '2' }
+              { text: 'apply simultaneously', value: '1' },
+              { text: '\u200Capply in order', value: '2' }
             ]
           }
         }
       };
-    }
-    setMode(args) {
-      switch (args.mode) {
-        case '1':
-          mode = 1;
-          break;
-        case '2':
-          mode = 2;
-          break;
-      }
     }
     resetReplacers() {
       replacersJSON = {}
@@ -123,9 +91,6 @@
       return JSON.stringify(replacersJSON);
     }
     applyReplacers(args) {
-      return applyReplacers(mode, args.text, replacersJSON);
-    }
-    applyReplacersWithMode(args) {
       return applyReplacers(args.mode, args.text, replacersJSON);
     }
   }
