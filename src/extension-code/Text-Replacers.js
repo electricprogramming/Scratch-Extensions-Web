@@ -21,7 +21,7 @@
   class ReplacersExt {
     getInfo() {
       return {
-        id: 'epTextReplacers',
+        id: 'epReplacers',
         name: 'Text Replacers',
         color1: '#59C059',
         get menuIconURI() {
