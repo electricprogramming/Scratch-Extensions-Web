@@ -344,10 +344,6 @@
             blockType: Scratch.BlockType.REPORTER,
             text: 'size of dictionary [dictionaryName]',
             arguments: {
-              dimensionType: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'dimensionType'
-              },
               dictionaryName: {
                 type: Scratch.ArgumentType.STRING,
                 menu: 'dictionaryMenu'
