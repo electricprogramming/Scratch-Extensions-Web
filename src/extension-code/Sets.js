@@ -1,6 +1,6 @@
-// Name: Dictionaries
+// Name: Sets
 // ID: epSets
-// Description: Create and manage sets, which are key-value pairs. Creating, deleting, and accessing sets works in a similar way to Scratch's defaut variables category. Covers setting and getting values by key, iteration, etc.
+// Description: Create and manage sets, which are similar to arrays, but only allow one copy of each item. Creating, deleting, and accessing sets works in a similar way to Scratch's defaut variables category. Covers adding and deleting item, iteration, etc.
 (function (Scratch) {
   "use strict";
   if(!Scratch.extensions.unsandboxed) {
@@ -67,10 +67,10 @@
     }
 
     at(index) {
-      const entry = Array.from(this.entries())[index];
-      return entry ? { key: entry[0], value: entry[1] } : undefined;
+      return Array.from(this)[index];
     }
   }
+
   let sets = {};
   const customStorage = {
     set: (data) => {
@@ -83,7 +83,7 @@
   function serializeState() {
     let result = {};
     Object.keys(sets).forEach(key => {
-      result[key] = sets[key].serialize();
+      result[key] = JSON.stringify([...sets[key]]);
     })
     return result;
   }
@@ -91,10 +91,10 @@
     customStorage.set(serializeState());
   }
   function deserializeState(state) {
-    console.log('Dictionaries: Loading serialized project data')
+    console.log('Sets: Loading serialized project data')
     sets = {};
     Object.entries(state).forEach(([key, value]) => {
-      sets[key] = Dictionary.deserialize(value);
+      sets[key] = new Set(JSON.parse(value));
     });
     vm.extensionManager.refreshBlocks();
   }
@@ -106,11 +106,12 @@
     getInfo() {
       return {
         id: 'epSets',
-        name: 'Dictionaries',
-        color1: '#458294',
-        color2: '#256274',
-        color3: '#256274',
+        name: 'Sets',        
+        color1: "#8A4B8A",
+        color2: "#6E3E6E",
+        color3: "#6E3E6E",
         menuIconURI: getMenuIcon(),
+        docsURI: 'https://electricprogramming-scratch-exts.vercel.app/src/docs/sets.html',
         blocks: [
           {
             func: 'DISCLAIMER',
@@ -118,26 +119,28 @@
             text: 'DISCLAIMER',
             hideFromPalette: false
           },
-          { blockType: Scratch.BlockType.LABEL, text: 'Dictionary Management' },
+          { blockType: Scratch.BlockType.LABEL, text: 'Set Management' },
           {
-            func: 'newDictionary',
+            func: 'newSet',
             blockType: Scratch.BlockType.BUTTON,
-            text: 'Make a Dictionary',
+            text: 'Make a Set',
             hideFromPalette: false
           },
           {
-            func: 'deleteDictionary',
+            func: 'deleteSet',
             blockType: Scratch.BlockType.BUTTON,
-            text: 'Delete a Dictionary',
-            hideFromPalette: Object.keys(sets).length === 0
+            text: 'Delete a Set',
+            get hideFromPalette() {
+              return Object.keys(sets).length === 0
+            }
           },
           { blockType: Scratch.BlockType.LABEL, text: 'List of sets:' },
           {
             blockType: Scratch.BlockType.XML,
             get xml() {
               let xml = `<sep gap="-12"/><sep gap="12"/><sep gap="-10"/>`;
-              Object.keys(sets).forEach((dictName) => {
-                xml += `<label text="• ${xmlSafe(dictName)}"/><sep gap="-12"/><sep gap="12"/><sep gap="-10"/>`;
+              Object.keys(sets).forEach((setName) => {
+                xml += `<label text="• ${xmlSafe(setName)}"/><sep gap="-12"/><sep gap="12"/><sep gap="-10"/>`;
               });
               return xml;
             }
@@ -145,9 +148,60 @@
           '---',
           { blockType: Scratch.BlockType.LABEL, text: 'Data Management' },
           {
+            opcode: 'addItem',
+            blockType: Scratch.BlockType.COMMAND,
+            text: 'add item [item] to set [setName]',
+            arguments: {
+              item: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: 'item'
+              },
+              setName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
+          },
+          {
+            opcode: 'hasItem',
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: 'set [setName] has item [item]?',
+            arguments: {
+              item: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: 'item'
+              },
+              setName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
+          },
+          {
+            opcode: 'deleteItem',
+            blockType: Scratch.BlockType.COMMAND,
+            text: 'delete item [item] from set [setName]',
+            arguments: {
+              item: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: 'item'
+              },
+              setName: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
+          },
+          {
             opcode: 'deleteAll',
             blockType: Scratch.BlockType.COMMAND,
-            text: 'delete all data from set [setName]',
+            text: 'delete all items from set [setName]',
             arguments: {
               setName: {
                 type: Scratch.ArgumentType.STRING,
@@ -158,122 +212,10 @@
             hideFromPalette: false
           },
           {
-            opcode: 'setValue',
-            blockType: Scratch.BlockType.COMMAND,
-            text: 'set value of key [key] to [value] in set [setName]',
-            arguments: {
-              key: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'health'
-              },
-              value: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: '42'
-              },
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              }
-            },
-            blockIconURI: getBlockIcon(),
-            hideFromPalette: false
-          },
-          {
-            opcode: 'getValue',
+            opcode: 'getAll',
             blockType: Scratch.BlockType.REPORTER,
-            text: 'get value of key [key] in set [setName]',
+            text: 'get all items of set [setName]',
             arguments: {
-              key: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'health'
-              },
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              }
-            },
-            blockIconURI: getBlockIcon(),
-            hideFromPalette: false
-          },
-          {
-            opcode: 'hasKey',
-            blockType: Scratch.BlockType.BOOLEAN,
-            text: 'set [setName] has key [key]?',
-            arguments: {
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              },
-              key: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'health'
-              }
-            },
-            blockIconURI: getBlockIcon(),
-            hideFromPalette: false
-          },
-          {
-            opcode: 'deleteKey',
-            blockType: Scratch.BlockType.COMMAND,
-            text: 'delete key [key] from set [setName]',
-            arguments: {
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              },
-              key: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'health'
-              }
-            },
-            blockIconURI: getBlockIcon(),
-            hideFromPalette: false
-          },
-          {
-            opcode: 'keysOf',
-            blockType: Scratch.BlockType.REPORTER,
-            text: 'all keys set to [value] in set [setName]',
-            arguments: {
-              value: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'value'
-              },
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              }
-            },
-            blockIconURI: getBlockIcon(),
-            hideFromPalette: false
-          },
-          {
-            opcode: 'allKeysOrValues',
-            blockType: Scratch.BlockType.REPORTER,
-            text: 'all [keysOrValues] of set [setName]',
-            arguments: {
-              keysOrValues: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'keysValuesMenu'
-              },
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              }
-            }
-          },
-          {
-            opcode: 'getAtIndex',
-            blockType: Scratch.BlockType.REPORTER,
-            text: 'get [data] at index [index] of set [setName]',
-            arguments: {
-              data: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'keyValueMenu'
-              },
-              index: {
-                type: Scratch.ArgumentType.NUMBER,
-                defaultValue: 1
-              },
               setName: {
                 type: Scratch.ArgumentType.STRING,
                 menu: 'setMenu'
@@ -285,10 +227,6 @@
             blockType: Scratch.BlockType.REPORTER,
             text: 'size of set [setName]',
             arguments: {
-              dimensionType: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'dimensionType'
-              },
               setName: {
                 type: Scratch.ArgumentType.STRING,
                 menu: 'setMenu'
@@ -298,37 +236,16 @@
             disableMonitor: true,
             hideFromPalette: false
           },
-          {
-            opcode: 'scratchSerialize',
-            blockType: Scratch.BlockType.REPORTER,
-            text: 'set [setName] as [valueType]',
-            arguments: {
-              setName: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'setMenu'
-              },
-              valueType: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'serializationType'
-              }
-            },
-            blockIconURI: getBlockIcon(),
-            disableMonitor: true,
-            hideFromPalette: false
-          },
+          { blockType: Scratch.BlockType.XML, xml: `<sep gap="24"></sep>` },
           { blockType: Scratch.BlockType.LABEL, text: 'Iteration' },
           {
             opcode: 'iterate',
             blockType: Scratch.BlockType.LOOP,
-            text: 'for each [key] [value] in set [setName]',
+            text: 'for each [item] in set [setName]',
             arguments: {
-              key: {
+              item: {
                 type: Scratch.ArgumentType.STRING,
-                fillIn: 'iterationKey'
-              },
-              value: {
-                type: Scratch.ArgumentType.STRING,
-                fillIn: 'iterationValue'
+                fillIn: 'iterationItem'
               },
               setName: {
                 type: Scratch.ArgumentType.STRING,
@@ -339,19 +256,10 @@
             hideFromPalette: true
           },
           {
-            opcode: 'iterationKey',
+            opcode: 'iterationItem',
             blockType: Scratch.BlockType.REPORTER,
             outputShape: 3,
-            text: 'key',
-            canDragDuplicate: true,
-            disableMonitor: true,
-            hideFromPalette: true
-          },
-          {
-            opcode: 'iterationValue',
-            blockType: Scratch.BlockType.REPORTER,
-            outputShape: 3,
-            text: 'value',
+            text: 'item',
             canDragDuplicate: true,
             disableMonitor: true,
             hideFromPalette: true
@@ -361,11 +269,137 @@
             blockType: Scratch.BlockType.XML,
             xml: `
               <block type="epSets_iterate">
-                <value name="key"><shadow type="epSets_iterationKey"></shadow></value>
-                <value name="value"><shadow type="epSets_iterationValue"></shadow></value>
+                <value name="item"><shadow type="epSets_iterationItem"></shadow></value>
                 <value name="setName"><shadow type="epSets_menu_setMenu"></shadow></value>
               </block>`
           },
+          { blockType: Scratch.BlockType.XML, xml: `<sep gap="24"></sep>` },
+          {
+            blockType: Scratch.BlockType.LABEL,
+            text: 'Advanced',
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },
+          {
+            opcode: 'isSubset',
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: 'is [set1] subset of [set2]?',
+            arguments: {
+              set1: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[0];
+                }
+              },
+              set2: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[1];
+                }
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },
+          {
+            opcode: 'union',
+            blockType: Scratch.BlockType.COMMAND,
+            text: 'get union of [set1] and [set2] and store in [export]',
+            arguments: {
+              set1: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[0];
+                }
+              },
+              set2: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[1];
+                }
+              },
+              export: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },
+          {
+            opcode: 'intersection',
+            blockType: Scratch.BlockType.COMMAND,
+            text: 'get intersection of [set1] and [set2] and store in [export]',
+            arguments: {
+              set1: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[0];
+                }
+              },
+              set2: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[1];
+                }
+              },
+              export: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },
+          {
+            opcode: 'difference',
+            blockType: Scratch.BlockType.COMMAND,
+            text: 'get difference between [set1] and [set2] and store in [export]',
+            arguments: {
+              set1: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[0];
+                }
+              },
+              set2: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[1];
+                }
+              },
+              export: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },
+          {
+            blockType: Scratch.BlockType.XML,
+            xml: `<sep gap="24"></sep>`,
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },          
           { blockType: Scratch.BlockType.LABEL, text: 'Utilities' },
           {
             blockType: Scratch.BlockType.XML,
@@ -374,7 +408,7 @@
             <sep gap="-10"/><label text="of manually typing a name every time."/><sep gap="-12"/><sep gap="12"/>`
           },
           {
-            opcode: 'getDictionaryName',
+            opcode: 'getSetName',
             blockType: Scratch.BlockType.REPORTER,
             text: 'set [setName]',
             arguments: {
@@ -401,13 +435,13 @@
     getSetMenu() {
       return Object.keys(sets).length === 0? [''] : Object.keys(sets)
     }
-    async newDictionary() {
-      let defaultDictionaryName;
+    async newSet() {
+      let defaultSetName;
       repeat (Infinity, (i, escape) => {
-        defaultDictionaryName = `my set ${i}`;
-        if (!Object.keys(sets).includes(defaultDictionaryName)) escape();
+        defaultSetName = `my set ${i}`;
+        if (!Object.keys(sets).includes(defaultSetName)) escape();
       });
-      let setName = await prompt('What should the set be called?', defaultDictionaryName);
+      let setName = await prompt('What should the set be called?', defaultSetName);
       if (setName === null) return;
       setName = setName
         .replace(/\[/g, '［')
@@ -419,12 +453,12 @@
       } else if (setName.length > 30) {
         alert('Set name too long.');
       } else {
-        sets[setName] = new Dictionary();
+        sets[setName] = new Set();
       }
       vm.extensionManager.refreshBlocks();
       updateProjectStorage();
     }
-    async deleteDictionary() {
+    async deleteSet() {
       const toDelete = await prompt('What is the name of the set that should be deleted?');
       if (toDelete === null) return;
       if (toDelete in sets) {
@@ -432,10 +466,28 @@
           delete sets[toDelete];
         }
       } else {
-        alert(`Dictionary ${JSON.stringify(toDelete)} not found`)
+        alert(`Set ${JSON.stringify(toDelete)} not found`)
       }
       vm.extensionManager.refreshBlocks();
       updateProjectStorage();
+    }
+    addItem(args) {
+      if (args.setName in sets) {
+        sets[args.setName].add(args.item);
+      } else {
+        console.error('Sets: Set not found');
+      }
+      updateProjectStorage();
+    }
+    hasItem(args) {
+      return sets[args.setName]?.has(args.item);
+    }
+    getAll(args) {
+      if (args.setName in sets) {
+        return JSON.stringify(Array.from(sets[args.setName]));
+      } else {
+        console.error('Sets: Set not found');
+      }
     }
     deleteAll(args) {
       if (args.setName in sets) {
@@ -445,63 +497,13 @@
       }
       updateProjectStorage();
     }
-    setValue(args) {
+    deleteItem(args) {
       if (args.setName in sets) {
-        sets[args.setName].set(args.key, args.value);
+        sets[args.setName].delete(args.item);
       } else {
         console.error('Sets: Set not found');
       }
       updateProjectStorage();
-    }
-    getValue(args) {
-      if (args.setName in sets) {
-        return sets[args.setName].get(args.key);
-      } else {
-        console.error('Sets: Set not found');
-        return '';
-      }
-    }
-    hasKey(args) {
-      if (args.setName in sets) {
-        return sets[args.setName].has(args.key);
-      } else {
-        console.error('Sets: Set not found');
-        return false;
-      }
-    }
-    deleteKey(args) {
-      if (args.setName in sets) {
-        sets[args.setName].delete(args.key);
-      } else {
-        console.error('Sets: Set not found');
-      }
-      updateProjectStorage();
-    }
-    keysOf(args) {
-      if (args.setName in sets) {
-        return JSON.stringify(sets[args.setName].keysOf(args.value));
-      } else {
-        console.error('Sets: Set not found');
-        return '[]';
-      }
-    }
-    allKeysOrValues(args) {
-      if (args.setName in sets) {
-        return JSON.stringify(Array.from(
-          (sets[args.setName][args.keysOrValues])()
-        ));
-      } else {
-        console.error('Sets: Set not found');
-        return '[]';
-      }
-    }
-    getAtIndex(args) {
-      if (args.setName in sets) {
-        return sets[args.setName].at(args.index - 1)?.[args.data] || '';
-      } else {
-        console.error('Sets: Set not found');
-        return '';
-      }
     }
     getSize(args) {
       if (args.setName in sets) {
@@ -511,22 +513,7 @@
         return 0;
       }
     }
-    scratchSerialize(args) {
-      if (args.setName in sets) {
-        switch (args.valueType) {
-          case 'set':
-            return sets[args.setName].serialize();
-          case 'object':
-            return sets[args.setName].serializeObj();
-          case 'array':
-            return sets[args.setName].serializeArr();
-        }
-      } else {
-        console.error('Sets: Set not found');
-        return args.valueType === 'set' ? '<>' : (args.valueType === 'object' ? '{}' : '[]');
-      }
-    }
-    getDictionaryName(args) {
+    getSetName(args) {
       if (args.setName in sets) {
         return args.setName;
       } else {
@@ -542,22 +529,20 @@
       const set = sets[args.setName];
       const itemCount = set.size;
       if (util.stackFrame.loopCounter === undefined) {
-        util.stackFrame.loopCounter = itemCount;
+        util.stackFrame.loopCounter = 1;
       }
 
-      util.thread.epSetsIterationData = set.at(itemCount - util.stackFrame.loopCounter);
-      util.stackFrame.loopCounter--;
-      if (util.stackFrame.loopCounter >= 0) {
+      util.thread.epSetsIterationItem = set.at(util.stackFrame.loopCounter - 1);
+      if (util.stackFrame.loopCounter <= itemCount) {
         util.startBranch(1, true);
+        util.stackFrame.loopCounter++;
       } else {
-        delete util.thread.epSetsIterationData;
+        delete util.thread.epSetsIterationItem;
+        return false;
       }
     }
-    iterationKey(args, util) {
-      return util.thread.epSetsIterationData?.key || '';
-    }
-    iterationValue(args, util) {
-      return util.thread.epSetsIterationData?.value || '';
+    iterationItem(args, util) {
+      return util.thread.epSetsIterationItem || '';
     }
   }
   if (isPM) {
