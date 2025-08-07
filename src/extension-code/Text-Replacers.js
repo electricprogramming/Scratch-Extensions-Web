@@ -1,38 +1,16 @@
 (function (Scratch) {
-  "use strict";
-  if(!Scratch.extensions.unsandboxed) {
-    function xmlSafe(str) { return str.replace(/[\u0000-\u001F]/g, '�').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;') } function validId(str) { return str.replaceAll(/[^a-zA-Z0-9]/g, '') } class ErroredExtension { constructor(name) { this.name = name } getInfo() { return { id: `ERR${validId(this.name)}`, name: 'ERR', blocks: [{ blockType: Scratch.BlockType.XML, xml: `<label text="The ${xmlSafe(this.name)} extension"/><sep gap="-12"/><sep gap="12"/><sep gap="-10"/><label text="must run unsandboxed."/><sep gap="-12"/><sep gap="12"/>` },] } } }
-    return Scratch.extensions.register(new ErroredExtension('Text Replacers'));
-  }
+  'use strict';
   let replacersJSON = {};
   let mode = 1;
   function applyReplacers(mode, text, replacersJSON) {
+    if (Object.keys(replacersJSON).length === 0) return text;
     if (mode == 1) { // apply simultaneously
-      // this part is made by ChatGPT lol
-      const replacers = Object.entries(replacersJSON);
-      const placeholderMap = {};
-      let index = 0;
-      function escapeRegExp(string) {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      }
-      replacers.forEach(([searchValue]) => {
-        if (!placeholderMap[searchValue]) {
-          placeholderMap[searchValue] = `__PLACEHOLDER_${index++}__`;
-        }
-      });
-      let result = text;
-      replacers.forEach(([searchValue]) => {
-        const escapedSearchValue = escapeRegExp(searchValue);
-        const placeholder = placeholderMap[searchValue];
-        const regex = new RegExp(escapedSearchValue, 'g');
-        result = result.replace(regex, placeholder);
-      });
-      replacers.forEach(([searchValue, replaceValue]) => {
-        const placeholder = placeholderMap[searchValue];
-        const escapedReplaceValue = escapeRegExp(replaceValue);
-        result = result.replace(new RegExp(escapeRegExp(placeholder), 'g'), escapedReplaceValue);
-      });
-      return result;
+      const keys = Object.keys(replacersJSON)
+        .filter(x => x !== '')                                   // remove empty searches
+        .map(str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); // escape regex symbols
+      const regex = new RegExp(keys.join('|'), 'g');
+
+      return text.replace(regex, match => replacersJSON[match]);
     } else { // apply in order
       Object.entries(replacersJSON).forEach(([search, replacement]) => {
         text = text.replaceAll(search, replacement);
@@ -43,17 +21,17 @@
   class ReplacersExt {
     getInfo() {
       return {
-        id: "epReplacers",
-        name: "Text Replacers",
-        color1: "#59C059",
+        id: 'epReplacers',
+        name: 'Text Replacers',
+        color1: '#59C059',
         get menuIconURI() {
           return `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiMwODQiIHJ4PSIyMCIgcnk9IjIwIi8+PHBhdGggZmlsbD0iI2U3NGMzYyIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik0xMi41IDEyLjVoMTI1djM1aC0xMjV6Ii8+PHBhdGggZD0iTTY3IDU5LjhoMTZ2MTZoOGwtMTYgMTYtMTYtMTZoOFoiLz48cGF0aCBmaWxsPSIjMzQ5OGRiIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgZD0iTTEyLjUgMTAwaDEyNXYzNWgtMTI1eiIvPjwvc3ZnPg==`;
         },
         blocks: [
           {
-            opcode: "setMode",
+            opcode: 'setMode',
             blockType: Scratch.BlockType.COMMAND,
-            text: "set replacer mode to [mode]",
+            text: 'set replacer mode to apply [mode]',
             arguments: {
               mode: {
                 type: Scratch.ArgumentType.STRING,
@@ -62,38 +40,53 @@
             }
           },
           {
-            opcode: "resetReplacers",
+            opcode: 'resetReplacers',
             blockType: Scratch.BlockType.COMMAND,
-            text: "reset replacers"
+            text: 'reset replacers'
           },
           {
-            opcode: "setReplacer",
+            opcode: 'setReplacer',
             blockType: Scratch.BlockType.COMMAND,
-            text: "set replacer [key] to [value]",
+            text: 'set replacer [key] to [value]',
             arguments: {
               key: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: "hi"
+                defaultValue: 'hi'
               },
               value: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: "hello"
+                defaultValue: 'hello'
               }
             }
           },
           {
-            opcode: "getReplacers",
+            opcode: 'getReplacers',
             blockType: Scratch.BlockType.REPORTER,
-            text: "get replacers as JSON"
+            text: 'get replacers as JSON'
           },
           {
-            opcode: "applyReplacers",
+            opcode: 'applyReplacers',
             blockType: Scratch.BlockType.REPORTER,
-            text: "apply replacers to [text]",
+            text: 'apply replacers to [text]',
             arguments: {
               text: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: "hi dude"
+                defaultValue: 'hi dude'
+              }
+            }
+          },
+          {
+            opcode: 'applyReplacersWithMode',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'apply replacers to [text] with mode [mode]',
+            arguments: {
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: 'hi dude'
+              },
+              mode: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'modes'
               }
             }
           }
@@ -102,8 +95,8 @@
           modes: {
             acceptReporters: false,
             items: [
-              { text: '\u200capply replacers simultaneously', value: '1' },
-              { text: 'apply replacers in order', value: '2' }
+              { text: 'simultaneously', value: '1' },
+              { text: 'in order', value: '2' }
             ]
           }
         }
@@ -123,13 +116,17 @@
       replacersJSON = {}
     }
     setReplacer(args) {
-      replacersJSON[args.key] = args.value
+      if (args.key === '') return; // block empty search values
+      replacersJSON[args.key] = args.value;
     }
     getReplacers() {
-      return JSON.stringify(replacersJSON)
+      return JSON.stringify(replacersJSON);
     }
     applyReplacers(args) {
-      return applyReplacers(mode, args.text, replacersJSON)
+      return applyReplacers(mode, args.text, replacersJSON);
+    }
+    applyReplacersWithMode(args) {
+      return applyReplacers(args.mode, args.text, replacersJSON);
     }
   }
   Scratch.extensions.register(new ReplacersExt());
