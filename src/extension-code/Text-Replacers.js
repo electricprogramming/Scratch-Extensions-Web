@@ -56,7 +56,7 @@
           {
             opcode: 'applyReplacers',
             blockType: Scratch.BlockType.REPORTER,
-            text: 'apply replacers to [text] with mode [mode]',
+            text: 'apply replacers to [text] [mode]',
             arguments: {
               text: {
                 type: Scratch.ArgumentType.STRING,
@@ -73,8 +73,8 @@
           modes: {
             acceptReporters: false,
             items: [
-              { text: 'apply simultaneously', value: '1' },
-              { text: '\u200Capply in order', value: '2' }
+              { text: 'simultaneously', value: '1' },
+              { text: 'in order', value: '2' }
             ]
           }
         }
