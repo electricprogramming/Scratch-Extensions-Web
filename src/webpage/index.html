@@ -20,6 +20,24 @@
       flex-direction: column; /* Stack content vertically */
       height: 100vh;
     }
+    #page-header {
+      text-align: center;
+      padding-bottom: 1vh;
+      font-family: sans-serif;
+      color: #ccc;
+      background-color: #222;
+    }
+
+    #page-header h1 {
+      font-size: 5vh;
+      margin-bottom: 2vh;
+      color: white;
+    }
+
+    #page-header p {
+      font-size: 2.5vh;
+      margin: 0.5vh 0;
+    }
 
     #navigation-bar {
       display: flex;
@@ -265,6 +283,11 @@
 </head>
 <body>
   <noscript>Allow JavaScript for this site to work.</noscript>
+  <div id="page-header">
+    <h1>electricprogramming's Scratch Extension Gallery</h1>
+    <p>electricprogramming's collection of Scratch Extensions. Hover over an extension for more information.</p>
+    <p><em>Most must be unsandboxed to work.</em></p>
+  </div>
   <div id="navigation-bar">
     <input type="text" id="search-bar" placeholder="Search...">
     <svg id="settings-button" fill="none" height="320" viewBox="0 0 320 320" width="320" xmlns="http://www.w3.org/2000/svg">
