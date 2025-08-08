@@ -5,84 +5,57 @@
     return Scratch.extensions.register(new ErroredExtension('JavaScript'));
   }
   let lastOpenedFileData = { name: '', extension: '', size: 0, contentAsText: '', contentAsDataURL: '' };
-  function promptForFile(acceptedExtensions) {
-    return new Promise((resolve, reject) => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = acceptedExtensions;
-      input.onchange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          readFileData(file).then(resolve).catch(reject);
-        } else {
-          reject(new Error('No file selected.'));
-        }
-      };
-      input.click();
-    });
-  };
-  function readFileData(file) {
-    return new Promise((resolve, reject) => {
-      const readerText = new FileReader();
-      const readerDataURL = new FileReader();
-      readerText.onload = (event) => {
-        const contentAsText = event.target.result;
-        readerDataURL.onload = (event) => {
-          const contentAsDataURL = event.target.result;
-          resolve({
-            name: file.name,
-            extension: `.${file.name.split('.').pop()}`,
-            size: file.size,
-            contentAsText: contentAsText,
-            contentAsDataURL: contentAsDataURL,
-          });
-        };
-        readerDataURL.onerror = (error) => {
-          reject(new Error('Error reading file as Data URL: ' + error));
-        };
-        readerDataURL.readAsDataURL(file);
-      };
-      readerText.onerror = (error) => {
-        reject(new Error('Error reading file as text: ' + error));
-      };
-      readerText.readAsText(file);
-    });
-  };
-  function _downloadFileByText(fileName, content) {
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-  function _downloadFileByDataURL(fileName, dataURL) {
-    const a = document.createElement('a');
-    a.href = dataURL;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
 
-  const blackText = ['commandJS', 'reporterJS', 'booleanJS', 'functionCommand', 'functionReporter', 'functionBoolean']
-    .map(opcode => 'epJavaScript_' + opcode);
-  const ogRender = ScratchBlocks.BlockSvg.prototype.render;
-  ScratchBlocks.BlockSvg.prototype.render = function (...args) {
-    const data = ogRender.call(this, ...args);
-    console.log(this.type, ...args, data);
-    if (blackText.includes(this.type)) {
-      Array.from(this.svgGroup_.children)
-        .filter(x => x.classList.contains('blocklyText'))
-        .forEach(x => {
-          x.style.setProperty('fill', 'black', 'important');
-        });
-    }
-    return data;
+  const originalConverter = vm.runtime._convertBlockForScratchBlocks.bind(vm.runtime);
+  vm.runtime._convertBlockForScratchBlocks = function (blockInfo, categoryInfo) {
+    const res = originalConverter(blockInfo, categoryInfo);
+    if (blockInfo.outputShape) res.json.outputShape = blockInfo.outputShape;
+    return res;
   }
+
+  async function getSB() {
+    return window.ScratchBlocks || await Scratch.gui.getBlockly();
+  }
+  getSB().then(sb => {
+    const blackText = ['commandJS', 'reporterJS', 'booleanJS', 'functionCommand', 'functionReporter', 'functionBoolean']
+      .map(opcode => 'epJavaScript_' + opcode);
+    function makeShape(w) {
+      const h = 32;
+      const r = Math.min(4, w / 2, h / 2);
+      return (`
+        M${r} 0
+        h${w - 2 * r}
+        a${r} ${r} 0 0 1 ${r} ${r}
+        v${h - 2 * r}
+        a${r} ${r} 0 0 1 -${r} ${r}
+        h-${w - 2 * r}
+        a${r} ${r} 0 0 1 -${r} -${r}
+        v-${h - 2 * r}
+        a${r} ${r} 0 0 1 ${r} -${r}
+        z`).replaceAll("\n", "").trim();
+    }
+    const ogRender = sb.BlockSvg.prototype.render;
+    sb.BlockSvg.prototype.render = function (...args) {
+      const data = ogRender.call(this, ...args);
+      if (blackText.includes(this.type)) {
+        Array.from(this.svgGroup_.children)
+          .filter(x => x.classList.contains('blocklyText'))
+          .forEach(x => {
+            x.style.setProperty('fill', '#222', 'important');
+          });
+      }
+      if (this.type.startsWith('epJavaScript_')) {
+        this.inputList.forEach((input) => {
+          if (input.name === 'arr') {
+            input.connection.sourceBlock_.svgGroup_
+              .querySelector('.blocklyPath[data-argument-type]')
+              .setAttribute('d', makeShape(48, 32))
+          }
+        });
+      }
+      return data;
+    }
+  });
   class JSext {
     getInfo() {
       return {
@@ -178,6 +151,7 @@
             color1: '#F7DF1E'
           },
           '---',
+          { blockType: Scratch.BlockType.LABEL, text: 'Utilities' },
           {
             blockType: Scratch.BlockType.REPORTER,
             opcode: 'monoArr',
@@ -187,12 +161,13 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: 'Hello, World!'
               }
-            }
+            },
+            outputShape: 3
           },
           {
             blockType: Scratch.BlockType.REPORTER,
             opcode: 'addToArr',
-            text: 'array [arr] + [item]',
+            text: '[arr] + [item]',
             arguments: {
               item: {
                 type: Scratch.ArgumentType.STRING,
@@ -225,102 +200,8 @@
                 defaultValue: 'https://example.com'
               },
             },
-          },
-          '---',
-          {
-            blockType: Scratch.BlockType.COMMAND,
-            opcode: 'openFile',
-            text: 'open a [types] file',
-            arguments: {
-              types: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: '.txt'
-              }
-            }
-          },
-          {
-            blockType: Scratch.BlockType.REPORTER,
-            opcode: 'getFileData',
-            text: 'last opened file [thing]',
-            arguments: {
-              thing: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'fileDataTypes'
-              }
-            },
-            disableMonitor: true
-          },
-          {
-            blockType: Scratch.BlockType.COMMAND,
-            opcode: 'downloadFile',
-            text: 'download [fileContentType] [contents] as [name]',
-            arguments: {
-              fileContentType: {
-                type: Scratch.ArgumentType.STRING,
-                menu: 'fileContentTypes'
-              },
-              name: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'example.txt'
-              },
-              contents: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'Hello World!'
-              }
-            }
-          },
-          '---',
-          {
-            blockType: Scratch.BlockType.HAT,
-            opcode: 'whenCondition',
-            text: 'when [bool]',
-            isEdgeActivated: true,
-            arguments: {
-              bool: {
-                type: Scratch.ArgumentType.BOOLEAN
-              }
-            }
-          },
-          {
-            blockType: Scratch.BlockType.REPORTER,
-            opcode: 'ifElseReturn',
-            text: 'if [bool] then [val1] else [val2]',
-            arguments: {
-              bool: {
-                type: Scratch.ArgumentType.BOOLEAN
-              },
-              val1: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'Hello'
-              },
-              val2: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'World'
-              }
-            }
-          },
-          {
-            blockType: Scratch.BlockType.REPORTER,
-            opcode: 'literal',
-            text: '[data]',
-            arguments: {
-              data: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'Hello, World!'
-              },
-            },
           }
-        ],
-        menus: {
-          fileDataTypes: {
-            acceptReporters: false,
-            items: ['content as text', 'content as dataURL', 'name', 'extension', 'size in bytes']
-          },
-          fileContentTypes: {
-            acceptReporters: false,
-            items: ['text', 'dataURL']
-          }
-        }
+        ]
       };
     }
     _eval(code) {
@@ -416,56 +297,6 @@
     }
     redirect(args) {
       window.location.href = args.url;
-    }
-    whenCondition(args) {
-      return args.bool ? true : false;
-    }
-    literal(args) {
-      return args.data;
-    }
-    ifElseReturn(args) {
-      return args.bool ? args.val1 : args.val2;
-    }
-    async openFile(args) {
-      try {
-        promptForFile(args.types)
-          .then(fileInfo => {
-            lastOpenedFileData = fileInfo;
-          })
-          .catch(e => {
-            console.error(e)
-          })
-      } catch (e) {
-        console.error(e);
-        lastOpenedFileData = { name: '', extension: '', size: 0, contentAsText: '', contentAsDataURL: '' };
-      }
-    }
-    getFileData(args) {
-      switch (args.thing) {
-        case 'content as text':
-          return lastOpenedFileData.contentAsText;
-        case 'content as dataURL':
-          return lastOpenedFileData.contentAsDataURL;
-        case 'name':
-          return lastOpenedFileData.name;
-        case 'extension':
-          return lastOpenedFileData.extension;
-        case 'size in bytes':
-          return lastOpenedFileData.size;
-        default:
-          return '';
-      }
-    }
-    downloadFile(args) {
-      try {
-        if (args.fileContentType === 'text') {
-          _downloadFileByText(args.name, args.contents);
-        } else if (args.fileContentType === 'dataURL') {
-          _downloadFileByDataURL(args.name, args.contents);
-        } else return;
-      } catch (e) {
-        console.error(e);
-      }
     }
   }
   Scratch.extensions.register(new JSext());
