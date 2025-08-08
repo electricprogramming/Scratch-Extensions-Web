@@ -100,4 +100,18 @@ export default [
     description: `Create and manage sets in a similar way to Scratch's defaut variables category.`,
     by: 'electricprogramming'
   },
+  {
+    name: 'Queues',
+    keywords: [
+      'Queue', 'Queues',
+      'FIFO',
+      'Line', 'Lines',
+      'Enqueue', 'Dequeue',
+      'Peek', 'Clear', 'Length',
+      'List', 'Lists'
+    ],
+    path: 'Queues',
+    description: `A simple FIFO queue system. Create queues, add or remove items, peek, check length, or clear them.`,
+    by: 'electricprogramming'
+  },
 ];
