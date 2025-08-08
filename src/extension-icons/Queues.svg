@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="black" stroke="#444" stroke-width="5"/>
+  
+  <g transform="translate(300,200) scale(1.05, 1) translate(-300,-220)">
+    <rect x="150" y="80" width="300" height="50" rx="15" ry="15" fill="black" stroke="#2ECC71" stroke-width="4"/>
+    <rect x="150" y="160" width="300" height="50" rx="15" ry="15" fill="black" stroke="#2ECC71" stroke-width="4"/>
+    <rect x="150" y="240" width="300" height="50" rx="15" ry="15" fill="black" stroke="#2ECC71" stroke-width="4"/>
+  </g>
+  
+  <text x="300" y="340" font-family="Segoe UI, Tahoma, Geneva, Verdana, sans-serif" font-weight="700" font-size="80" fill="#2ECC71" text-anchor="middle" dominant-baseline="middle">
+    Queues
+  </text>
+</svg>
