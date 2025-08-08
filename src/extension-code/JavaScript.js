@@ -67,6 +67,22 @@
     a.click();
     document.body.removeChild(a);
   };
+
+  const blackText = ['commandJS', 'reporterJS', 'booleanJS', 'functionCommand', 'functionReporter', 'functionBoolean']
+    .map(opcode => 'epJavaScript_' + opcode);
+  const ogRender = ScratchBlocks.BlockSvg.prototype.render;
+  ScratchBlocks.BlockSvg.prototype.render = function (...args) {
+    const data = ogRender.call(this, ...args);
+    console.log(this.type, ...args, data);
+    if (blackText.includes(this.type)) {
+      Array.from(this.svgGroup_.children)
+        .filter(x => x.classList.contains('blocklyText'))
+        .forEach(x => {
+          x.style.setProperty('fill', 'black', 'important');
+        });
+    }
+    return data;
+  }
   class JSext {
     getInfo() {
       return {
@@ -86,6 +102,7 @@
                 defaultValue: `alert('Hello World!')`
               },
             },
+            color1: '#F7DF1E'
           },
           {
             blockType: Scratch.BlockType.REPORTER,
@@ -97,6 +114,7 @@
                 defaultValue: `prompt('What is your name?','Bob Smith')`
               },
             },
+            color1: '#F7DF1E'
           },
           {
             blockType: Scratch.BlockType.BOOLEAN,
@@ -108,7 +126,9 @@
                 defaultValue: `confirm('Are you sure?')`
               },
             },
+            color1: '#F7DF1E'
           },
+          '---',
           {
             blockType: Scratch.BlockType.COMMAND,
             opcode: 'functionCommand',
@@ -122,7 +142,8 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: '["Hello", "World!"]'
               }
-            }
+            },
+            color1: '#F7DF1E'
           },
           {
             blockType: Scratch.BlockType.REPORTER,
@@ -137,7 +158,8 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: '[2, 5]'
               }
-            }
+            },
+            color1: '#F7DF1E'
           },
           {
             blockType: Scratch.BlockType.BOOLEAN,
@@ -152,8 +174,10 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: '[true, false]'
               }
-            }
+            },
+            color1: '#F7DF1E'
           },
+          '---',
           {
             blockType: Scratch.BlockType.REPORTER,
             opcode: 'monoArr',
@@ -179,6 +203,7 @@
               }
             }
           },
+          '---',
           {
             blockType: Scratch.BlockType.COMMAND,
             opcode: 'openInNewTab',
@@ -201,6 +226,7 @@
               },
             },
           },
+          '---',
           {
             blockType: Scratch.BlockType.COMMAND,
             opcode: 'openFile',
@@ -243,6 +269,7 @@
               }
             }
           },
+          '---',
           {
             blockType: Scratch.BlockType.HAT,
             opcode: 'whenCondition',
