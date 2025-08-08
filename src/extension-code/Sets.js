@@ -69,6 +69,34 @@
     at(index) {
       return Array.from(this)[index];
     }
+
+    static isSubset(set1, set2) {
+      for (let item of set1) {
+        if (!set2.has(item)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    static union(set1, set2) {
+      return new Set([...set1, ...set2]);
+    }
+
+    static intersection(set1, set2) {
+      return new Set([...set1].filter(item => set2.has(item)));
+    }
+
+    static difference(set1, set2) {
+      return new Set([...set1].filter(item => !set2.has(item)));
+    }
+
+    static symmetricDifference(set1, set2) {
+      return new Set([
+        ...[...set1].filter(item => !set2.has(item)),
+        ...[...set2].filter(item => !set1.has(item)),
+      ]);
+    }
   }
 
   let sets = {};
@@ -394,6 +422,35 @@
             }
           },
           {
+            opcode: 'symmetricDifference',
+            blockType: Scratch.BlockType.COMMAND,
+            text: 'get symmetric difference of [set1] and [set2] and store in [export]',
+            arguments: {
+              set1: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[0];
+                }
+              },
+              set2: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[1];
+                }
+              },
+              export: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu'
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
+            }
+          },
+          {
             blockType: Scratch.BlockType.XML,
             xml: `<sep gap="24"></sep>`,
             get hideFromPalette() {
@@ -543,6 +600,46 @@
     }
     iterationItem(args, util) {
       return util.thread.epSetsIterationItem || '';
+    }
+    isSubset(args) {
+      if (args.set1 in sets && args.set2 in sets) {
+        return Set.isSubset(sets[args.set1], sets[args.set2]);
+      } else {
+        console.error('Sets: One or more set(s) not found');
+        return false;
+      }
+    }
+    union(args) {
+      if (args.set1 in sets && args.set2 in sets && args.export in sets) {
+        sets[args.export] = Set.union(sets[args.set1], sets[args.set2]);
+      } else {
+        console.error('Sets: One or more set(s) not found');
+        return false;
+      }
+    }
+    intersection(args) {
+      if (args.set1 in sets && args.set2 in sets && args.export in sets) {
+        sets[args.export] = Set.intersection(sets[args.set1], sets[args.set2]);
+      } else {
+        console.error('Sets: One or more set(s) not found');
+        return false;
+      }
+    }
+    difference(args) {
+      if (args.set1 in sets && args.set2 in sets && args.export in sets) {
+        sets[args.export] = Set.difference(sets[args.set1], sets[args.set2]);
+      } else {
+        console.error('Sets: One or more set(s) not found');
+        return false;
+      }
+    }
+    symmetricDifference(args) {
+      if (args.set1 in sets && args.set2 in sets && args.export in sets) {
+        sets[args.export] = Set.symmetricDifference(sets[args.set1], sets[args.set2]);
+      } else {
+        console.error('Sets: One or more set(s) not found');
+        return false;
+      }
     }
   }
   if (isPM) {
