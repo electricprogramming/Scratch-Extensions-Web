@@ -10,6 +10,7 @@
   vm.runtime._convertBlockForScratchBlocks = function (blockInfo, categoryInfo) {
     const res = originalConverter(blockInfo, categoryInfo);
     if (blockInfo.outputShape) res.json.outputShape = blockInfo.outputShape;
+    if (res.json.message0 === '［ %1 ］') res.json.message0 = '[ %1 ]'
     return res;
   }
 
@@ -17,13 +18,10 @@
     return window.ScratchBlocks || await Scratch.gui.getBlockly();
   }
   getSB().then(sb => {
-    const blackText = ['commandJS', 'reporterJS', 'booleanJS', 'functionCommand', 'functionReporter', 'functionBoolean']
-      .map(opcode => 'epJavaScript_' + opcode);
-    function makeShape(w) {
-      const h = 32;
+    function makeShape(w, h = 40) {
       const r = Math.min(4, w / 2, h / 2);
       return (`
-        M${r} 0
+        M${8 + r} 0
         h${w - 2 * r}
         a${r} ${r} 0 0 1 ${r} ${r}
         v${h - 2 * r}
@@ -37,19 +35,17 @@
     const ogRender = sb.BlockSvg.prototype.render;
     sb.BlockSvg.prototype.render = function (...args) {
       const data = ogRender.call(this, ...args);
-      if (blackText.includes(this.type)) {
+      if (this.type.startsWith('epJavaScript_')) {
         Array.from(this.svgGroup_.children)
           .filter(x => x.classList.contains('blocklyText'))
           .forEach(x => {
             x.style.setProperty('fill', '#222', 'important');
           });
-      }
-      if (this.type.startsWith('epJavaScript_')) {
         this.inputList.forEach((input) => {
           if (input.name === 'arr') {
             input.connection.sourceBlock_.svgGroup_
               .querySelector('.blocklyPath[data-argument-type]')
-              .setAttribute('d', makeShape(48, 32))
+              .setAttribute('d', makeShape(40, 32))
           }
         });
       }
@@ -64,6 +60,7 @@
         get menuIconURI() {
           return `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGN0RGMUUiIC8+PHRleHQgeD0iNjAiIHk9IjE4NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExMCIgZmlsbD0iIzAwMDAwMCIgZm9udC13ZWlnaHQ9ImJvbGQiPkpTPC90ZXh0Pjwvc3ZnPg==`
         },
+        color1: '#F7DF1E',
         blocks: [
           {
             blockType: Scratch.BlockType.COMMAND,
@@ -74,8 +71,7 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: `alert('Hello World!')`
               },
-            },
-            color1: '#F7DF1E'
+            }
           },
           {
             blockType: Scratch.BlockType.REPORTER,
@@ -86,8 +82,7 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: `prompt('What is your name?','Bob Smith')`
               },
-            },
-            color1: '#F7DF1E'
+            }
           },
           {
             blockType: Scratch.BlockType.BOOLEAN,
@@ -98,57 +93,53 @@
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: `confirm('Are you sure?')`
               },
-            },
-            color1: '#F7DF1E'
+            }
           },
           '---',
           {
             blockType: Scratch.BlockType.COMMAND,
             opcode: 'functionCommand',
-            text: 'run function [function] with args [ARGS]',
+            text: 'run function [function] with args [argArr]',
             arguments: {
               function: {
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: 'function(...args){alert(`Running a custom function with args ${JSON.stringify(args)}`);}'
               },
-              ARGS: {
+              argArr: {
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: '["Hello", "World!"]'
               }
-            },
-            color1: '#F7DF1E'
+            }
           },
           {
             blockType: Scratch.BlockType.REPORTER,
             opcode: 'functionReporter',
-            text: 'run function [function] with args [ARGS]',
+            text: 'run function [function] with args [argArr]',
             arguments: {
               function: {
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: 'function(a,b){return Number(a) + Number(b);}'
               },
-              ARGS: {
+              argArr: {
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: '[2, 5]'
               }
-            },
-            color1: '#F7DF1E'
+            }
           },
           {
             blockType: Scratch.BlockType.BOOLEAN,
             opcode: 'functionBoolean',
-            text: 'run function [function] with args [ARGS]',
+            text: 'run function [function] with args [argArr]',
             arguments: {
               function: {
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: 'function(a,b){return (a || b) && !(a && b);}'
               },
-              ARGS: {
+              argArr: {
                 type: Scratch.ArgumentType.STRING,
                 defaultValue: '[true, false]'
               }
-            },
-            color1: '#F7DF1E'
+            }
           },
           '---',
           { blockType: Scratch.BlockType.LABEL, text: 'Utilities' },
@@ -167,7 +158,7 @@
           {
             blockType: Scratch.BlockType.REPORTER,
             opcode: 'addToArr',
-            text: '[arr] + [item]',
+            text: '\u200c [arr] + [item]',
             arguments: {
               item: {
                 type: Scratch.ArgumentType.STRING,
@@ -176,30 +167,8 @@
               arr: {
                 type: null,
               }
-            }
-          },
-          '---',
-          {
-            blockType: Scratch.BlockType.COMMAND,
-            opcode: 'openInNewTab',
-            text: 'open site [url] in new tab',
-            arguments: {
-              url: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'https://example.com'
-              },
             },
-          },
-          {
-            blockType: Scratch.BlockType.COMMAND,
-            opcode: 'redirect',
-            text: 'redirect current tab to [url]',
-            arguments: {
-              url: {
-                type: Scratch.ArgumentType.STRING,
-                defaultValue: 'https://example.com'
-              },
-            },
+            outputShape: 3
           }
         ]
       };
@@ -251,7 +220,7 @@
     functionCommand(args) {
       try {
         const func = this._funcStrToFunc(args.function);
-        const argsArr = JSON.parse(args.ARGS);
+        const argsArr = JSON.parse(args.argArr);
         func(...argsArr);
       } catch (e) {
         console.error(e);
@@ -260,7 +229,7 @@
     functionReporter(args) {
       try {
         const func = this._funcStrToFunc(args.function);
-        const argsArr = JSON.parse(args.ARGS);
+        const argsArr = JSON.parse(args.argArr);
         return func(...argsArr);
       } catch (e) {
         console.error(e);
@@ -270,7 +239,7 @@
     functionBoolean(args) {
       try {
         const func = this._funcStrToFunc(args.function);
-        const argsArr = JSON.parse(args.ARGS);
+        const argsArr = JSON.parse(args.argArr);
         return func(...argsArr) ? true : false;
       } catch (e) {
         console.error(e);
@@ -291,12 +260,6 @@
         console.error(e);
         return '[]';
       }
-    }
-    openInNewTab(args) {
-      window.open(args.url, '_blank');
-    }
-    redirect(args) {
-      window.location.href = args.url;
     }
   }
   Scratch.extensions.register(new JSext());
