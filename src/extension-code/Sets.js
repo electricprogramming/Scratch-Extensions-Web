@@ -79,6 +79,10 @@
       return true;
     }
 
+    static isEqual(set1, set2) {
+      return set1.size === set2.size && this.isSubset(set1, set2);
+    }
+
     static union(set1, set2) {
       return new Set([...set1, ...set2]);
     }
@@ -248,6 +252,31 @@
                 type: Scratch.ArgumentType.STRING,
                 menu: 'setMenu'
               }
+            }
+          },
+          {
+            opcode: 'isEqual',
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: 'is [set1] equal to [set2]?',
+            arguments: {
+              set1: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[0];
+                }
+              },
+              set2: {
+                type: Scratch.ArgumentType.STRING,
+                menu: 'setMenu',
+                get defaultValue() {
+                  return Object.keys(sets)[1];
+                }
+              }
+            },
+            blockIconURI: getBlockIcon(),
+            get hideFromPalette() {
+              return Object.keys(sets).length < 2
             }
           },
           {
@@ -600,6 +629,14 @@
     }
     iterationItem(args, util) {
       return util.thread.epSetsIterationItem || '';
+    }
+    isEqual(args) {
+      if (args.set1 in sets && args.set2 in sets) {
+        return Set.isEqual(sets[args.set1], sets[args.set2]);
+      } else {
+        console.error('Sets: One or more set(s) not found');
+        return false;
+      }
     }
     isSubset(args) {
       if (args.set1 in sets && args.set2 in sets) {
