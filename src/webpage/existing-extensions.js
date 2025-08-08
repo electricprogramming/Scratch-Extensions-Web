@@ -11,6 +11,7 @@ export default [
       'Variable', 'Variables',
       'Grid', 'Grids',
       'List', 'Lists',
+      'Array', 'Arrays',
       'Spreadsheet', 'Spreadsheets',
       'Row', 'Rows',
       'Column', 'Columns',
@@ -82,6 +83,21 @@ export default [
     ],
     path: 'Green-Flag-Utils',
     description: `Utility blocks related to the green flag`,
+    by: 'electricprogramming'
+  },
+  {
+    name: 'Sets',
+    keywords: [
+      'Data',
+      'Variable', 'Variables',
+      'Set', 'Sets',
+      'Bag', 'Bags',
+      'Array', 'Array',
+      'Item', 'Items',
+      'List', 'Lists'
+    ],
+    path: 'Sets',
+    description: `Create and manage sets in a similar way to Scratch's defaut variables category.`,
     by: 'electricprogramming'
   },
 ];
