@@ -103,6 +103,44 @@
     }
   }
 
+  async function prompt(title, question, defaultVal = '') {
+    return new Promise(async (resolve) => {
+      const sb = await new Promise(async (resolve) => {
+        resolve(window.ScratchBlocks || await Scratch.gui.getBlockly());
+      });
+      sb.prompt(question, defaultVal, (e) => {
+        resolve(document.querySelector('.ReactModalPortal input').value)
+      });
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div').textContent = title
+    });
+  }
+
+  async function promptSelect(title, question, options) {
+    return new Promise(async (resolve) => {
+      const sb = await new Promise(async (resolve) => {
+        resolve(window.ScratchBlocks || await Scratch.gui.getBlockly());
+      });
+      sb.prompt(question, null, (e) => {
+        resolve(document.querySelector('.ReactModalPortal select').value)
+      });
+      const select = document.createElement('select');
+      select.style.color = 'white';
+      select.style.padding = '4px';
+      select.style.border = '1px solid white';
+      select.style.borderRadius = '4px';
+      document.querySelector('.ReactModalPortal input').replaceWith(select);
+      options.forEach(optionText => {
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.textContent = optionText;
+        select.appendChild(option);
+      });
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div').textContent = title
+    });
+  }
+
   let sets = {};
   const customStorage = {
     set: (data) => {
@@ -522,12 +560,7 @@
       return Object.keys(sets).length === 0? [''] : Object.keys(sets)
     }
     async newSet() {
-      let defaultSetName;
-      repeat (Infinity, (i, escape) => {
-        defaultSetName = `my set ${i}`;
-        if (!Object.keys(sets).includes(defaultSetName)) escape();
-      });
-      let setName = await prompt('What should the set be called?', defaultSetName);
+      let setName = await prompt('New Set', 'New set name:');
       if (setName === null) return;
       setName = setName
         .replace(/\[/g, '［')
@@ -545,17 +578,12 @@
       updateProjectStorage();
     }
     async deleteSet() {
-      const toDelete = await prompt('What is the name of the set that should be deleted?');
-      if (toDelete === null) return;
-      if (toDelete in sets) {
-        if (confirm(`Are you sure you want to delete set ${JSON.stringify(toDelete)}?`)) {
-          delete sets[toDelete];
-        }
-      } else {
-        alert(`Set ${JSON.stringify(toDelete)} not found`)
+      const toDelete = await promptSelect('Delete a Set', 'Select a set to delete:', Object.keys(sets));
+      if (toDelete in sets && confirm(`Are you sure you want to delete set ${JSON.stringify(toDelete)}?`)) {
+        delete sets[toDelete];
+        vm.extensionManager.refreshBlocks();
+        updateProjectStorage();
       }
-      vm.extensionManager.refreshBlocks();
-      updateProjectStorage();
     }
     addItem(args) {
       if (args.setName in sets) {

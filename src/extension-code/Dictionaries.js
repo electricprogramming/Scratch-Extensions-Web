@@ -130,6 +130,45 @@
       return JSON.stringify(Array.from(this.entries()));
     }
   }
+  
+  async function prompt(title, question, defaultVal = '') {
+    return new Promise(async (resolve) => {
+      const sb = await new Promise(async (resolve) => {
+        resolve(window.ScratchBlocks || await Scratch.gui.getBlockly());
+      });
+      sb.prompt(question, defaultVal, (e) => {
+        resolve(document.querySelector('.ReactModalPortal input').value)
+      });
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div').textContent = title
+    });
+  }
+
+  async function promptSelect(title, question, options) {
+    return new Promise(async (resolve) => {
+      const sb = await new Promise(async (resolve) => {
+        resolve(window.ScratchBlocks || await Scratch.gui.getBlockly());
+      });
+      sb.prompt(question, null, (e) => {
+        resolve(document.querySelector('.ReactModalPortal select').value)
+      });
+      const select = document.createElement('select');
+      select.style.color = 'white';
+      select.style.padding = '4px';
+      select.style.border = '1px solid white';
+      select.style.borderRadius = '4px';
+      document.querySelector('.ReactModalPortal input').replaceWith(select);
+      options.forEach(optionText => {
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.textContent = optionText;
+        select.appendChild(option);
+      });
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div').textContent = title
+    });
+  }
+  
   let dictionaries = {};
   const customStorage = {
     set: (data) => {
@@ -469,12 +508,7 @@
       return Object.keys(dictionaries).length === 0? [''] : Object.keys(dictionaries)
     }
     async newDictionary() {
-      let defaultDictionaryName;
-      repeat (Infinity, (i, escape) => {
-        defaultDictionaryName = `my dictionary ${i}`;
-        if (!Object.keys(dictionaries).includes(defaultDictionaryName)) escape();
-      });
-      let dictionaryName = await prompt('What should the dictionary be called?', defaultDictionaryName);
+      let dictionaryName = await prompt('New Dictionary', 'New dictionary name:');
       if (dictionaryName === null) return;
       dictionaryName = dictionaryName
         .replace(/\[/g, '［')
@@ -492,7 +526,7 @@
       updateProjectStorage();
     }
     async deleteDictionary() {
-      const toDelete = await prompt('What is the name of the dictionary that should be deleted?');
+      const toDelete = await promptSelect('Delete a Dictionary', 'Select a dictionary to delete:', Object.keys(dictionaries));
       if (toDelete === null) return;
       if (toDelete in dictionaries) {
         if (confirm(`Are you sure you want to delete dictionary ${JSON.stringify(toDelete)}?`)) {

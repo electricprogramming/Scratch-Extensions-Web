@@ -61,6 +61,7 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&apos;');
   }
+
   class Grid { // 1-based
     #gridWidth;
     #gridHeight;
@@ -283,6 +284,7 @@
       });
     }
   }
+
   const regenReporters = ['epDataGrids_iterationItem', 'epDataGrids_iterationX', 'epDataGrids_iterationY', 'epDataGrids_iterationRow', 'epDataGrids_iterationColumn', 'epDataGrids_iterationIdx'];
   if (Scratch.gui) Scratch.gui.getBlockly().then(SB => {
     const originalCheck = SB.scratchBlocksUtils.isShadowArgumentReporter;
@@ -298,6 +300,45 @@
     if (blockInfo.outputShape) res.json.outputShape = blockInfo.outputShape;
     return res;
   }
+
+  async function prompt(title, question, defaultVal = '') {
+    return new Promise(async (resolve) => {
+      const sb = await new Promise(async (resolve) => {
+        resolve(window.ScratchBlocks || await Scratch.gui.getBlockly());
+      });
+      sb.prompt(question, defaultVal, (e) => {
+        resolve(document.querySelector('.ReactModalPortal input').value)
+      });
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div').textContent = title
+    });
+  }
+
+  async function promptSelect(title, question, options) {
+    return new Promise(async (resolve) => {
+      const sb = await new Promise(async (resolve) => {
+        resolve(window.ScratchBlocks || await Scratch.gui.getBlockly());
+      });
+      sb.prompt(question, null, (e) => {
+        resolve(document.querySelector('.ReactModalPortal select').value)
+      });
+      const select = document.createElement('select');
+      select.style.color = 'white';
+      select.style.padding = '4px';
+      select.style.border = '1px solid white';
+      select.style.borderRadius = '4px';
+      document.querySelector('.ReactModalPortal input').replaceWith(select);
+      options.forEach(optionText => {
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.textContent = optionText;
+        select.appendChild(option);
+      });
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div').textContent = title
+    });
+  }
+
   let grids = {};
   const customStorage = {
     set: (data) => {
@@ -328,7 +369,8 @@
   if (isTW) vm.runtime.on('PROJECT_LOADED', () => {
     const data = customStorage.get();
     deserializeState(data)
-  })
+  });
+
   class epDataGrids {
     getInfo() {
       return {
@@ -863,17 +905,7 @@
       return Object.keys(grids).length === 0? [''] : Object.keys(grids)
     }
     async newGrid() {
-      let defaultGridNameNum = 1;
-      let defaultGridName = `my grid ${defaultGridNameNum}`;
-      Object.keys(grids).forEach(
-        key => {
-          if (key == defaultGridName) {
-            defaultGridNameNum += 1;
-            defaultGridName = `my grid ${defaultGridNameNum}`;
-          }
-        }
-      );
-      let gridName = await prompt('What should the grid be called?', defaultGridName);
+      let gridName = await prompt('New Grid', 'New grid name:');
       if (gridName === null) return;
       gridName = gridName
         .replace(/\[/g, '［')
@@ -891,7 +923,7 @@
       updateProjectStorage();
     }
     async deleteGrid() {
-      const toDelete = await prompt('What is the name of the grid that should be deleted?');
+      const toDelete = await promptSelect('Delete a Grid', 'Select a grid to delete:', Object.keys(grids));
       if (toDelete === null) return;
       if (toDelete in grids) {
         if (confirm(`Are you sure you want to delete grid ${JSON.stringify(toDelete)}?`)) {
