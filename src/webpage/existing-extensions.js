@@ -47,7 +47,7 @@ export default [
       'Internet',
     ],
     path: 'Global-WS',
-    description: `Connect to WebSocket servers. One connection is shared across all sprites.`,
+    description: `Connect to WebSocket servers. One connection is shared across all sprites. Modified from https://extensions.turbowarp.org/godslayerakp/ws.js`,
     by: 'electricprogramming'
   },
   {
