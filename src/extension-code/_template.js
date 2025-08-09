@@ -1,3 +1,8 @@
+// Name: name
+// ID: id
+// Description: desc
+// By: electricprogramming
+// License: LGPL-3.0
 (function (Scratch) {
   "use strict";
   // only if it needs to run unsandboxed

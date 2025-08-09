@@ -1,7 +1,11 @@
+// Name: Text Replacers
+// ID: epReplacers
+// Description: Apply replacers to your text. Either apply simultaneously or in order.
+// By: electricprogramming
+// License: LGPL-3.0
 (function (Scratch) {
   'use strict';
   let replacersJSON = {};
-  let mode = 1;
   function applyReplacers(mode, text, replacersJSON) {
     if (Object.keys(replacersJSON).length === 0) return text;
     if (mode == 1) { // apply simultaneously

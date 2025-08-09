@@ -1,6 +1,10 @@
+// Name: Queues
+// ID: epQueues
+// Description: Create and manage FIFO queues
+// By: electricprogramming
+// License: LGPL-3.0
 (function(Scratch) {
   "use strict";
-
   class QueueExt {
     constructor() {
       this.queues = {};
@@ -89,7 +93,6 @@
         ]
       };
     }
-
     createQueue(args) {
       const name = args.name.trim();
       if (!name) return;
@@ -103,13 +106,11 @@
       if (!this.queues[name]) this.queues[name] = [];
       this.queues[name].push(item);
     }
-
     dequeue(args) {
       const name = args.name.trim();
       if (!name || !this.queues[name] || this.queues[name].length === 0) return '';
       return this.queues[name].shift();
     }
-
     peek(args) {
       const name = args.name.trim();
       if (!name || !this.queues[name] || this.queues[name].length === 0) return '';
@@ -121,7 +122,6 @@
       if (!name || !this.queues[name]) return 0;
       return this.queues[name].length;
     }
-
     clearQueue(args) {
       const name = args.name.trim();
       if (!name) return;

@@ -1,6 +1,8 @@
 // Name: Dictionaries
 // ID: epDictionaries
 // Description: Create and manage dictionaries, which are key-value pairs. Creating, deleting, and accessing dictionaries works in a similar way to Scratch's defaut variables category. Covers setting and getting values by key, iteration, etc.
+// By: electricprogramming
+// License: LGPL-3.0
 (function (Scratch) {
   "use strict";
   if(!Scratch.extensions.unsandboxed) {

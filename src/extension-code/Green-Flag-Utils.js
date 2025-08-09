@@ -1,3 +1,8 @@
+// Name: Green Flag Utilities 
+// ID: epGreenFlag
+// Description: Utility blocks related to the green flag
+// By: electricprogramming
+// License: LGPL-3.0
 (function (Scratch) {
   'use strict';
   if(!Scratch.extensions.unsandboxed) {

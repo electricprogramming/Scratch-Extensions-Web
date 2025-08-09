@@ -1,6 +1,8 @@
 // Name: Sets
 // ID: epSets
 // Description: Create and manage sets, which are similar to arrays, but only allow one copy of each item. Creating, deleting, and accessing sets works in a similar way to Scratch's defaut variables category. Covers adding and deleting item, iteration, etc.
+// By: electricprogramming
+// License: LGPL-3.0
 (function (Scratch) {
   "use strict";
   if(!Scratch.extensions.unsandboxed) {
