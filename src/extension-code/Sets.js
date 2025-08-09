@@ -9,11 +9,8 @@
   }
   const [isTW, isPM] = [!Scratch.extensions.isPenguinMod, Scratch.extensions.isPenguinMod];
   const vm = Scratch.vm;
-  function getMenuIcon() {
-    return ''
-  }
-  function getBlockIcon() {
-    return ''
+  function getIcon() {
+    return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ1IiBmaWxsPSIjNkUzRTZFIiAvPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIC02KSI+CiAgICA8dGV4dCB4PSIxOCIgeT0iNTUuNSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSI1MCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNSw1MCkgc2NhbGUoMSwgMS4yKSB0cmFuc2xhdGUoLTE1LC01MCkiPns8L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNTUuNSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSI1MCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNSw1MCkgc2NhbGUoMSwgMS4yKSB0cmFuc2xhdGUoLTE1LC01MCkiPn08L3RleHQ+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxKSI+CiAgICAgIDxyZWN0IHg9IjI2IiB5PSI0MCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiNGODcxNzEiLz4KICAgICAgPHJlY3QgeD0iNDEuNSIgeT0iNDAiIHdpZHRoPSIxMi41IiBoZWlnaHQ9IjEyLjUiIHJ4PSIyIiBmaWxsPSIjNjBBNUZBIi8+CiAgICAgIDxyZWN0IHg9IjU3IiB5PSI0MCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiMzNEQzOTkiLz4KICAgIDwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIC0xKSI+CiAgICAgIDxyZWN0IHg9IjMyIiB5PSI1OCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiNGQkJGMjQiLz4KICAgICAgPHJlY3QgeD0iNDcuNSIgeT0iNTgiIHdpZHRoPSIxMi41IiBoZWlnaHQ9IjEyLjUiIHJ4PSIyIiBmaWxsPSIjQTc4QkZBIi8+CiAgICAgIDxyZWN0IHg9IjYzIiB5PSI1OCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiNGRkE1NjQiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo='
   }
   function repeat(count = 0, action = () => {}) {
     for (let i = 0; i < count; i++) {
@@ -180,7 +177,7 @@
         color1: "#8A4B8A",
         color2: "#6E3E6E",
         color3: "#6E3E6E",
-        menuIconURI: getMenuIcon(),
+        menuIconURI: getIcon(),
         docsURI: 'https://electricprogramming-scratch-exts.vercel.app/src/docs/sets.html',
         blocks: [
           {
@@ -231,7 +228,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             hideFromPalette: false
           },
           {
@@ -248,7 +245,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             hideFromPalette: false
           },
           {
@@ -265,7 +262,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             hideFromPalette: false
           },
           {
@@ -278,7 +275,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             hideFromPalette: false
           },
           {
@@ -312,7 +309,7 @@
                 }
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             get hideFromPalette() {
               return Object.keys(sets).length < 2
             }
@@ -327,7 +324,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             disableMonitor: true,
             hideFromPalette: false
           },
@@ -347,7 +344,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             hideFromPalette: true
           },
           {
@@ -396,7 +393,7 @@
                 }
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             get hideFromPalette() {
               return Object.keys(sets).length < 2
             }
@@ -425,7 +422,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             get hideFromPalette() {
               return Object.keys(sets).length < 2
             }
@@ -454,7 +451,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             get hideFromPalette() {
               return Object.keys(sets).length < 2
             }
@@ -483,7 +480,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             get hideFromPalette() {
               return Object.keys(sets).length < 2
             }
@@ -512,7 +509,7 @@
                 menu: 'setMenu'
               }
             },
-            blockIconURI: getBlockIcon(),
+            blockIconURI: getIcon(),
             get hideFromPalette() {
               return Object.keys(sets).length < 2
             }
