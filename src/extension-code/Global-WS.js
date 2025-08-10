@@ -1,6 +1,6 @@
 // Name: WebSocket 
 // ID: epGlobalWebsocket
-// Description: Manually connect to WebSocket servers. One connection is shared across all sprites
+// Description: Manually connect to WebSocket servers. One connection is shared across all sprites.
 // By: electricprogramming
 // License: LGPL-3.0
 
