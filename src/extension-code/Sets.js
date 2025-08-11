@@ -707,7 +707,6 @@
         sets[args.export] = Set.union(sets[args.set1], sets[args.set2]);
       } else {
         console.error('Sets: One or more set(s) not found');
-        return false;
       }
     }
     intersection(args) {
@@ -715,7 +714,6 @@
         sets[args.export] = Set.intersection(sets[args.set1], sets[args.set2]);
       } else {
         console.error('Sets: One or more set(s) not found');
-        return false;
       }
     }
     difference(args) {
@@ -723,7 +721,6 @@
         sets[args.export] = Set.difference(sets[args.set1], sets[args.set2]);
       } else {
         console.error('Sets: One or more set(s) not found');
-        return false;
       }
     }
     symmetricDifference(args) {
@@ -731,7 +728,6 @@
         sets[args.export] = Set.symmetricDifference(sets[args.set1], sets[args.set2]);
       } else {
         console.error('Sets: One or more set(s) not found');
-        return false;
       }
     }
   }
