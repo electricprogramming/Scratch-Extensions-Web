@@ -14,27 +14,6 @@
   function getIcon() {
     return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ1IiBmaWxsPSIjNkUzRTZFIiAvPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIC02KSI+CiAgICA8dGV4dCB4PSIxOCIgeT0iNTUuNSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSI1MCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNSw1MCkgc2NhbGUoMSwgMS4yKSB0cmFuc2xhdGUoLTE1LC01MCkiPns8L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNTUuNSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSI1MCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNSw1MCkgc2NhbGUoMSwgMS4yKSB0cmFuc2xhdGUoLTE1LC01MCkiPn08L3RleHQ+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxKSI+CiAgICAgIDxyZWN0IHg9IjI2IiB5PSI0MCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiNGODcxNzEiLz4KICAgICAgPHJlY3QgeD0iNDEuNSIgeT0iNDAiIHdpZHRoPSIxMi41IiBoZWlnaHQ9IjEyLjUiIHJ4PSIyIiBmaWxsPSIjNjBBNUZBIi8+CiAgICAgIDxyZWN0IHg9IjU3IiB5PSI0MCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiMzNEQzOTkiLz4KICAgIDwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIC0xKSI+CiAgICAgIDxyZWN0IHg9IjMyIiB5PSI1OCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiNGQkJGMjQiLz4KICAgICAgPHJlY3QgeD0iNDcuNSIgeT0iNTgiIHdpZHRoPSIxMi41IiBoZWlnaHQ9IjEyLjUiIHJ4PSIyIiBmaWxsPSIjQTc4QkZBIi8+CiAgICAgIDxyZWN0IHg9IjYzIiB5PSI1OCIgd2lkdGg9IjEyLjUiIGhlaWdodD0iMTIuNSIgcng9IjIiIGZpbGw9IiNGRkE1NjQiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo='
   }
-  function repeat(count = 0, action = () => {}) {
-    for (let i = 0; i < count; i++) {
-      const escapeLoop = () => {
-        throw new Error('EscapeLoop');
-      };
-      const continueLoop = () => {
-        throw new Error('ContinueLoop');
-      };
-      try {
-        action(i + 1, escapeLoop, continueLoop);
-      } catch (e) {
-        if (e.message === 'EscapeLoop') {
-          break;
-        } else if (e.message === 'ContinueLoop') {
-          continue;
-        } else {
-          throw e;
-        }
-      }
-    }
-  }
   function xmlSafe(str) {
     return str
       .replace(/[\u0000-\u001F]/g, '�')
@@ -44,6 +23,17 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&apos;');
   }
+
+  function renameKey(obj, oldKey, newKey) {
+    const result = {};
+    const keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      result[key === oldKey ? newKey : key] = obj[key];
+    }
+    return result;
+  }
+
   const regenReporters = ['epSets_iterationItem', 'epSets_iterationIndex'];
   if (Scratch.gui) Scratch.gui.getBlockly().then(SB => {
     const originalCheck = SB.scratchBlocksUtils.isShadowArgumentReporter;
@@ -110,7 +100,7 @@
       sb.prompt(question, defaultVal, (e) => {
         resolve(document.querySelector('.ReactModalPortal input').value)
       });
-      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])')?.remove()
       document.querySelector('.ReactModalPortal div div div div div').textContent = title
     });
   }
@@ -135,7 +125,7 @@
         option.textContent = optionText;
         select.appendChild(option);
       });
-      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])')?.remove()
       document.querySelector('.ReactModalPortal div div div div div').textContent = title
     });
   }
@@ -194,6 +184,14 @@
             blockType: Scratch.BlockType.BUTTON,
             text: 'Make a Set',
             hideFromPalette: false
+          },
+          {
+            func: 'renameSet',
+            blockType: Scratch.BlockType.BUTTON,
+            text: 'Rename a Set',
+            get hideFromPalette() {
+              return Object.keys(sets).length === 0
+            }
           },
           {
             func: 'deleteSet',
@@ -289,7 +287,9 @@
                 type: Scratch.ArgumentType.STRING,
                 menu: 'setMenu'
               }
-            }
+            },
+            blockIconURI: getIcon(),
+            hideFromPalette: false
           },
           {
             opcode: 'isEqual',
@@ -575,6 +575,36 @@
       }
       vm.extensionManager.refreshBlocks();
       updateProjectStorage();
+    }
+    async renameSet() {
+      const oldName = await promptSelect('Rename a Set', 'Select a set to rename:', Object.keys(sets));
+      if (oldName in sets) {
+        const newName = await prompt('Rename a Set', `New name for set "${oldName}":`);
+        if (newName.length === 0) {
+          alert('Set name cannot be empty.');
+        } else if (newName in sets) {
+          alert('This set name is in use.');
+        } else if (newName.length > 30) {
+          alert('Set name too long.');
+        } else {
+          sets = renameKey(sets, oldName, newName);
+          vm.runtime.targets.forEach(target => {
+            const blocks = target.blocks._blocks;
+            console.log(Object.entries(blocks))
+            for (const [blockId, block] of Object.entries(blocks)) {
+              
+              if (block.opcode === 'epSets_menu_setMenu') {
+                if (block.fields.setMenu.value === oldName) {
+                  block.fields.setMenu.value = newName
+                }
+              }
+            }
+          });
+        }
+        vm.extensionManager.refreshBlocks();
+        vm.refreshWorkspace();
+        updateProjectStorage();
+      }
     }
     async deleteSet() {
       const toDelete = await promptSelect('Delete a Set', 'Select a set to delete:', Object.keys(sets));

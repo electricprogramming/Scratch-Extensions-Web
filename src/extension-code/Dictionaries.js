@@ -17,27 +17,6 @@
   function getBlockIcon() {
     return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDUiIGZpbGw9IiMyNTYyNzQiLz4KICA8ZyBpZD0iYWxsLWVsZW1lbnRzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIsLTI4KSBzY2FsZSgxLjYsMS42KSIgZmlsbD0iI2ZmZmZmZiI+CiAgICA8ZyBpZD0iZ3JpZC1zcXVhcmVzIj4KICAgICAgPCEtLSBEaWN0aW9uYXJ5IGtleS12YWx1ZSBwYWlycyAtLT4KICAgICAgPHJlY3QgeD0iMjgiIHk9IjMyIiB3aWR0aD0iMTIiIGhlaWdodD0iOCIvPgogICAgICA8cmVjdCB4PSI1MCIgeT0iMzIiIHdpZHRoPSIxMiIgaGVpZ2h0PSI4Ii8+CiAgICAgIDxyZWN0IHg9IjI4IiB5PSI0NSIgd2lkdGg9IjEyIiBoZWlnaHQ9IjgiLz4KICAgICAgPHJlY3QgeD0iNTAiIHk9IjQ1IiB3aWR0aD0iMTIiIGhlaWdodD0iOCIvPgogICAgICA8cmVjdCB4PSIyOCIgeT0iNTgiIHdpZHRoPSIxMiIgaGVpZ2h0PSI4Ii8+CiAgICAgIDxyZWN0IHg9IjUwIiB5PSI1OCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjgiLz4KICAgIDwvZz4KICAgIDxnIGlkPSJjb2xvbnMiPgogICAgICA8IS0tIENvbG9ucyBiZXR3ZWVuIGtleXMgYW5kIHZhbHVlcyAtLT4KICAgICAgPHJlY3QgeD0iNDMuNzUiIHk9IjMzLjUiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz4KICAgICAgPHJlY3QgeD0iNDMuNzUiIHk9IjM4IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+CiAgICAgIDxyZWN0IHg9IjQzLjc1IiB5PSI0Ni41IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+CiAgICAgIDxyZWN0IHg9IjQzLjc1IiB5PSI1MSIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPgogICAgICA8cmVjdCB4PSI0My43NSIgeT0iNTkuNSIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPgogICAgICA8cmVjdCB4PSI0My43NSIgeT0iNjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPg=='
   }
-  function repeat(count = 0, action = () => {}) {
-    for (let i = 0; i < count; i++) {
-      const escapeLoop = () => {
-        throw new Error('EscapeLoop');
-      };
-      const continueLoop = () => {
-        throw new Error('ContinueLoop');
-      };
-      try {
-        action(i + 1, escapeLoop, continueLoop);
-      } catch (e) {
-        if (e.message === 'EscapeLoop') {
-          break;
-        } else if (e.message === 'ContinueLoop') {
-          continue;
-        } else {
-          throw e;
-        }
-      }
-    }
-  }
   function xmlSafe(str) {
     return str
       .replace(/[\u0000-\u001F]/g, '�')
@@ -47,6 +26,17 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&apos;');
   }
+
+  function renameKey(obj, oldKey, newKey) {
+    const result = {};
+    const keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      result[key === oldKey ? newKey : key] = obj[key];
+    }
+    return result;
+  }
+
   const regenReporters = ['epDictionaries_iterationKey', 'epDictionaries_iterationValue'];
   if (Scratch.gui) Scratch.gui.getBlockly().then(SB => {
     const originalCheck = SB.scratchBlocksUtils.isShadowArgumentReporter;
@@ -141,7 +131,7 @@
       sb.prompt(question, defaultVal, (e) => {
         resolve(document.querySelector('.ReactModalPortal input').value)
       });
-      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])')?.remove()
       document.querySelector('.ReactModalPortal div div div div div').textContent = title
     });
   }
@@ -166,7 +156,7 @@
         option.textContent = optionText;
         select.appendChild(option);
       });
-      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])')?.remove()
       document.querySelector('.ReactModalPortal div div div div div').textContent = title
     });
   }
@@ -224,6 +214,14 @@
             blockType: Scratch.BlockType.BUTTON,
             text: 'Make a Dictionary',
             hideFromPalette: false
+          },
+          {
+            func: 'renameDictionary',
+            blockType: Scratch.BlockType.BUTTON,
+            text: 'Rename a Dictionary',
+            get hideFromPalette() {
+              return Object.keys(grids).length === 0
+            }
           },
           {
             func: 'deleteDictionary',
@@ -359,7 +357,9 @@
                 type: Scratch.ArgumentType.STRING,
                 menu: 'dictionaryMenu'
               }
-            }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
           },
           {
             opcode: 'getAtIndex',
@@ -378,7 +378,9 @@
                 type: Scratch.ArgumentType.STRING,
                 menu: 'dictionaryMenu'
               }
-            }
+            },
+            blockIconURI: getBlockIcon(),
+            hideFromPalette: false
           },
           {
             opcode: 'getSize',
@@ -526,6 +528,36 @@
       }
       vm.extensionManager.refreshBlocks();
       updateProjectStorage();
+    }
+    async renameDictionary() {
+      const oldName = await promptSelect('Rename a Dictionary', 'Select a dictionary to rename:', Object.keys(dictionaries));
+      if (oldName in dictionaries) {
+        const newName = await prompt('Rename a Dictionary', `New name for dictionary "${oldName}":`);
+        if (newName.length === 0) {
+          alert('Dictionary name cannot be empty.');
+        } else if (newName in dictionaries) {
+          alert('This dictionary name is in use.');
+        } else if (newName.length > 30) {
+          alert('Dictionary name too long.');
+        } else {
+          dictionaries = renameKey(dictionaries, oldName, newName);
+          vm.runtime.targets.forEach(target => {
+            const blocks = target.blocks._blocks;
+            console.log(Object.entries(blocks))
+            for (const [blockId, block] of Object.entries(blocks)) {
+              
+              if (block.opcode === 'epDictionaries_menu_dictionaryMenu') {
+                if (block.fields.dictionaryMenu.value === oldName) {
+                  block.fields.dictionaryMenu.value = newName
+                }
+              }
+            }
+          });
+        }
+        vm.extensionManager.refreshBlocks();
+        vm.refreshWorkspace();
+        updateProjectStorage();
+      }
     }
     async deleteDictionary() {
       const toDelete = await promptSelect('Delete a Dictionary', 'Select a dictionary to delete:', Object.keys(dictionaries));

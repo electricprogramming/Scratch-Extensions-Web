@@ -64,6 +64,16 @@
       .replace(/'/g, '&apos;');
   }
 
+  function renameKey(obj, oldKey, newKey) {
+    const result = {};
+    const keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      result[key === oldKey ? newKey : key] = obj[key];
+    }
+    return result;
+  }
+
   class Grid { // 1-based
     #gridWidth;
     #gridHeight;
@@ -311,7 +321,7 @@
       sb.prompt(question, defaultVal, (e) => {
         resolve(document.querySelector('.ReactModalPortal input').value)
       });
-      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])')?.remove()
       document.querySelector('.ReactModalPortal div div div div div').textContent = title
     });
   }
@@ -336,7 +346,7 @@
         option.textContent = optionText;
         select.appendChild(option);
       });
-      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])').remove()
+      document.querySelector('.ReactModalPortal div div div div div:has(*[class*="options"])')?.remove()
       document.querySelector('.ReactModalPortal div div div div div').textContent = title
     });
   }
@@ -395,6 +405,14 @@
             blockType: Scratch.BlockType.BUTTON,
             text: 'Make a Grid',
             hideFromPalette: false
+          },
+          {
+            func: 'renameGrid',
+            blockType: Scratch.BlockType.BUTTON,
+            text: 'Rename a Grid',
+            get hideFromPalette() {
+              return Object.keys(grids).length === 0
+            }
           },
           {
             func: 'deleteGrid',
@@ -923,6 +941,36 @@
       }
       vm.extensionManager.refreshBlocks();
       updateProjectStorage();
+    }
+    async renameGrid() {
+      const oldName = await promptSelect('Rename a Grid', 'Select a grid to rename:', Object.keys(grids));
+      if (oldName in grids) {
+        const newName = await prompt('Rename a Grid', `New name for grid "${oldName}":`);
+        if (newName.length === 0) {
+          alert('Grid name cannot be empty.');
+        } else if (newName in grids) {
+          alert('This grid name is in use.');
+        } else if (newName.length > 30) {
+          alert('Grid name too long.');
+        } else {
+          grids = renameKey(grids, oldName, newName);
+          vm.runtime.targets.forEach(target => {
+            const blocks = target.blocks._blocks;
+            console.log(Object.entries(blocks))
+            for (const [blockId, block] of Object.entries(blocks)) {
+              
+              if (block.opcode === 'epDataGrids_menu_gridMenu') {
+                if (block.fields.gridMenu.value === oldName) {
+                  block.fields.gridMenu.value = newName
+                }
+              }
+            }
+          });
+        }
+        vm.extensionManager.refreshBlocks();
+        vm.refreshWorkspace();
+        updateProjectStorage();
+      }
     }
     async deleteGrid() {
       const toDelete = await promptSelect('Delete a Grid', 'Select a grid to delete:', Object.keys(grids));
