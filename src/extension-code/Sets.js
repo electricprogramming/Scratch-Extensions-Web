@@ -592,7 +592,6 @@
             const blocks = target.blocks._blocks;
             console.log(Object.entries(blocks))
             for (const [blockId, block] of Object.entries(blocks)) {
-              
               if (block.opcode === 'epSets_menu_setMenu') {
                 if (block.fields.setMenu.value === oldName) {
                   block.fields.setMenu.value = newName

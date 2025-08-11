@@ -958,7 +958,6 @@
             const blocks = target.blocks._blocks;
             console.log(Object.entries(blocks))
             for (const [blockId, block] of Object.entries(blocks)) {
-              
               if (block.opcode === 'epDataGrids_menu_gridMenu') {
                 if (block.fields.gridMenu.value === oldName) {
                   block.fields.gridMenu.value = newName

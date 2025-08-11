@@ -220,7 +220,7 @@
             blockType: Scratch.BlockType.BUTTON,
             text: 'Rename a Dictionary',
             get hideFromPalette() {
-              return Object.keys(grids).length === 0
+              return Object.keys(dictionaries).length === 0
             }
           },
           {
@@ -545,7 +545,6 @@
             const blocks = target.blocks._blocks;
             console.log(Object.entries(blocks))
             for (const [blockId, block] of Object.entries(blocks)) {
-              
               if (block.opcode === 'epDictionaries_menu_dictionaryMenu') {
                 if (block.fields.dictionaryMenu.value === oldName) {
                   block.fields.dictionaryMenu.value = newName
