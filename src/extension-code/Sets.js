@@ -352,7 +352,7 @@
           {
             opcode: 'iterationItem',
             blockType: Scratch.BlockType.REPORTER,
-            outputShape: 3,
+            outputShape: Scratch.BlockShape.SQUARE,
             text: 'item',
             canDragDuplicate: true,
             disableMonitor: true,

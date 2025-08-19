@@ -157,7 +157,7 @@
                 defaultValue: 'Hello, World!'
               }
             },
-            outputShape: 3
+            outputShape: Scratch.BlockShape.SQUARE
           },
           {
             blockType: Scratch.BlockType.REPORTER,
@@ -172,7 +172,7 @@
                 type: null,
               }
             },
-            outputShape: 3
+            outputShape: Scratch.BlockShape.SQUARE
           }
         ]
       };

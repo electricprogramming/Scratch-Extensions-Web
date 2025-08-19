@@ -439,7 +439,7 @@
           {
             opcode: 'iterationKey',
             blockType: Scratch.BlockType.REPORTER,
-            outputShape: 3,
+            outputShape: Scratch.BlockShape.SQUARE,
             text: 'key',
             canDragDuplicate: true,
             disableMonitor: true,
@@ -448,7 +448,7 @@
           {
             opcode: 'iterationValue',
             blockType: Scratch.BlockType.REPORTER,
-            outputShape: 3,
+            outputShape: Scratch.BlockShape.SQUARE,
             text: 'value',
             canDragDuplicate: true,
             disableMonitor: true,
