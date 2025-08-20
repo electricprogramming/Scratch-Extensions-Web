@@ -14,7 +14,7 @@
   vm.runtime._convertBlockForScratchBlocks = function (blockInfo, categoryInfo) {
     const res = originalConverter(blockInfo, categoryInfo);
     if (blockInfo.outputShape) res.json.outputShape = blockInfo.outputShape;
-    if (res.json.message0 === '［ %1 ］') res.json.message0 = '[ %1 ]'
+    if (res.json.message0 === '［ %1 ］') res.json.message0 = '[%1]'
     return res;
   }
 
@@ -25,7 +25,7 @@
     function makeShape(w, h = 40) {
       const r = Math.min(4, w / 2, h / 2);
       return (`
-        M${8 + r} 0
+        M${4 + r} 0
         h${w - 2 * r}
         a${r} ${r} 0 0 1 ${r} ${r}
         v${h - 2 * r}
@@ -40,16 +40,16 @@
     sb.BlockSvg.prototype.render = function (...args) {
       const data = ogRender.call(this, ...args);
       if (this.type.startsWith('epJavaScript_')) {
-        Array.from(this.svgGroup_.children)
-          .filter(x => x.classList.contains('blocklyText'))
-          .forEach(x => {
-            x.style.setProperty('fill', '#222', 'important');
-          });
+        if (this.svgPath_.getAttribute('fill') === '#F7DF1E') {
+          Array.from(this.svgGroup_.children)
+            .filter(x => x.classList.contains('blocklyText'))
+            .forEach(x => {
+              x.style.setProperty('fill', '#222', 'important');
+            });
+        }
         this.inputList.forEach((input) => {
-          if (input.name === 'arr') {
-            input.connection.sourceBlock_.svgGroup_
-              .querySelector('.blocklyPath[data-argument-type]')
-              .setAttribute('d', makeShape(40, 32))
+          if (input.name.startsWith('arr')) {
+            input.outlinePath.setAttribute('d', makeShape(40, 32))
           }
         });
       }
@@ -161,6 +161,17 @@
           },
           {
             blockType: Scratch.BlockType.REPORTER,
+            opcode: 'arrOfArr',
+            text: '［ [arr] ］',
+            arguments: {
+              arr: {
+                type: null
+              }
+            },
+            outputShape: Scratch.BlockShape.SQUARE
+          },
+          {
+            blockType: Scratch.BlockType.REPORTER,
             opcode: 'addToArr',
             text: '\u200c [arr] + [item]',
             arguments: {
@@ -169,6 +180,20 @@
                 defaultValue: 'Hello, Fellow Scratchers!'
               },
               arr: {
+                type: null,
+              }
+            },
+            outputShape: Scratch.BlockShape.SQUARE
+          },
+          {
+            blockType: Scratch.BlockType.REPORTER,
+            opcode: 'combineArrs',
+            text: '\u200c [arr1] + [arr2]',
+            arguments: {
+              arr1: {
+                type: null,
+              },
+              arr2: {
                 type: null,
               }
             },
@@ -255,11 +280,24 @@
       arr.push(args.item);
       return JSON.stringify(arr);
     }
+    arrOfArr(args) {
+      let arr = JSON.parse(args.arr);
+      return JSON.stringify([arr]);
+    }
     addToArr(args) {
       try {
         let arr = JSON.parse(args.arr);
         arr.push(args.item);
         return JSON.stringify(arr);
+      } catch (e) {
+        console.error(e);
+        return '[]';
+      }
+    }
+    combineArrs(args) {
+      try {
+        const arr1 = JSON.parse(args.arr1), arr2 = JSON.parse(args.arr2);
+        return JSON.stringify([...arr1, ...arr2]);
       } catch (e) {
         console.error(e);
         return '[]';
