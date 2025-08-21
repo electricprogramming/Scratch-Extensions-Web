@@ -708,6 +708,7 @@
       } else {
         console.error('Sets: One or more set(s) not found');
       }
+      updateProjectStorage();
     }
     intersection(args) {
       if (args.set1 in sets && args.set2 in sets && args.export in sets) {
@@ -715,6 +716,7 @@
       } else {
         console.error('Sets: One or more set(s) not found');
       }
+      updateProjectStorage();
     }
     difference(args) {
       if (args.set1 in sets && args.set2 in sets && args.export in sets) {
@@ -722,6 +724,7 @@
       } else {
         console.error('Sets: One or more set(s) not found');
       }
+      updateProjectStorage();
     }
     symmetricDifference(args) {
       if (args.set1 in sets && args.set2 in sets && args.export in sets) {
@@ -729,6 +732,7 @@
       } else {
         console.error('Sets: One or more set(s) not found');
       }
+      updateProjectStorage();
     }
   }
   if (isPM) {
