@@ -38,5 +38,5 @@
     }
     // methods
   }
-  Scratch.extensions.register(new epDictionaries());
+  Scratch.extensions.register(new extClass());
 })(Scratch);
