@@ -78,7 +78,7 @@
     unescapeText(args) {
       const escaper = String(args.escaper)[0];
       const text = String(args.text);
-      const regex = new RegExp(escaper + '(.)', 'g');
+      const regex = new RegExp(escaper.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(.)', 'g');
 
       return text.replace(regex, (_, char) => char);
     }
