@@ -12,6 +12,9 @@
   function getMenuIcon() {
     return ''
   }
+  function regexSafe(txt) {
+    return txt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
   class epEscaping {
     getInfo() {
       return {
@@ -31,7 +34,7 @@
               },
               text: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: '"h[ello world"'
+                defaultValue: '"h[ello\ world"'
               },
               escaper: {
                 type: Scratch.ArgumentType.STRING,
@@ -47,7 +50,7 @@
             arguments: {
               text: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: '"h[ello world"'
+                defaultValue: '\\"h\\[el\\\\lo world\\"'
               },
               escaper: {
                 type: Scratch.ArgumentType.STRING,
@@ -66,19 +69,21 @@
       const escaper = String(args.escaper)[0];
       const text = String(args.text);
       const unsafeChars = [...new Set([
-        escaper,
+        regexSafe(escaper),
         ...String(args.unsafe)
           .split('')
           .filter(x => x !== '')
-          .map(c => c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // escape regex symbols
+          .map(regexSafe) // escape regex symbols
       ])];
       const regex = new RegExp(unsafeChars.join('|'), 'g');
+      console.log(unsafeChars, regex);
+      unsafeChars.forEach(console.log)
       return text.replace(regex, match => escaper + match);
     }
     unescapeText(args) {
       const escaper = String(args.escaper)[0];
       const text = String(args.text);
-      const regex = new RegExp(escaper.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(.)', 'g');
+      const regex = new RegExp(regexSafe(escaper) + '(.)', 'g');
 
       return text.replace(regex, (_, char) => char);
     }
