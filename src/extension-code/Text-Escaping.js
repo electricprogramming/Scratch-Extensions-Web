@@ -74,7 +74,7 @@
             arguments: {
               text: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: '%23helloworld%20%26%2050%25'
+                defaultValue: '&lt;div&gt;&quot;Hello, World&quot;&lt;/div&gt;'
               }
             },
             disableMonitor: true
@@ -129,7 +129,7 @@
     }
 
     sanitizeHtmlXml(args) {
-      return Scratch.Cast.toString(args.text).replace(/["'&<>]/g, (a) => {
+      return String(args.text).replace(/["'&<>]/g, (a) => {
         switch (a) {
           case '&': return '&amp;';
           case "'": return '&apos;';
