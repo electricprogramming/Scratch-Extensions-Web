@@ -114,4 +114,18 @@ export default [
     description: `A simple FIFO queue system. Create queues, add or remove items, peek, check length, or clear them.`,
     by: 'electricprogramming'
   },
+  {
+    name: 'Text Escaping',
+    keywords: [
+      'Escape', 'Escaping',
+      'Text', 'Texts',
+      'Backslash', 'Backslashes',
+      'HTML', 'XML',
+      'URL', 'URI', 'URLs', 'URIs',
+      'Sanitizing'
+    ],
+    path: 'Text-Escaping',
+    description: `Escape unsafe chars in text with a given character, or escape for common use cases like HTML and URLs.`,
+    by: 'electricprogramming'
+  },
 ];

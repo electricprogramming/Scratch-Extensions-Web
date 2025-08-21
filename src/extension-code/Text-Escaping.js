@@ -1,6 +1,6 @@
 // Name: Escaping
 // ID: epEscaping
-// Description: Escape characters from text.
+// Description: Escape unsafe chars in text with a given character, or escape for common use cases like HTML and URLs.
 // By: electricprogramming
 // License: LGPL-3.0
 (function (Scratch) {
