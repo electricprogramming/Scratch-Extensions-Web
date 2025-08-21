@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
-  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="#5fa6b3" stroke="none"/>
+  <rect x="2.5" y="2.5" width="595" height="395" rx="40" ry="40" fill="#6fb6c3" stroke="none"/>
   
-  <text x="50%" y="80" font-family="Arial, sans-serif" font-size="54" fill="#263d59"
+  <text x="50%" y="80" font-family="Arial, sans-serif" font-size="64" fill="#162d49"
         font-weight="bold" text-anchor="middle" dominant-baseline="middle">
     Escaping
   </text>
-  <text x="50%" y="170" font-family="monospace" font-size="40" fill="#263d59"
+  <text x="50%" y="170" font-family="monospace" font-size="45" fill="#162d49"
         text-anchor="middle" dominant-baseline="middle">
     "hello" ➞ \"hello\"
   </text>
 
-  <text x="50%" y="310" font-family="monospace" font-size="180" fill="#263d59"
+  <text x="50%" y="310" font-family="monospace" font-size="180" fill="#162d49"
         text-anchor="middle" dominant-baseline="middle" opacity="0.25">
     \\
   </text>
