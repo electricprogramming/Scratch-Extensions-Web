@@ -34,7 +34,7 @@
               },
               text: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: '"h[ello\ world"'
+                defaultValue: '"h[ello\\ world"'
               },
               escaper: {
                 type: Scratch.ArgumentType.STRING,
@@ -50,7 +50,7 @@
             arguments: {
               text: {
                 type: Scratch.ArgumentType.STRING,
-                defaultValue: '\\"h\\[el\\\\lo world\\"'
+                defaultValue: '\\"h\\[ello\\\\ world\\"'
               },
               escaper: {
                 type: Scratch.ArgumentType.STRING,
