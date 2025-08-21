@@ -4,7 +4,7 @@
 // By: electricprogramming
 // License: LGPL-3.0
 (function (Scratch) {
-  "use strict";
+  'use strict';
   function getMenuIcon() {
     return ''
   }
@@ -55,10 +55,19 @@
             },
             disableMonitor: true
           },
-        ],
-        menus: {
-          // menus
-        }
+          {
+            opcode: 'sanitizeHtmlXml',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'sanitize [text] for html/xml',
+            arguments: {
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '<div>"Hello, World"</div>'
+              }
+            },
+            disableMonitor: true
+          }
+        ]
       }
     }
     escapeText(args) {
@@ -72,8 +81,7 @@
           .map(regexSafe) // escape regex symbols
       ])];
       const regex = new RegExp(unsafeChars.join('|'), 'g');
-      console.log(unsafeChars, regex);
-      unsafeChars.forEach(console.log)
+
       return text.replace(regex, match => escaper + match);
     }
     unescapeText(args) {
@@ -82,6 +90,19 @@
       const regex = new RegExp(regexSafe(escaper) + '(.)', 'g');
 
       return text.replace(regex, (_, char) => char);
+    }
+
+    sanitizeHtmlXml(args) {
+      return Scratch.Cast.toString(args.text).replace(/["'&<>]/g, (a) => {
+        switch (a) {
+          case '&': return '&amp;';
+          case "'": return '&apos;';
+          case '"': return '&quot;';
+          case '>': return '&gt;';
+          case '<': return '&lt;';
+          default : return a;
+        }
+      });
     }
   }
   Scratch.extensions.register(new epEscaping());
