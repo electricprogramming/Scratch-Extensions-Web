@@ -1,4 +1,4 @@
-// Name: Text Escaping
+// Name: Escaping
 // ID: epEscaping
 // Description: Escape characters from text.
 // By: electricprogramming
@@ -15,7 +15,7 @@
     getInfo() {
       return {
         id: 'epEscaping',
-        name: 'Text Escaping',
+        name: 'Escaping',
         color1: '#5fa6b3',
         menuIconURI: getMenuIcon(),
         blocks: [
