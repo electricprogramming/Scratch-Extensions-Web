@@ -70,7 +70,7 @@
         ...String(args.unsafe)
           .split('')
           .filter(x => x !== '')
-          .map(str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // escape regex symbols
+          .map(str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
       ])];
       const regex = new RegExp(unsafeChars.join('|'), 'g');
       return text.replace(regex, match => escaper + match);
