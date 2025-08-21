@@ -12,22 +12,76 @@
   function getMenuIcon() {
     return ''
   }
-  class extClass {
+  class epEscaping {
     getInfo() {
       return {
-        id: 'id',
-        name: 'Name',
+        id: 'epEscaping',
+        name: 'Text Escaping',
         color1: '#5fa6b3',
         menuIconURI: getMenuIcon(),
         blocks: [
-          // blocks
+          {
+            opcode: 'escapeText',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'escape [unsafe] from [text] with [escaper]',
+            arguments: {
+              unsafe: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '[]"'
+              },
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '"h[ello world"'
+              },
+              escaper: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '\\'
+              }
+            },
+            disableMonitor: true
+          },
+          {
+            opcode: 'unescapeText',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'unescape [text] with [escaper]',
+            arguments: {
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '"h[ello world"'
+              },
+              escaper: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '\\'
+              }
+            },
+            disableMonitor: true
+          },
         ],
         menus: {
           // menus
         }
       }
     }
-    // methods
+    escapeText(args) {
+      const escaper = String(args.escaper)[0];
+      const text = String(args.text);
+      const unsafeChars = [...new Set([
+        escaper,
+        ...String(args.unsafe)
+          .split('')
+          .filter(x => x !== '')
+          .map(str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // escape regex symbols
+      ])];
+      const regex = new RegExp(unsafeChars.join('|'), 'g');
+      return text.replace(regex, match => escaper + match);
+    }
+    unescapeText(args) {
+      const escaper = String(args.escaper)[0];
+      const text = String(args.text);
+      const regex = new RegExp(escaper + '(.)', 'g');
+
+      return text.replace(regex, (_, char) => char);
+    }
   }
-  Scratch.extensions.register(new epDictionaries());
+  Scratch.extensions.register(new epEscaping());
 })(Scratch);
