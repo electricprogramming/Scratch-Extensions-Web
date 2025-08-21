@@ -66,6 +66,42 @@
               }
             },
             disableMonitor: true
+          },
+          {
+            opcode: 'unescapeHtmlXml',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'unescape html/xml entities in [text]',
+            arguments: {
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '%23helloworld%20%26%2050%25'
+              }
+            },
+            disableMonitor: true
+          },
+          {
+            opcode: 'urlEncode',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'URL-encode [text]',
+            arguments: {
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '#helloworld & 50%'
+              }
+            },
+            disableMonitor: true
+          },
+          {
+            opcode: 'urlDecode',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'URL-decode [text]',
+            arguments: {
+              text: {
+                type: Scratch.ArgumentType.STRING,
+                defaultValue: '%23helloworld%20%26%2050%25'
+              }
+            },
+            disableMonitor: true
           }
         ]
       }
@@ -103,6 +139,21 @@
           default : return a;
         }
       });
+    }
+    unescapeHtmlXml(args) {
+      return String(args.text)
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+    }
+
+    urlEncode(args) {
+      return encodeURIComponent(args.text);
+    }
+    urlDecode(args) {
+      return decodeURIComponent(args.text);
     }
   }
   Scratch.extensions.register(new epEscaping());
