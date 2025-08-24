@@ -8,12 +8,53 @@
   const { BlockType, ArgumentType, vm } = Scratch, runtime = vm.runtime;
 
   const customFieldTypes = {};
-  let Blockly = null; // Blockly is used cause Its easier than ScratchBlocks imo, it does not make a difference.
+  let Blockly = null;
 
+  const _LDC = function _LightenDarkenColor(col, amt) {
+    const num = parseInt(col.replace('#', ''), 16);
+    const r = (num >> 16) + amt;
+    const b = ((num >> 8) & 0x00FF) + amt;
+    const g = (num & 0x0000FF) + amt;
+    const newColour = g | (b << 8) | (r << 16);
+    return (col.at(0) === '#' ? '#' : '') + newColour.toString(16);
+  };
+
+  // Me being lazy
+  function _setCssNattr(node, attr, value) {
+    node.setAttribute(attr, String(value));
+    node.style[attr] = value;
+  }
+
+  // This should NEVER be called without ScratchBlocks existing
+  function _fixColours(col1) {
+    const LDA = -10;
+    const self = this.sourceBlock_;
+    const parent = self?.parentBlock_;
+    if (!parent) return;
+    const path = self?.svgPath_;
+    console.log(this, self, parent, path)
+    const argumentSvg = path?.parentNode;
+    const textNode = argumentSvg.querySelector('g.blocklyEditableText text');
+    const oldFirstColour = parent.colour_;
+    self.colour_ = (col1 ?? _LDC(parent.colour_, LDA));
+    self.colourSecondary_ = _LDC(parent.colourSecondary_, LDA);
+    self.colourTertiary_ = _LDC(parent.colourTertiary_, LDA);
+    self.colourQuaternary_ = _LDC(parent?.colourQuaternary_ ?? oldFirstColour, LDA);
+    _setCssNattr(path, 'fill', self.colour_);
+    _setCssNattr(path, 'stroke', 'none');
+    self.svgGroup_.style.pointerEvents = 'none';
+    self.svgGroup_.style.removeProperty('cursor');
+    if (textNode) _setCssNattr(textNode, 'fill', '#FFFFFF');
+  }
+
+  function removeAllEventListeners(element, deep) { 
+    const clone = element.cloneNode(deep); // removes from children too if deep
+    element.replaceWith(clone);
+    return clone;
+  }
+  
   const toRegisterOnBlocklyGot = [];
 
-  // https://github.com/LLK/scratch-vm/blob/f405e59d01a8f9c0e3e986fb5276667a8a3c7d40/test/unit/extension_conversion.js#L85-L124
-  // https://github.com/LLK/scratch-vm/commit/ceaa3c7857b79459ccd1b14d548528e4511209e7
   vm.addListener('EXTENSION_FIELD_ADDED', (fieldInfo) => {
     if (Blockly) Blockly.Field.register(fieldInfo.name, fieldInfo.implementation);
     else toRegisterOnBlocklyGot.push([fieldInfo.name, fieldInfo.implementation]);
@@ -35,6 +76,18 @@
   function tryUseScratchBlocks(_sb) {
     Blockly = _sb;
 
+    // Temporary fix for the annoying error:
+    // '<text> attribute x: Expected length, "NaN".'
+    const _setAttribute = SVGTextElement.prototype.setAttribute;
+    SVGTextElement.prototype.setAttribute = function(attr, val, ...args) {
+      if (String(val) === 'NaN' && (attr === 'x' || attr === 'y') && this.getAttribute('class') === 'blocklyText') {
+        const nattr = `MoreFieldsAttrErr${attr.toUpperCase()}`;
+        _setAttribute.call(this, nattr, `Attempted an illegal set on this text node. ${attr.toUpperCase()} was set to NaN.`);
+        return _setAttribute.call(this, attr, '0', ...args);
+      }
+      return _setAttribute.call(this, attr, val, ...args);
+    };
+
     implementations.FieldDummyLabel = class FieldDummyLabel extends Blockly.FieldTextInput {
       constructor(opt_value) {
         opt_value = ArgumentType.DUMMYLABEL;
@@ -43,7 +96,10 @@
         this.addArgType(ArgumentType.DUMMYLABEL);
       }
       init(...initArgs) {
-        Blockly.FieldLabel.prototype.init.call(this, ...initArgs);
+        Blockly.FieldTextInput.prototype.init.call(this, ...initArgs);
+        this.textNode__ = this.sourceBlock_.svgPath_.parentNode.querySelector('g.blocklyEditableText text');
+        console.log(this)
+        if (!!this.textNode__ && this.sourceBlock_.parentBlock_) _fixColours.call(this, this.sourceBlock_.parentBlock_.colour_);
       }
       showEditor_() {}
     }
@@ -87,11 +143,11 @@
           {
             opcode: 'dummyLabel',
             blockType: BlockType.REPORTER,
-            text: '"secret" [TEXT]',
+            text: 'dummy label: [TEXT]',
             arguments: {
               TEXT: {
                 type: ArgumentType.DUMMYLABEL,
-                defaultValue: 'oo a secret ;)',
+                defaultValue: 'hello world',
               },
             },
             allowDropAnywhere: true,
