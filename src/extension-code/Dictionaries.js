@@ -181,7 +181,7 @@
     customStorage.set(serializeState());
   }
   function deserializeState(state) {
-    console.log('Dictionaries: Loading serialized project data')
+    console.log('Dictionaries: Loading serialized project data');
     dictionaries = {};
     Object.entries(state).forEach(([key, value]) => {
       dictionaries[key] = Dictionary.deserialize(value);
@@ -543,7 +543,6 @@
           dictionaries = renameKey(dictionaries, oldName, newName);
           vm.runtime.targets.forEach(target => {
             const blocks = target.blocks._blocks;
-            console.log(Object.entries(blocks))
             for (const [blockId, block] of Object.entries(blocks)) {
               if (block.opcode === 'epDictionaries_menu_dictionaryMenu') {
                 if (block.fields.dictionaryMenu.value === oldName) {

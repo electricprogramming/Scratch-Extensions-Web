@@ -150,7 +150,7 @@
     customStorage.set(serializeState());
   }
   function deserializeState(state) {
-    console.log('Sets: Loading serialized project data')
+    console.log('Sets: Loading serialized project data');
     sets = {};
     Object.entries(state).forEach(([key, value]) => {
       sets[key] = new Set(JSON.parse(value));
@@ -590,7 +590,6 @@
           sets = renameKey(sets, oldName, newName);
           vm.runtime.targets.forEach(target => {
             const blocks = target.blocks._blocks;
-            console.log(Object.entries(blocks))
             for (const [blockId, block] of Object.entries(blocks)) {
               if (block.opcode === 'epSets_menu_setMenu') {
                 if (block.fields.setMenu.value === oldName) {

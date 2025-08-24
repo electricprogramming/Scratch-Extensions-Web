@@ -371,7 +371,7 @@
     customStorage.set(serializeState());
   }
   function deserializeState(state) {
-    console.log('Data Grids: Loading serialized project data')
+    console.log('Data Grids: Loading serialized project data');
     grids = {};
     Object.keys(state).forEach(key => {
       grids[key] = Grid.deserialize(state[key])
@@ -956,7 +956,6 @@
           grids = renameKey(grids, oldName, newName);
           vm.runtime.targets.forEach(target => {
             const blocks = target.blocks._blocks;
-            console.log(Object.entries(blocks))
             for (const [blockId, block] of Object.entries(blocks)) {
               if (block.opcode === 'epDataGrids_menu_gridMenu') {
                 if (block.fields.gridMenu.value === oldName) {
