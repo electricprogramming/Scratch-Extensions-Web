@@ -71,7 +71,7 @@
       ScratchBlocks.FieldTextInput.prototype.init.call(this, ...initArgs);
       this.textNode__ = this.sourceBlock_.svgPath_.parentNode.querySelector('g.blocklyEditableText text');
       console.log(this)
-      if (!!this.textNode__ && this.sourceBlock_.parentBlock_) _fixColours.call(this, this.sourceBlock_.parentBlock_.colour_);
+      if (this.textNode__ && this.sourceBlock_.parentBlock_) _fixColours.call(this, this.sourceBlock_.parentBlock_.colour_);
     }
     showEditor_() {}
   }  
