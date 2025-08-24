@@ -65,6 +65,7 @@
       super(opt_value);
       this.addArgType('String');
       this.addArgType(ArgumentType.DUMMYLABEL);
+      console.log(this)
     }
     init(...initArgs) {
       ScratchBlocks.FieldTextInput.prototype.init.call(this, ...initArgs);
@@ -73,7 +74,7 @@
       if (!!this.textNode__ && this.sourceBlock_.parentBlock_) _fixColours.call(this, this.sourceBlock_.parentBlock_.colour_);
     }
     showEditor_() {}
-  }
+  }  
 
   const customFieldTypes = {
     [ArgumentType.DUMMYLABEL]: {
@@ -117,8 +118,8 @@
         blocks: [
           {
             opcode: 'dummyLabel',
-            blockType: BlockType.REPORTER,
-            text: 'dummy label: [TEXT]',
+            blockType: Scratch.BlockType.BOOLEAN,
+            text: '[TEXT]',
             arguments: {
               TEXT: {
                 type: ArgumentType.DUMMYLABEL,
@@ -126,7 +127,7 @@
               },
             },
             allowDropAnywhere: true,
-            blockShape: 2,
+            outputShape: 2
           }
         ],
         customFieldTypes
