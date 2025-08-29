@@ -214,14 +214,19 @@
       }
       return res;
     }
+    _getByPath(obj, path) {
+      return path.split('.').reduce((acc, key) => acc?.[key], obj);
+    }
     _funcStrToFunc(funcString) {
       funcString = funcString.trim();
       const validNamedFunctionRegex = /^\s*function\s+[a-zA-Z0-9$_]+\s*\([\s\S]*\)\s*\{[\s\S]*\}\s*$/;
       const validAnonymousFunctionRegex = /^\s*function\s*\([\s\S]*\)\s*\{[\s\S]*\}\s*$/;
       const validArrowFunctionRegex = /^\s*(\([^\)]*\)|[a-zA-Z0-9$_]+)\s*=>\s*[\s\S]+$/;
       if (!(validNamedFunctionRegex.test(funcString) || validAnonymousFunctionRegex.test(funcString) || validArrowFunctionRegex.test(funcString))) {
-        if (window[funcString] && typeof window[funcString] === 'function') {
+        if (typeof window[funcString] === 'function') {
           return window[funcString];
+        } else if (typeof this._getByPath(window, funcString) === 'function') {
+          return this._getByPath(window, funcString);
         } else {
           throw new Error('Invalid function string. Only valid named, anonymous, or arrow functions are allowed.');
         }
