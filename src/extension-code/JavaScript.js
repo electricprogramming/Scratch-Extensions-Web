@@ -3,59 +3,57 @@
 // Description: Run JavaScript in Scratch projects.
 // By: electricprogramming
 // License: LGPL-3.0
-(function (Scratch) {
+(async function (Scratch) {
   "use strict";
   if (!Scratch.extensions.unsandboxed) {
     function xmlSafe(str) { return str.replace(/[\u0000-\u001F]/g, '�').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;') } function validId(str) { return str.replaceAll(/[^a-zA-Z0-9]/g, '') } class ErroredExtension { constructor(name) { this.name = name } getInfo() { return { id: `ERR${validId(this.name)}`, name: 'ERR', blocks: [{ blockType: Scratch.BlockType.XML, xml: `<label text="The ${xmlSafe(this.name)} extension"/><sep gap="-12"/><sep gap="12"/><sep gap="-10"/><label text="must run unsandboxed."/><sep gap="-12"/><sep gap="12"/>` },] } } }
     return Scratch.extensions.register(new ErroredExtension('JavaScript'));
   }
 
-  const originalConverter = vm.runtime._convertBlockForScratchBlocks.bind(vm.runtime);
-  vm.runtime._convertBlockForScratchBlocks = function (blockInfo, categoryInfo) {
+  const vm = Scratch.vm, runtime = vm.runtime;
+  const sb = await Scratch.gui.getBlockly();
+
+  const originalConverter = runtime._convertBlockForScratchBlocks.bind(runtime);
+  runtime._convertBlockForScratchBlocks = function (blockInfo, categoryInfo) {
     const res = originalConverter(blockInfo, categoryInfo);
     if (blockInfo.outputShape) res.json.outputShape = blockInfo.outputShape;
     if (res.json.message0 === '［ %1 ］') res.json.message0 = '[%1]'
     return res;
   }
 
-  async function getSB() {
-    return window.ScratchBlocks || await Scratch.gui.getBlockly();
+  function makeShape(w, h = 40) {
+    const r = Math.min(4, w / 2, h / 2);
+    return (`
+      M${4 + r} 0
+      h${w - 2 * r}
+      a${r} ${r} 0 0 1 ${r} ${r}
+      v${h - 2 * r}
+      a${r} ${r} 0 0 1 -${r} ${r}
+      h-${w - 2 * r}
+      a${r} ${r} 0 0 1 -${r} -${r}
+      v-${h - 2 * r}
+      a${r} ${r} 0 0 1 ${r} -${r}
+      z`).replaceAll("\n", "").trim();
   }
-  getSB().then(sb => {
-    function makeShape(w, h = 40) {
-      const r = Math.min(4, w / 2, h / 2);
-      return (`
-        M${4 + r} 0
-        h${w - 2 * r}
-        a${r} ${r} 0 0 1 ${r} ${r}
-        v${h - 2 * r}
-        a${r} ${r} 0 0 1 -${r} ${r}
-        h-${w - 2 * r}
-        a${r} ${r} 0 0 1 -${r} -${r}
-        v-${h - 2 * r}
-        a${r} ${r} 0 0 1 ${r} -${r}
-        z`).replaceAll("\n", "").trim();
-    }
-    const ogRender = sb.BlockSvg.prototype.render;
-    sb.BlockSvg.prototype.render = function (...args) {
-      const data = ogRender.call(this, ...args);
-      if (this.type.startsWith('epJavaScript_')) {
-        if (this.svgPath_.getAttribute('fill') === '#F7DF1E') {
-          Array.from(this.svgGroup_.children)
-            .filter(x => x.classList.contains('blocklyText'))
-            .forEach(x => {
-              x.style.setProperty('fill', '#222', 'important');
-            });
-        }
-        this.inputList.forEach((input) => {
-          if (input.name.startsWith('arr')) {
-            input.outlinePath.setAttribute('d', makeShape(40, 32))
-          }
-        });
+  const ogRender = sb.BlockSvg.prototype.render;
+  sb.BlockSvg.prototype.render = function (...args) {
+    const data = ogRender.call(this, ...args);
+    if (this.type.startsWith('epJavaScript_')) {
+      if (this.svgPath_.getAttribute('fill') === '#F7DF1E') {
+        Array.from(this.svgGroup_.children)
+          .filter(x => x.classList.contains('blocklyText'))
+          .forEach(x => {
+            x.style.setProperty('fill', '#222', 'important');
+          });
       }
-      return data;
+      this.inputList.forEach((input) => {
+        if (input.name.startsWith('arr')) {
+          input.outlinePath.setAttribute('d', makeShape(40, 32))
+        }
+      });
     }
-  });
+    return data;
+  }
   class JSext {
     getInfo() {
       return {
